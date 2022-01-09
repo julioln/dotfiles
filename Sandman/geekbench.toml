@@ -1,0 +1,40 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+
+RUN pacman -Syu base-devel git --asdeps --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+WORKDIR /home/user
+RUN git clone https://aur.archlinux.org/geekbench.git 
+WORKDIR geekbench
+
+RUN pacman -S $(/bin/sh -c 'source /home/user/geekbench/PKGBUILD ; echo ${depends[@]}') --noconfirm
+
+RUN chown -R user:user /home/user
+RUN sudo -u user makepkg 
+RUN pacman -U $(/bin/sh -c 'source /home/user/geekbench/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/pacman/pkg
+RUN rm -rf /home/user/geekbench
+CMD "/usr/bin/geekbench"
+'''
+
+[run]
+x11 = false
+wayland = false
+dri = false
+ipc = false
+pulseaudio = false
+dbus = false
+net = true
+uidmap = true
+volumes = []
+devices = []
+env = []
+
+ports = []

@@ -1,0 +1,52 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+
+RUN pacman -Syu base-devel --asdeps --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+RUN pacman -S jack2-dbus ttf-liberation alsa-lib gcc-libs libx11 --noconfirm
+
+RUN mkdir -p /tmp/renoise
+ADD https://files.renoise.com/demo/Renoise_3_3_2_Demo_Linux.tar.gz /tmp/renoise/renoise.tar.gz
+WORKDIR /tmp/renoise
+RUN tar xzfv renoise.tar.gz
+WORKDIR /tmp/renoise/Renoise_3_3_2_Demo_Linux
+
+RUN mkdir -p /usr/share/renoise-3.3.2
+RUN cp -r "Resources"/* "/usr/share/renoise-3.3.2"
+
+RUN install -Dm 755 "renoise" "/usr/bin/renoise"
+RUN install -Dm 644 "Installer/renoise.desktop" "/usr/share/applications/renoise.desktop"
+RUN install -Dm 644 "Installer/renoise.1.gz" "/usr/share/man/man1/renoise.1.gz"
+RUN install -Dm 644 "Installer/renoise-pattern-effects.5.gz" "/usr/share/man/man5/renoise-pattern-effects.5.gz"
+RUN install -Dm 644 "License.txt" "/usr/share/licenses/renoise/LICENSE"
+RUN install -Dm 644 "Installer/renoise.xml" "/usr/share/mime/packages/renoise.xml"
+RUN install -Dm 644 "Installer/renoise-48.png" "/usr/share/icons/hicolor/48x48/apps/renoise.png"
+RUN install -Dm 644 "Installer/renoise-64.png" "/usr/share/icons/hicolor/64x64/apps/renoise.png"
+RUN install -Dm 644 "Installer/renoise-128.png" "/usr/share/icons/hicolor/128x128/apps/renoise.png"
+
+RUN chown -R user:user /home/user
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/renoise
+CMD ["/usr/bin/renoise"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+volumes = []
+devices = []
+env = []
+
+ports = []

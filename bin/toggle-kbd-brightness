@@ -1,0 +1,13 @@
+#!/bin/sh
+
+current=`brightnessctl --device='tpacpi::kbd_backlight' get`
+
+if [ $current = 0 ]; then
+  set_to=1
+elif [ $current = 1 ]; then
+  set_to=2
+else
+  set_to=0
+fi
+
+brightnessctl --device='tpacpi::kbd_backlight' set $set_to

@@ -1,0 +1,24 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+RUN pacman -Syu blender --noconfirm
+RUN rm -rf /var/cache/*
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+CMD "/usr/bin/blender"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+volumes = ['/home/julio/Sandman/blender:/home/user', '/home/julio/Videos:/home/user/Videos', '/home/julio/Downloads:/home/user/Downloads']
+devices = []
+env = []
+ports = []

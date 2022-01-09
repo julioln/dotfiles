@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ "$1" = "lowpower" ]; then
+  echo 'lowpower' | tee /sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0/power_dpm_force_performance_level
+elif [ "$1" = "auto" ]; then
+  echo 'auto' | tee /sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0/power_dpm_force_performance_level
+fi
+
+echo

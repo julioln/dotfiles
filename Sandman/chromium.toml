@@ -1,0 +1,25 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+RUN pacman -Syu chromium libva-mesa-driver mesa-vdpau --noconfirm
+RUN rm -rf /var/cache/*
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+CMD ["/usr/bin/chromium", "--enable-features=VaapiVideoDecoder", "--use-gl=egl"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = false
+net = true
+uidmap = true
+volumes = []
+devices = []
+env = []
+ports = []
+

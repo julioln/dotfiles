@@ -1,0 +1,50 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+
+RUN pacman -Syu base-devel git --asdeps --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+RUN echo '1' | gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
+
+WORKDIR /home/user
+RUN git clone https://aur.archlinux.org/librewolf-bin.git 
+WORKDIR librewolf-bin
+
+RUN pacman -S $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${depends[@]}') --noconfirm
+#RUN pacman -S $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /home/user
+RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
+RUN sudo -u user makepkg 
+RUN pacman -U $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+
+# Hardware acceleration
+RUN pacman -S libva-mesa-driver mesa-vdpau --noconfirm
+
+#RUN pacman -Rns $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${makedepends[@]}') --noconfirm-bin
+WORKDIR /home/user
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /home/user/librewolf-bin
+CMD "/usr/bin/librewolf"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = false
+net = true
+uidmap = true
+volumes = ['/home/julio/Sandman/librewolf:/home/user', '/home/julio/Downloads:/home/user/Downloads']
+devices = []
+env = ["MOZ_WEBRENDER=1", "MOZ_DISABLE_RDD_SANDBOX=1"]
+#env = []
+ports = []
+

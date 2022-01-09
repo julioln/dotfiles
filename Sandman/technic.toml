@@ -1,0 +1,54 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+
+RUN pacman -Syu base-devel git --asdeps --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+RUN pacman -S jre-openjdk --noconfirm
+
+WORKDIR /home/user
+RUN git clone https://aur.archlinux.org/minecraft-technic-launcher.git 
+WORKDIR minecraft-technic-launcher
+RUN pacman -S $(/bin/sh -c 'source /home/user/minecraft-technic-launcher/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /home/user/minecraft-technic-launcher/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /home/user
+RUN sudo -u user makepkg 
+RUN pacman -U $(/bin/sh -c 'source /home/user/minecraft-technic-launcher/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+
+WORKDIR /home/user
+RUN git clone https://aur.archlinux.org/minecraft-launcher.git 
+WORKDIR minecraft-launcher
+RUN pacman -S $(/bin/sh -c 'source /home/user/minecraft-launcher/PKGBUILD ; echo ${depends[@]}') --noconfirm
+
+WORKDIR /home/user
+
+RUN archlinux-java fix
+
+RUN pacman -Rns $(/bin/sh -c 'source /home/user/minecraft-technic-launcher/PKGBUILD ; echo ${makedepends[@]}') --noconfirm
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /home/user/minecraft-technic-launcher
+RUN rm -rf /home/user/minecraft-launcher
+#CMD ["bash", "-c", "nohup", "/usr/bin/technic-launcher"]
+CMD ["/usr/bin/technic-launcher"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = false
+net = true
+uidmap = true
+volumes = ['/home/julio/Games/technic:/home/user']
+devices = []
+env = ["mesa_glthread=true"]
+ports = []
+

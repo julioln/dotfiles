@@ -1,0 +1,43 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+
+RUN pacman -Syu base-devel git --asdeps --noconfirm
+RUN pacman -S libdbusmenu-gtk3 --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000
+RUN chown -R user:user /run/user/1000
+
+WORKDIR /home/user
+RUN git clone https://aur.archlinux.org/datagrip.git
+WORKDIR datagrip
+
+RUN pacman -S $(/bin/bash -c 'source /home/user/datagrip/PKGBUILD ; echo ${depends[@]}') --noconfirm
+
+RUN chown -R user:user /home/user
+RUN sudo -u user makepkg 
+RUN pacman -U $(/bin/bash -c 'source /home/user/datagrip/PKGBUILD ; echo ${pkgbase}-jre-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+RUN pacman -U $(/bin/bash -c 'source /home/user/datagrip/PKGBUILD ; echo ${pkgbase}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/pacman/pkg
+RUN rm -rf /home/user/datagrip
+RUN rm -rf /home/user/datagrip-jre
+
+CMD "/opt/datagrip/bin/datagrip.sh"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = false
+pulseaudio = false
+dbus = true
+net = true
+uidmap = true
+volumes = []
+devices = []
+env = []
+ports = []

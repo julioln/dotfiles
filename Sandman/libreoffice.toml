@@ -1,0 +1,30 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+RUN pacman -Syu libreoffice-fresh gtk3 --noconfirm
+RUN rm -rf /var/cache/*
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+CMD "/usr/bin/libreoffice"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = true
+pulseaudio = false
+dbus = false
+net = false
+uidmap = true
+volumes = [
+  '/home/julio/Sandman/libreoffice:/home/user',
+  '/home/julio/.local/share/fonts:/home/user/.local/share/fonts:ro',
+  '/usr/share/fonts:/usr/share/fonts:ro'
+]
+#volumes = []
+devices = []
+env = []
+ports = []
+

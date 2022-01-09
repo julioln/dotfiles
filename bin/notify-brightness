@@ -1,0 +1,14 @@
+#!/bin/sh
+
+current_br=$(brightnessctl get)
+max_br=$(brightnessctl max)
+
+if [ -z "$current_br" ]; then exit 1; fi
+if [ -z "$max_br" ]; then exit 1; fi
+
+percent=$(awk "BEGIN { pc=100*${current_br}/${max_br}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
+
+if [ -z "$percent" ]; then exit 1; fi
+
+dunstify -u low -t 2000 -i video-display -h string:x-dunst-stack-tag:mybrightness -h int:value:"$percent" "Brightness: ${percent}%"
+

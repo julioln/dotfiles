@@ -1,0 +1,26 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+RUN pacman -Syu signal-desktop --noconfirm
+RUN rm -rf /var/cache/*
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+CMD ["/usr/bin/signal-desktop", "--start-in-tray", "--disable-gpu"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+volumes = ['/home/julio/Sandman/signal:/home/user']
+devices = []
+env = []
+ports = []
+

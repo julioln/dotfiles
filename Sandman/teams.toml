@@ -1,0 +1,41 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+
+RUN pacman -Syu base-devel git --asdeps --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+WORKDIR /home/user
+RUN git clone https://aur.archlinux.org/teams.git 
+WORKDIR teams
+
+RUN pacman -S $(/bin/sh -c 'source /home/user/teams/PKGBUILD ; echo ${depends[@]}') --noconfirm
+
+RUN chown -R user:user /home/user
+RUN sudo -u user makepkg 
+RUN pacman -U $(/bin/sh -c 'source /home/user/teams/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+RUN pacman -S libdbusmenu-gtk3 ttf-liberation noto-fonts --noconfirm
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/pacman/pkg
+RUN rm -rf /home/user/teams
+CMD ["/usr/share/teams/teams", "--disable-namespace-sandbox", "--disable-setuid-sandbox"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+volumes = ['/home/julio/Sandman/teams:/home/user']
+devices = []
+env = []
+
+ports = []
