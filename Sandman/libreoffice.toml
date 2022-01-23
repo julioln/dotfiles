@@ -1,6 +1,7 @@
 [build]
 instructions = '''
 FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 RUN pacman -Syu libreoffice-fresh gtk3 --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user

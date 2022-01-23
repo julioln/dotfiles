@@ -1,6 +1,7 @@
 [build]
 instructions = '''
 FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 RUN pacman -Syu telegram-desktop --noconfirm
 RUN rm -rf /var/cache/*
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
@@ -15,7 +16,7 @@ CMD "/usr/bin/telegram-desktop"
 x11 = true
 wayland = false
 dri = false
-ipc = true
+ipc = false
 pulseaudio = true
 dbus = true
 net = true

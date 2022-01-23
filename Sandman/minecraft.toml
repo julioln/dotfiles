@@ -21,7 +21,7 @@ CMD "/usr/bin/minecraft-launcher"
 x11 = true
 wayland = false
 dri = true
-ipc = true
+ipc = false
 pulseaudio = true
 dbus = false
 net = true

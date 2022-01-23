@@ -1,6 +1,7 @@
 [build]
 instructions = '''
 FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 
 RUN pacman -Syu base-devel git --asdeps --noconfirm
 
@@ -28,6 +29,7 @@ RUN pacman -S libva-mesa-driver mesa-vdpau --noconfirm
 #RUN pacman -Rns $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${makedepends[@]}') --noconfirm-bin
 WORKDIR /home/user
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN rm -rf /var/cache/*
 RUN rm -rf /home/user/librewolf-bin
 CMD "/usr/bin/librewolf"
@@ -37,14 +39,14 @@ CMD "/usr/bin/librewolf"
 x11 = true
 wayland = false
 dri = true
-ipc = true
+ipc = false
 pulseaudio = true
 dbus = false
 net = true
 uidmap = true
 volumes = ['/home/julio/Sandman/librewolf:/home/user', '/home/julio/Downloads:/home/user/Downloads']
 devices = []
-env = ["MOZ_WEBRENDER=1", "MOZ_DISABLE_RDD_SANDBOX=1"]
+env = ["MOZ_WEBRENDER=1"]
 #env = []
 ports = []
 

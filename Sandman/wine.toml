@@ -1,11 +1,12 @@
 [build]
 instructions = '''
 FROM docker.io/ubuntu
+ENV DEBIAN_FRONTEND=noninteractive
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN dpkg --add-architecture i386
 RUN apt update
 RUN apt dist-upgrade -y
-RUN apt install wine -y
+RUN apt install wine winetricks zenity -y
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000

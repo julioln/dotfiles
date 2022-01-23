@@ -1,6 +1,7 @@
 [build]
 instructions = '''
 FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 RUN pacman -Syu kdenlive breeze --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
@@ -13,10 +14,10 @@ CMD "/usr/bin/kdenlive"
 x11 = true
 wayland = false
 dri = true
-ipc = true
+ipc = false
 pulseaudio = true
 dbus = true
-net = true
+net = false
 uidmap = true
 volumes = ['/home/julio/Sandman/kdenlive:/home/user', '/home/julio/Videos:/home/user/Videos']
 devices = []

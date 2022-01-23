@@ -1,5 +1,4 @@
 [build]
-image_name = 'xclock'
 instructions = '''
 FROM docker.io/alpine
 RUN apk add --update xclock
@@ -20,4 +19,5 @@ volumes = []
 devices = []
 env = []
 ports = []
-
+memory_limit = "2g"
+name = "xclock"

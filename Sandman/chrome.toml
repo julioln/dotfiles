@@ -1,6 +1,7 @@
 [build]
 instructions = '''
 FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 
 RUN pacman -Syu base-devel git --asdeps --noconfirm
 

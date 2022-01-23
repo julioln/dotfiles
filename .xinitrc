@@ -10,11 +10,11 @@ xhost +local:julio
 xrandr --output eDP --gamma 0.9:0.87:0.95
 
 # Screen timeout
-xset s 520 60
+xset s 600 0
 
 # Keyboard settings
 xset r rate 300 60
-setxkbmap -layout us -variant mac -option "lv3:caps_switch"
+setxkbmap -layout us -variant mac -option "lv3:caps_switch" -option "terminate:ctrl_alt_bksp"
 
 # Trackpoint
 xinput set-prop 'TPPS/2 Elan TrackPoint' 'Coordinate Transformation Matrix' 0.2 0 0 0 0.2 0 0 0 1
@@ -32,7 +32,7 @@ dunst &
 nm-applet &
 flameshot &
 lxqt-policykit-agent &
-xss-lock --transfer-sleep-lock -- /usr/local/bin/lock-screen &
+xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
 update-wallpaper &
 
 # Start

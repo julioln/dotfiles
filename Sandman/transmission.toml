@@ -1,6 +1,7 @@
 [build]
 instructions = '''
 FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 RUN pacman -Syu transmission-gtk --noconfirm
 RUN rm -rf /var/cache/*
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
@@ -14,7 +15,7 @@ CMD "/usr/bin/transmission-gtk"
 x11 = true
 wayland = false
 dri = false
-ipc = true
+ipc = false
 pulseaudio = false
 dbus = false
 net = true

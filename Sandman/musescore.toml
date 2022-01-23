@@ -1,6 +1,7 @@
 [build]
 instructions = '''
 FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 RUN pacman -Syu musescore --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
@@ -15,8 +16,8 @@ wayland = false
 dri = false
 ipc = false
 pulseaudio = true
-dbus = true
-net = true
+dbus = false
+net = false
 uidmap = true
 volumes = ['/home/julio/Sandman/musescore:/home/user']
 devices = []
