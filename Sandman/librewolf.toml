@@ -39,12 +39,16 @@ CMD "/usr/bin/librewolf"
 x11 = true
 wayland = false
 dri = true
-ipc = false
+ipc = true
 pulseaudio = true
 dbus = false
 net = true
 uidmap = true
-volumes = ['/home/julio/Sandman/librewolf:/home/user', '/home/julio/Downloads:/home/user/Downloads']
+volumes = [
+  '/home/julio/Sandman/librewolf:/home/user', 
+  '/home/julio/Downloads:/home/user/Downloads',
+  '/usr/share/fonts:/usr/share/fonts:ro'
+]
 devices = []
 env = ["MOZ_WEBRENDER=1"]
 #env = []

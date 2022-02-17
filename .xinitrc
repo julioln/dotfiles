@@ -1,7 +1,18 @@
-# Environment
+### Environment
 export QT_QPA_PLATFORMTHEME=qt5ct
 export XCURSOR_THEME=Adwaita
 export XCURSOR_SIZE=16
+
+### Background processes
+#xiccd &
+dunst &
+nm-applet &
+flameshot &
+lxqt-policykit-agent &
+xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
+update-wallpaper &
+
+### X11 setup
 
 # X11 clients
 xhost +local:julio
@@ -27,13 +38,5 @@ xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 0
 # Touchscreen
 xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0
 
-# Background processes
-dunst &
-nm-applet &
-flameshot &
-lxqt-policykit-agent &
-xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
-update-wallpaper &
-
-# Start
+### Start
 exec i3

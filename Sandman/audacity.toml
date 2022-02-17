@@ -2,7 +2,7 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu audacity --noconfirm
+RUN pacman -Syu audacity ffmpeg --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
@@ -15,7 +15,7 @@ x11 = true
 wayland = false
 dri = false
 ipc = true
-pulseaudio = false
+pulseaudio = true
 dbus = true
 net = false
 uidmap = true

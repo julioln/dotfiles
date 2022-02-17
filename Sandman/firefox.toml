@@ -17,10 +17,15 @@ dri = true
 ipc = false
 pulseaudio = true
 dbus = false
-net = true
+net = false
 uidmap = true
-volumes = ['/home/julio/Sandman/firefox:/home/user', '/home/julio/Downloads:/home/user/Downloads']
+volumes = [
+  '/home/julio/Sandman/firefox:/home/user', 
+  '/home/julio/Downloads:/home/user/Downloads', 
+  '/usr/share/fonts:/usr/share/fonts:ro'
+]
 devices = []
 env = ["MOZ_GTK_TITLEBAR_DECORATION=client"]
 ports = []
 
+args = ['--network', 'host']

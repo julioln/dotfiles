@@ -17,10 +17,10 @@ dri = true
 ipc = true
 pulseaudio = true
 dbus = false
-net = true
+net = false
 uidmap = true
 volumes = []
 devices = []
 env = []
 ports = []
-
+args = ['--network', 'host']
