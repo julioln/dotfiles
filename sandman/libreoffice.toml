@@ -2,25 +2,30 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu chromium libva-mesa-driver mesa-vdpau --noconfirm
+RUN pacman -Syu libreoffice-fresh gtk3 --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD ["/usr/bin/chromium", "--enable-features=VaapiVideoDecoder", "--use-gl=egl"]
+CMD "/usr/bin/libreoffice"
 '''
 
 [run]
 x11 = true
 wayland = false
-dri = true
+dri = false
 ipc = true
-pulseaudio = true
+pulseaudio = false
 dbus = false
 net = false
 uidmap = true
-volumes = []
+home = true
+volumes = [
+  '/home/julio/.local/share/fonts:/home/user/.local/share/fonts:ro',
+  '/usr/share/fonts:/usr/share/fonts:ro'
+]
+#volumes = []
 devices = []
 env = []
 ports = []
-args = ['--network', 'host']
+

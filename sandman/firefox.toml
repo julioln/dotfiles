@@ -2,26 +2,30 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu musescore --noconfirm
+RUN pacman -Syu firefox libfido2 --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD "/usr/bin/musescore"
+CMD "/usr/bin/firefox"
 '''
 
 [run]
 x11 = true
 wayland = false
-dri = false
+dri = true
 ipc = false
 pulseaudio = true
 dbus = false
-net = false
+network = "host"
 uidmap = true
-volumes = ['/home/julio/Sandman/musescore:/home/user']
+home = true
+volumes = [
+  '/home/julio/Downloads:/home/user/Downloads', 
+  '/usr/share/fonts:/usr/share/fonts:ro'
+]
+#devices = ['/dev/hidraw6', '/dev/hidraw7']
 devices = []
-env = []
-
+env = ["MOZ_GTK_TITLEBAR_DECORATION=client", "MOZ_USE_XINPUT2=1"]
 ports = []
-
+args = []

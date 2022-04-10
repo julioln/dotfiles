@@ -16,6 +16,10 @@ RUN git clone https://aur.archlinux.org/librewolf-bin.git
 WORKDIR librewolf-bin
 
 RUN pacman -S $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${depends[@]}') --noconfirm
+
+# Workaround
+RUN pacman -S ffmpeg4.4 --noconfirm
+
 #RUN pacman -S $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
 
 RUN chown -R user:user /home/user
@@ -23,8 +27,7 @@ RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkp://keyserver.ubunt
 RUN sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
-# Hardware acceleration
-RUN pacman -S libva-mesa-driver mesa-vdpau --noconfirm
+RUN pacman -S libva-mesa-driver mesa-vdpau libfido2 --noconfirm
 
 #RUN pacman -Rns $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${makedepends[@]}') --noconfirm-bin
 WORKDIR /home/user
@@ -44,13 +47,14 @@ pulseaudio = true
 dbus = false
 net = true
 uidmap = true
+home = true
 volumes = [
-  '/home/julio/Sandman/librewolf:/home/user', 
   '/home/julio/Downloads:/home/user/Downloads',
   '/usr/share/fonts:/usr/share/fonts:ro'
 ]
+#devices = ['/dev/hidraw6', '/dev/hidraw7']
 devices = []
-env = ["MOZ_WEBRENDER=1"]
+env = ["MOZ_WEBRENDER=1", "MOZ_USE_XINPUT2=1"]
 #env = []
 ports = []
 

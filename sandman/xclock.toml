@@ -21,3 +21,4 @@ env = []
 ports = []
 memory_limit = "2g"
 name = "xclock"
+home = false

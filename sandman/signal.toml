@@ -2,32 +2,26 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu discord noto-fonts noto-fonts-emoji pulseaudio alsa-lib --noconfirm
+RUN pacman -Syu signal-desktop pulseaudio alsa-lib --noconfirm
 RUN rm -rf /var/cache/*
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD "/opt/discord/Discord"
+CMD ["/usr/bin/signal-desktop", "--start-in-tray", "--disable-gpu"]
 '''
 
 [run]
 x11 = true
 wayland = false
-dri = true
+dri = false
 ipc = true
 pulseaudio = true
 dbus = true
 net = true
 uidmap = true
-volumes = [
-	'/home/julio/Sandman/discord:/home/user', 
-	'/home/julio/Pictures:/home/user/Pictures:ro', 
-	'/home/julio/Pictures:/home/julio/Pictures:ro', 
-	'/home/julio/Videos:/home/user/Videos:ro',
-	'/home/julio/Videos:/home/julio/Videos:ro',
-]
-#devices = ['/dev/video0']
+home = true
+volumes = []
 devices = []
 env = []
 ports = []

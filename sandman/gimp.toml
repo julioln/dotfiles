@@ -2,12 +2,12 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu blender --noconfirm
+RUN pacman -Syu gimp --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000/pulse
+RUN mkdir -p /run/user/1000
 RUN chown -R user:user /run/user/1000
-CMD "/usr/bin/blender"
+CMD "/usr/bin/gimp"
 '''
 
 [run]
@@ -15,11 +15,17 @@ x11 = true
 wayland = false
 dri = true
 ipc = false
-pulseaudio = true
+pulseaudio = false
 dbus = false
 net = false
 uidmap = true
-volumes = ['/home/julio/Sandman/blender:/home/user', '/home/julio/Videos:/home/user/Videos', '/home/julio/Downloads:/home/user/Downloads']
+home = true
+volumes = [
+  '/home/julio/Downloads:/home/user/Downloads', 
+  '/home/julio/Pictures:/home/user/Pictures', 
+  '/usr/share/fonts:/usr/share/fonts:ro'
+]
 devices = []
 env = []
 ports = []
+args = []

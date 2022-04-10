@@ -2,12 +2,12 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu firefox --noconfirm
+RUN pacman -Syu blender --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD "/usr/bin/firefox"
+CMD "/usr/bin/blender"
 '''
 
 [run]
@@ -19,13 +19,8 @@ pulseaudio = true
 dbus = false
 net = false
 uidmap = true
-volumes = [
-  '/home/julio/Sandman/firefox:/home/user', 
-  '/home/julio/Downloads:/home/user/Downloads', 
-  '/usr/share/fonts:/usr/share/fonts:ro'
-]
+home = true
+volumes = ['/home/julio/Videos:/home/user/Videos', '/home/julio/Downloads:/home/user/Downloads']
 devices = []
-env = ["MOZ_GTK_TITLEBAR_DECORATION=client"]
+env = []
 ports = []
-
-args = ['--network', 'host']

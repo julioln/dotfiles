@@ -2,25 +2,25 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu kdenlive breeze --noconfirm
+RUN pacman -Syu ardour calf guitarix --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD "/usr/bin/kdenlive"
+CMD "/usr/bin/ardour6"
 '''
 
 [run]
 x11 = true
 wayland = false
-dri = true
+dri = false
 ipc = false
-pulseaudio = true
+pulseaudio = false
 dbus = true
 net = false
 uidmap = true
-volumes = ['/home/julio/Sandman/kdenlive:/home/user', '/home/julio/Videos:/home/user/Videos']
+home = true
+volumes = ['/home/julio/Downloads:/home/user/Downloads', '/home/julio/Ardour:/home/user/Ardour']
 devices = []
 env = []
 ports = []
-

@@ -22,7 +22,7 @@ RUN pacman -S libdbusmenu-gtk3 ttf-liberation noto-fonts --noconfirm
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/pacman/pkg
 RUN rm -rf /home/user/teams
-CMD ["/usr/share/teams/teams", "--disable-namespace-sandbox", "--disable-setuid-sandbox"]
+CMD ["/usr/share/teams/teams", "--disable-seccomp-filter-sandbox", "--disable-namespace-sandbox", "--disable-setuid-sandbox"]
 '''
 
 [run]
@@ -34,8 +34,7 @@ pulseaudio = true
 dbus = true
 net = true
 uidmap = true
-volumes = ['/home/julio/Sandman/teams:/home/user']
+volumes = []
 devices = []
 env = []
-
 ports = []

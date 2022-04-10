@@ -48,7 +48,8 @@ pulseaudio = true
 dbus = false
 net = true
 uidmap = true
-volumes = ['/home/julio/Games/technic:/home/user']
+home = true
+volumes = []
 devices = []
 env = ["mesa_glthread=true"]
 ports = []

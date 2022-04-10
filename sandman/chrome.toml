@@ -19,6 +19,8 @@ RUN chown -R user:user /home/user
 RUN sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/google-chrome/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
+RUN pacman -S pulseaudio alsa-lib --noconfirm
+
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/pacman/pkg
 RUN rm -rf /home/user/google-chrome
@@ -37,5 +39,4 @@ uidmap = true
 volumes = []
 devices = []
 env = []
-
 ports = []

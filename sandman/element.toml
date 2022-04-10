@@ -1,31 +1,26 @@
 [build]
 instructions = '''
-FROM docker.io/ubuntu
-ENV DEBIAN_FRONTEND=noninteractive
+FROM docker.io/archlinux
+RUN pacman -Syu element-desktop noto-fonts noto-fonts-emoji --noconfirm
+RUN rm -rf /var/cache/*
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-
-RUN dpkg --add-architecture i386
-
-RUN apt update
-RUN apt dist-upgrade -y
-RUN apt install steam xserver-xorg-video-amdgpu -y
-
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD "/usr/games/steam"
+CMD "/usr/bin/element-desktop"
 '''
 
 [run]
 x11 = true
 wayland = false
-dri = true
+dri = false
 ipc = true
 pulseaudio = true
-dbus = true
+dbus = false
 net = true
 uidmap = true
-volumes = ['/home/julio/Games/steam:/home/user']
+home = true
+volumes = []
 devices = []
-env = ["mesa_glthread=true"]
+env = []
 ports = []

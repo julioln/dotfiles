@@ -2,26 +2,25 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu glava --noconfirm
+RUN pacman -Syu chromium libva-mesa-driver mesa-vdpau pulseaudio alsa-lib --noconfirm
 RUN rm -rf /var/cache/*
-RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD "/usr/bin/glava"
+CMD ["/usr/bin/chromium", "--enable-features=VaapiVideoDecoder", "--use-gl=egl"]
 '''
 
 [run]
 x11 = true
 wayland = false
-dri = false
-ipc = false
+dri = true
+ipc = true
 pulseaudio = true
 dbus = false
 net = false
 uidmap = true
-volumes = ['/home/julio/Sandman/glava:/home/user']
+volumes = []
 devices = []
 env = []
 ports = []
-
+args = ['--network', 'host']

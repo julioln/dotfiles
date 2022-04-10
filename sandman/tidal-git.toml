@@ -1,12 +1,28 @@
 [build]
 instructions = '''
 FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 
 RUN pacman -Syu base-devel git --asdeps --noconfirm
 
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
+
+# NVM
+
+WORKDIR /home/user
+RUN git clone https://aur.archlinux.org/nvm.git 
+WORKDIR nvm
+
+#RUN pacman -S $(/bin/sh -c 'source /home/user/nvm/PKGBUILD ; echo ${depends[@]}') --noconfirm
+#RUN pacman -S $(/bin/sh -c 'source /home/user/nvm/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /home/user
+RUN sudo -u user makepkg 
+RUN pacman -U $(/bin/sh -c 'source /home/user/nvm/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+
+# Tidal
 
 WORKDIR /home/user
 RUN git clone https://aur.archlinux.org/tidal-hifi-git.git 
@@ -18,7 +34,8 @@ RUN pacman -S $(/bin/sh -c 'source /home/user/tidal-hifi-git/PKGBUILD ; echo ${m
 RUN chown -R user:user /home/user
 RUN sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/tidal-hifi-git/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
-RUN pacman -S libdbusmenu-gtk3 --noconfirm
+
+RUN pacman -S alsa-lib pulseaudio --noconfirm
 
 RUN pacman -Rns $(/bin/sh -c 'source /home/user/tidal-hifi-git/PKGBUILD ; echo ${makedepends[@]}') --noconfirm
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
@@ -30,13 +47,14 @@ CMD "/usr/bin/tidal-hifi"
 [run]
 x11 = true
 wayland = false
-dri = false
+dri = true
 ipc = true
 pulseaudio = true
 dbus = true
 net = true
 uidmap = true
-volumes = ['/home/julio/Sandman/tidal:/home/user']
+home = true
+volumes = []
 devices = []
 env = []
 
