@@ -21,6 +21,7 @@ alias all-containers="podman ps -a | tail -n +2 | awk '{print \$NF}'"
 alias all-containers-really="podman ps --all --storage | tail -n +2 | awk '{print \$NF}'"
 alias mount-kali-vm="sshfs -o idmap=user kali@kalivm:/home/kali /home/julio/Kali"
 alias battery-info="find -L /sys/class/power_supply/BAT0 -maxdepth 1 -type f -exec grep '' '{}' \+ | sort"
+alias battery-power="cat /sys/class/power_supply/BAT0/power_now"
 
 alias pipe-notify-critical='while read line; do notify-send -u critical -t 5000 "$line"; done'
 alias pipe-notify='while read line; do notify-send -u normal -t 3000 "$line"; done'

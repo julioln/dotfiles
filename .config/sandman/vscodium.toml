@@ -1,0 +1,52 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+
+RUN pacman -Syu base-devel git ripgrep rust python ruby nodejs npm --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000
+RUN chown -R user:user /run/user/1000
+
+WORKDIR /home/user
+RUN git clone https://aur.archlinux.org/vscodium-bin.git 
+WORKDIR vscodium-bin
+
+RUN pacman -S $(/bin/sh -c 'source /home/user/vscodium-bin/PKGBUILD ; echo ${depends[@]}') --noconfirm
+#RUN pacman -S $(/bin/sh -c 'source /home/user/vscodium-bin/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /home/user
+RUN sudo -u user makepkg 
+RUN pacman -U $(/bin/sh -c 'source /home/user/vscodium-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+
+WORKDIR /home/user
+
+#RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /home/user/vscodium-bin
+CMD ["/opt/vscodium-bin/codium"]
+'''
+
+[run]
+name = "vscodium"
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = false
+dbus = false
+network = "host"
+uidmap = true
+home = true
+volumes = [
+	"/usr/share/fonts:/usr/share/fonts:ro",
+	"/home/julio/Repos:/home/user/Repos",
+	"/home/julio/Projects:/home/user/Projects",
+	"/home/julio/Downloads:/home/user/Downloads",
+	"/home/julio/Kali:/home/user/Kali",
+]
+devices = []
+env = []
+ports = []
+

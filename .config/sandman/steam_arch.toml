@@ -3,7 +3,7 @@ instructions = '''
 FROM docker.io/archlinux
 
 RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-RUN pacman -Syu steam xorg-server xf86-video-amdgpu vulkan-radeon mesa lib32-mesa ttf-liberation noto-fonts pulseaudio xterm alsa-utils diffutils --noconfirm
+RUN pacman -Syu steam xorg-server xf86-video-amdgpu vulkan-radeon mesa lib32-mesa ttf-dejavu ttf-liberation pulseaudio xterm alsa-utils diffutils --noconfirm
 
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN locale-gen

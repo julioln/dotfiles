@@ -1,0 +1,42 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+RUN pacman -Syu git unzip ripgrep rust ruby python nodejs npm base-devel cmake emacs --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000
+
+RUN ln -s /home/user/.emacs.d/bin/doom /usr/local/bin/doom
+
+WORKDIR /home/user
+
+RUN chown -R user:user /run/user/1000
+RUN rm -rf /var/cache/*
+CMD "/usr/bin/emacs"
+'''
+
+[run]
+name = "emacs"
+x11 = true
+wayland = false
+dri = false
+ipc = false
+pulseaudio = false
+dbus = false
+network = "host"
+uidmap = true
+home = true
+volumes = [
+	'/home/julio/.local/share/fonts:/home/user/.local/share/fonts:ro',
+	"/usr/share/fonts:/usr/share/fonts:ro",
+	"/home/julio/Repos:/home/user/Repos",
+	"/home/julio/Repos/dotfiles/.doom.d:/home/user/.doom.d",
+	"/home/julio/Projects:/home/user/Projects",
+	"/home/julio/Downloads:/home/user/Downloads",
+	"/home/julio/Kali:/home/user/Kali",
+]
+devices = []
+env = []
+ports = []
+args = []

@@ -223,6 +223,8 @@ bindsym XF86MonBrightnessUp exec brightnessctl set +5% && notify-brightness
 bindsym XF86Favorites exec --no-startup-id loginctl lock-session
 bindsym XF86Display exec --no-startup-id arandr && update-wallpaper
 bindsym Shift+XF86Display exec --no-startup-id xrandr --auto && update-wallpaper
+for_window [class="Arandr"] floating enable
+
 #bindsym XF86AudioPlay exec playerctl play-pause
 #bindsym XF86AudioNext exec playerctl next
 #bindsym XF86AudioPrev exec playerctl previous

@@ -55,8 +55,8 @@ RUN pacman -U *.tar.zst --noconfirm
 # Cleanup
 
 WORKDIR /home/user
-RUN pacman -Rns $(/bin/sh -c 'source /home/user/python2-pillow/PKGBUILD ; echo ${makedepends[@]}') --noconfirm
-RUN pacman -Rns $(/bin/sh -c 'source /home/user/blastem/PKGBUILD ; echo ${makedepends[@]}') --noconfirm
+#RUN pacman -Rns $(/bin/sh -c 'source /home/user/python2-pillow/PKGBUILD ; echo ${makedepends[@]}') --noconfirm
+#RUN pacman -Rns $(/bin/sh -c 'source /home/user/blastem/PKGBUILD ; echo ${makedepends[@]}') --noconfirm
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*

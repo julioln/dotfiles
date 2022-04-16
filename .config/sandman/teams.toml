@@ -17,7 +17,7 @@ RUN pacman -S $(/bin/sh -c 'source /home/user/teams/PKGBUILD ; echo ${depends[@]
 RUN chown -R user:user /home/user
 RUN sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/teams/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
-RUN pacman -S libdbusmenu-gtk3 ttf-liberation noto-fonts --noconfirm
+RUN pacman -S libdbusmenu-gtk3 ttf-liberation ttf-dejavu noto-fonts --noconfirm
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/pacman/pkg

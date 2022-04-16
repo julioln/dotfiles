@@ -1,5 +1,6 @@
 #!/bin/sh
 
 pacman -Rns $(pacman -Qtdq)
+paccache -ruk0
 paccache -rk3
 

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+echo >> /tmp/dock_status.log
+echo "---" >> /tmp/dock_status.log
+echo DATE:$(date) >> /tmp/dock_status.log
+env >> /tmp/dock_status.log
+
+#export DISPLAY=:0
+
+if [ ${ACTION} = 'bind' ] && [ ${DEVNAME} ]; then
+	#/home/julio/.screenlayout/docked-ext-above.sh || /home/julio/.screenlayout/docked-ext-above-2.sh
+	#update-wallpaper
+
+elif [ ${ACTION} = 'unbind' ]; then
+	#xrandr --auto
+	#update-wallpaper
+fi
+
