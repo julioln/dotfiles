@@ -1,3 +1,3 @@
 #!/bin/sh
 
-ionice -c 1 schedtool -I -n -15 -e $@
+ionice -t -c 1 schedtool -n -10 -e $@

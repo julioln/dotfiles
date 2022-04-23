@@ -1,10 +1,10 @@
 [build]
 instructions = '''
-FROM docker.io/archlinux
+FROM localhost/sandman/base/opencl-amd
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu kdenlive breeze --noconfirm
+RUN pacman -Syu kdenlive breeze libva-mesa-driver mesa-vdpau --noconfirm
 RUN rm -rf /var/cache/*
-RUN useradd -m --uid 1000 user
+RUN id 1000 || useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
 CMD "/usr/bin/kdenlive"
@@ -21,7 +21,8 @@ net = false
 uidmap = true
 home = true
 volumes = ['/home/julio/Videos:/home/user/Videos']
-devices = []
+devices = ['/dev/kfd']
+args = ['--group-add', 'video']
 env = []
 ports = []
 

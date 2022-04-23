@@ -6,7 +6,8 @@ if [ "$1" = "ultra-lowpower" ]; then
   echo
 
   echo 'low' | tee /sys/devices/pci0000:00/0000:00:08.1/0000:06:00.0/power_dpm_force_performance_level
-  cpupower frequency-set -g powersave
+  cpupower frequency-set -g schedutil
+  echo '0' | tee /sys/devices/system/cpu/cpufreq/boost
 elif [ "$1" = "lowpower" ]; then
   echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x12d001' | tee /proc/acpi/call
   cat /proc/acpi/call
@@ -14,6 +15,7 @@ elif [ "$1" = "lowpower" ]; then
 
   echo 'auto' | tee /sys/devices/pci0000:00/0000:00:08.1/0000:06:00.0/power_dpm_force_performance_level
   cpupower frequency-set -g schedutil
+  echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 elif [ "$1" = "balanced" ]; then
   echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x15d001' | tee /proc/acpi/call
   cat /proc/acpi/call
@@ -21,6 +23,7 @@ elif [ "$1" = "balanced" ]; then
 
   echo 'auto' | tee /sys/devices/pci0000:00/0000:00:08.1/0000:06:00.0/power_dpm_force_performance_level
   cpupower frequency-set -g schedutil
+  echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 elif [ "$1" = "performance" ]; then
   echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x17d001' | tee /proc/acpi/call
   cat /proc/acpi/call
@@ -28,6 +31,7 @@ elif [ "$1" = "performance" ]; then
 
   echo 'auto' | tee /sys/devices/pci0000:00/0000:00:08.1/0000:06:00.0/power_dpm_force_performance_level
   cpupower frequency-set -g schedutil
+  echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 elif [ "$1" = "ultra-performance" ]; then
   echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x17d001' | tee /proc/acpi/call
   cat /proc/acpi/call
@@ -35,6 +39,7 @@ elif [ "$1" = "ultra-performance" ]; then
 
   echo 'high' | tee /sys/devices/pci0000:00/0000:00:08.1/0000:06:00.0/power_dpm_force_performance_level
   cpupower frequency-set -g schedutil
+  echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 fi
 
 echo

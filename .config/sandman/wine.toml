@@ -1,28 +1,10 @@
 [build]
 instructions = '''
-FROM docker.io/ubuntu
+FROM localhost/sandman/base/wine
 ENV DEBIAN_FRONTEND=noninteractive
-RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
-RUN apt update
-RUN apt dist-upgrade -y
-
-RUN apt install gnupg software-properties-common -y
-
-ADD https://dl.winehq.org/wine-builds/winehq.key /tmp/winehq.key
-RUN apt-key add /tmp/winehq.key
-RUN add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
-
-RUN dpkg --add-architecture i386
-RUN apt update
-RUN apt dist-upgrade -y
-RUN apt install --install-recommends winehq-stable winetricks zenity -y
-
-RUN apt remove gnupg software-properties-common -y
-RUN apt autoremove -y
-RUN apt clean -y
-
-RUN useradd -m --uid 1000 user
+RUN id 1000 || useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
 CMD ["/usr/bin/wine", "taskmgr"]

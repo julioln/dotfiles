@@ -1,30 +1,28 @@
 [build]
 instructions = '''
-FROM docker.io/archlinux
+FROM localhost/sandman/base/dev
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 
-RUN pacman -Syu base-devel git ripgrep rust python ruby nodejs npm --noconfirm
-
-RUN useradd -m --uid 1000 user
+RUN id 1000 || useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000
 RUN chown -R user:user /run/user/1000
 
-WORKDIR /home/user
+WORKDIR /tmp/build
 RUN git clone https://aur.archlinux.org/vscodium-bin.git 
 WORKDIR vscodium-bin
 
-RUN pacman -S $(/bin/sh -c 'source /home/user/vscodium-bin/PKGBUILD ; echo ${depends[@]}') --noconfirm
-#RUN pacman -S $(/bin/sh -c 'source /home/user/vscodium-bin/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/vscodium-bin/PKGBUILD ; echo ${depends[@]}') --noconfirm
+#RUN pacman -S $(/bin/sh -c 'source /tmp/build/vscodium-bin/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
 
-RUN chown -R user:user /home/user
+RUN chown -R user:user /tmp/build
 RUN sudo -u user makepkg 
-RUN pacman -U $(/bin/sh -c 'source /home/user/vscodium-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+RUN pacman -U $(/bin/sh -c 'source /tmp/build/vscodium-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
 WORKDIR /home/user
 
 #RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*
-RUN rm -rf /home/user/vscodium-bin
+RUN rm -rf /tmp/*
 CMD ["/opt/vscodium-bin/codium"]
 '''
 

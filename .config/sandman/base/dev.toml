@@ -1,0 +1,13 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+RUN pacman -Syu git unzip ripgrep rust ruby python nodejs npm base-devel cmake --noconfirm
+
+RUN rm -rf /tmp/*
+RUN rm -rf /var/cache/*
+
+WORKDIR /
+'''
+
+[run]
