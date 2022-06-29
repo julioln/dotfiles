@@ -13,7 +13,7 @@ CMD ["/usr/bin/element-desktop", "--hidden"]
 [run]
 x11 = true
 wayland = false
-dri = false
+dri = true
 ipc = true
 pulseaudio = true
 dbus = false

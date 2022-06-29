@@ -2,12 +2,12 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu firefox libfido2 --noconfirm
+RUN pacman -Syu retroarch retroarch-assets-glui retroarch-assets-ozone retroarch-assets-xmb libretro-overlays libretro-shaders python libxrandr libxinerama xf86-video-amdgpu vulkan-radeon vulkan-icd-loader --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD "/usr/bin/firefox"
+CMD "/usr/bin/retroarch"
 '''
 
 [run]
@@ -17,15 +17,15 @@ dri = true
 ipc = true
 pulseaudio = true
 dbus = false
-network = "host"
+network = "slirp4netns"
 uidmap = true
 home = true
 volumes = [
   '/home/julio/Downloads:/home/user/Downloads', 
-  '/usr/share/fonts:/usr/share/fonts:ro'
+  '/home/julio/Games:/home/user/Games',
+  '/usr/share/fonts:/usr/share/fonts:ro',
 ]
-#devices = ['/dev/hidraw6', '/dev/hidraw7']
 devices = []
-env = ["MOZ_GTK_TITLEBAR_DECORATION=client", "MOZ_USE_XINPUT2=1"]
+env = []
 ports = []
 args = []

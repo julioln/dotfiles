@@ -44,7 +44,7 @@ wayland = false
 dri = true
 ipc = true
 pulseaudio = true
-dbus = false
+dbus = true
 net = true
 uidmap = true
 home = true
@@ -52,14 +52,17 @@ volumes = [
   '/home/julio/Downloads:/home/user/Downloads',
   '/usr/share/fonts:/usr/share/fonts:ro'
 ]
-#devices = ['/dev/hidraw6', '/dev/hidraw7']
-devices = ['/dev/kfd']
+devices = [
+	'/dev/kfd', 
+	#'/dev/hidraw6', 
+	#'/dev/hidraw7',
+]
 args = ['--group-add', 'video']
 env = [
 	"MOZ_WEBRENDER=1", 
 	"MOZ_USE_XINPUT2=1",
-	"MOZ_DISABLE_RDD_SANDBOX=1",
-	'MOZ_LOG="PlatformDecoderModule:5"'
+	"MOZ_DISABLE_RDD_SANDBOX=1"
+	#'MOZ_LOG="PlatformDecoderModule:5"'
 ]
 ports = []
 

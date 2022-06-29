@@ -2,30 +2,29 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu firefox libfido2 --noconfirm
+RUN pacman -Syu obsidian --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000/pulse
+RUN mkdir -p /run/user/1000
 RUN chown -R user:user /run/user/1000
-CMD "/usr/bin/firefox"
+CMD "/usr/bin/obsidian"
 '''
 
 [run]
 x11 = true
 wayland = false
 dri = true
-ipc = true
-pulseaudio = true
+ipc = false
+pulseaudio = false
 dbus = false
-network = "host"
+network = "slirp4netns"
 uidmap = true
 home = true
 volumes = [
   '/home/julio/Downloads:/home/user/Downloads', 
   '/usr/share/fonts:/usr/share/fonts:ro'
 ]
-#devices = ['/dev/hidraw6', '/dev/hidraw7']
 devices = []
-env = ["MOZ_GTK_TITLEBAR_DECORATION=client", "MOZ_USE_XINPUT2=1"]
+env = []
 ports = []
 args = []

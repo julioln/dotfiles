@@ -33,7 +33,7 @@ wayland = false
 dri = true
 ipc = true
 pulseaudio = false
-dbus = false
+dbus = true
 network = "host"
 uidmap = true
 home = true
@@ -42,7 +42,7 @@ volumes = [
 	"/home/julio/Repos:/home/user/Repos",
 	"/home/julio/Projects:/home/user/Projects",
 	"/home/julio/Downloads:/home/user/Downloads",
-	"/home/julio/Kali:/home/user/Kali",
+	#"/home/julio/Kali:/home/user/Kali",
 ]
 devices = []
 env = []

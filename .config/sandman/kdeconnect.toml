@@ -1,0 +1,42 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+
+RUN pacman -Syu kdeconnect --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+RUN chmod 0700 /run/user/1000
+
+RUN echo -e '#!/bin/sh\n\
+export $(dbus-launch)\n\
+/usr/lib/kdeconnectd &\n\
+/usr/sbin/kdeconnect-indicator' >> /usr/local/bin/launch-kdeconnect
+RUN chmod +x /usr/local/bin/launch-kdeconnect
+
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+CMD ["/usr/local/bin/launch-kdeconnect"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = true
+pulseaudio = false
+dbus = false
+network = "host"
+uidmap = true
+home = true
+volumes = [
+	"/home/julio/Downloads:/home/user/Downloads",
+	"/home/julio/Pictures:/home/user/Pictures:ro",
+	"/usr/share/fonts:/usr/share/fonts:ro",
+]
+devices = []
+env = ["XDG_RUNTIME_DIR=/run/user/1000"]
+ports = ["1716:1716"]
+

@@ -2,7 +2,7 @@
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu git unzip ripgrep rust ruby python nodejs npm base-devel cmake --noconfirm
+RUN pacman -Syu git unzip ripgrep rust ruby ruby-bundler python python-pip nodejs npm go go-tools base-devel cmake xdg-utils --noconfirm
 
 RUN rm -rf /tmp/*
 RUN rm -rf /var/cache/*

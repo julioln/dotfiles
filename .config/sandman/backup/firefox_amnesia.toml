@@ -1,0 +1,24 @@
+[build]
+instructions = '''
+FROM localhost/sandman/firefox
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = false
+pulseaudio = true
+dbus = false
+network = "slirp4netns"
+uidmap = true
+home = false
+volumes = [
+  #'/home/julio/Downloads:/home/user/Downloads', 
+  #'/usr/share/fonts:/usr/share/fonts:ro'
+]
+#devices = ['/dev/hidraw6', '/dev/hidraw7']
+devices = []
+env = ["MOZ_GTK_TITLEBAR_DECORATION=client", "MOZ_USE_XINPUT2=1"]
+ports = []
+args = []

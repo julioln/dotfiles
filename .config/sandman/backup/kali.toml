@@ -1,0 +1,35 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/kalitools
+ENV DEBIAN_FRONTEND=noninteractive
+RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+RUN apt install vim tmux kali-tools-fuzzing kali-tools-vulnerability kali-tools-web kali-tools-database kali-tools-exploitation kali-tools-forensics -y
+
+RUN apt autoremove -y
+RUN apt clean -y
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+
+CMD ["/usr/bin/tmux", "new-session", "-A", "-s", "sandman"]
+'''
+
+[run]
+name = "kali"
+x11 = true
+wayland = false
+dri = false
+ipc = true
+pulseaudio = false
+dbus = false
+network = "host"
+uidmap = false
+volumes = [
+	"/home/julio/Kali:/kalivm",
+	"/home/julio/Loot:/loot",
+	"/home/julio/.local/share/sandman/kali:/root"
+]
+devices = []
+env = ["TERM=xterm-256color"]
+ports = []
+

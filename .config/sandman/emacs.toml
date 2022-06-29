@@ -34,7 +34,7 @@ volumes = [
 	"/home/julio/Repos/dotfiles/.doom.d:/home/user/.doom.d",
 	"/home/julio/Projects:/home/user/Projects",
 	"/home/julio/Downloads:/home/user/Downloads",
-	"/home/julio/Kali:/home/user/Kali",
+	#"/home/julio/Kali:/home/user/Kali",
 ]
 devices = []
 env = []

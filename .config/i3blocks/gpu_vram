@@ -5,6 +5,10 @@ card=/sys/class/drm/card0/device
 #usage=$(cat $card/gpu_busy_percent)
 memory_total=$(cat $card/mem_info_vram_total)
 memory_used=$(cat $card/mem_info_vram_used)
-percent=$(awk "BEGIN { pc=100*${memory_used}/${memory_total}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
+memory_percent=$(awk "BEGIN { pc=100*${memory_used}/${memory_total}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
 
-echo ${percent}%
+gtt_total=$(cat $card/mem_info_gtt_total)
+gtt_used=$(cat $card/mem_info_gtt_used)
+gtt_percent=$(awk "BEGIN { pc=100*${gtt_used}/${gtt_total}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
+
+echo "${memory_percent}% +${gtt_percent}%"

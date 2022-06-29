@@ -14,22 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-TYPE="${BLOCK_INSTANCE:-mem}"
-PERCENT="${PERCENT:-true}"
-
-awk -v type=$TYPE -v percent=$PERCENT '
+awk '
 /^MemTotal:/ {
 	mem_total=$2
 }
-#/^MemFree:/ {
-#	mem_free=$2
-#}
-#/^Buffers:/ {
-#	mem_free+=$2
-#}
-#/^Cached:/ {
-#	mem_free+=$2
-#}
 /^MemAvailable:/ {
 	mem_free=$2
 }
@@ -40,32 +28,25 @@ awk -v type=$TYPE -v percent=$PERCENT '
 	swap_free=$2
 }
 END {
-	if (type == "swap") {
-		free=swap_free/1024/1024
-		used=(swap_total-swap_free)/1024/1024
-		total=swap_total/1024/1024
-	} else {
-		free=mem_free/1024/1024
-		used=(mem_total-mem_free)/1024/1024
-		total=mem_total/1024/1024
-	}
+	s_free=swap_free/1024/1024
+	s_used=(swap_total-swap_free)/1024/1024
+	s_total=swap_total/1024/1024
+	free=mem_free/1024/1024
+	used=(mem_total-mem_free)/1024/1024
+	total=mem_total/1024/1024
 
 	pct=0
 	if (total > 0) {
 		pct=used/total*100
 	}
 
-	# full text
-	if (percent == "true" ) {
-		#printf("%.1fG/%.1fG (%.f%%)\n", used, total, pct)
-		printf("%.f%%\n", pct)
-	} else {
-		#printf("%.1fG/%.1fG\n", used, total)
-		#printf("%.1fG/%.1fG\n", used, total)
-		printf("%.1fG\n", used)
+	s_pct=0
+	if (s_total > 0) {
+		s_pct=s_used/s_total*100
 	}
-	# short text
-	#printf("%.f%%\n", pct)
+
+	# full text
+	printf("%.f%% +%.f%%\n", pct, s_pct)
 
 	# color
 	if (pct > 90) {

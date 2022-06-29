@@ -2,15 +2,8 @@
 export QT_QPA_PLATFORMTHEME=qt5ct
 export XCURSOR_THEME=Adwaita
 export XCURSOR_SIZE=16
-
-### Background processes
-#xiccd &
-dunst &
-nm-applet &
-flameshot &
-lxqt-policykit-agent &
-xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
-update-wallpaper &
+export CM_LAUNCHER=rofi
+export CM_HISTLENGTH=15
 
 ### X11 setup
 
@@ -21,7 +14,7 @@ xhost +local:julio
 xrandr --output eDP --gamma 0.9:0.87:0.95
 
 # Screen timeout
-xset s 600 0
+xset s 900 0
 
 # Keyboard settings
 xset r rate 300 60
@@ -37,6 +30,18 @@ xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 0
 
 # Touchscreen
 xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0
+
+### Background processes
+#xiccd &
+nice clipmenud &
+nice sandman run kdeconnect &
+dunst &
+nm-applet &
+blueman-applet &
+update-wallpaper &
+flameshot &
+lxqt-policykit-agent &
+xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
 
 ### Start
 exec i3

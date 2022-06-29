@@ -1,0 +1,49 @@
+[build]
+instructions = '''
+FROM docker.io/ubuntu:20.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+RUN apt update
+RUN apt dist-upgrade -y
+
+RUN apt install gnupg software-properties-common -y
+
+#ADD https://dl.winehq.org/wine-builds/winehq.key /tmp/winehq.key
+#RUN apt-key add /tmp/winehq.key
+RUN add-apt-repository ppa:libretro/stable
+
+#RUN dpkg --add-architecture i386
+RUN apt update
+RUN apt dist-upgrade -y
+RUN apt install --install-recommends retroarch* libretro-* -y
+
+RUN apt remove gnupg software-properties-common -y
+RUN apt autoremove -y
+RUN apt clean -y
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+WORKDIR /
+CMD ["/usr/bin/retroarch", "-v"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = false
+net = true
+uidmap = true
+home = true
+volumes = [
+  '/home/julio/Downloads:/home/user/Downloads', 
+  '/home/julio/Games:/home/user/Games',
+  #'/usr/share/fonts:/usr/share/fonts:ro',
+]
+devices = []
+env = []
+ports = []

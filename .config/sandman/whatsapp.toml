@@ -1,0 +1,67 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+RUN pacman -Syu base-devel git --asdeps --noconfirm
+RUN pacman -S alsa-lib pulseaudio --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+# Speedup compilation
+RUN echo "MAKEFLAGS=-j$(nproc)" >> /etc/makepkg.conf
+
+# Nodejs-nativefier
+
+RUN mkdir -p /tmp/build
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/nodejs-nativefier.git 
+WORKDIR nodejs-nativefier
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/nodejs-nativefier/PKGBUILD ; echo ${depends[@]}') --asdeps --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/nodejs-nativefier/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+# Whatsapp
+
+RUN mkdir -p /tmp/build
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/whatsapp-nativefier.git 
+WORKDIR whatsapp-nativefier
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/whatsapp-nativefier/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/whatsapp-nativefier/PKGBUILD ; echo ${makedepends[@]}' | sed 's/nodejs-nativefier//') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN sed -i 's#.*user-agent.*#--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15" \\#' PKGBUILD
+RUN sed -i 's#.*tray.*#--tray="start-in-tray" \\#' PKGBUILD
+RUN sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+CMD ["/usr/sbin/whatsapp-nativefier"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = false
+net = true
+uidmap = true
+home = true
+volumes = []
+devices = []
+env = []
+ports = []
+

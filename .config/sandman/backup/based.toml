@@ -1,0 +1,38 @@
+[build]
+instructions = '''
+FROM docker.io/debian
+RUN apt update
+RUN apt install curl net-tools php7.4 php7.4-curl php7.4-sqlite3 -y
+ADD https://clip.0x7359.com/l/Vc3VZZF /bin/based
+RUN chmod 0755 /bin/based
+RUN rm -rf /var/cache/*
+RUN rm /etc/localtime
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000
+RUN chown -R user:user /run/user/1000
+WORKDIR /home/user
+
+CMD "/bin/based"
+'''
+
+[run]
+x11 = false
+wayland = false
+dri = false
+ipc = false
+pulseaudio = false
+dbus = false
+network = "slirp4netns"
+uidmap = true
+home = true
+volumes = [
+  '/home/julio/Downloads:/home/user/Downloads', 
+  #'/usr/share/fonts:/usr/share/fonts:ro'
+]
+devices = []
+env = []
+ports = []
+args = []
+

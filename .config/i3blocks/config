@@ -8,11 +8,6 @@ command=./temperature
 label=TEMP 
 interval=2
 
-#[gpu_usage]
-#command=GPU_BRAND=AMD ./gpu-load/gpu-load
-#label=GPU_ 
-#interval=2
-
 [gpu_usage]
 command=./gpu_usage
 label=GPU 
@@ -27,25 +22,15 @@ interval=2
 command=./cpu_usage
 label=CPU 
 interval=2
-#min_width=CPU 100.00%
 
 [memory]
 command=./memory
 label=MEM 
-#separator=false
-interval=2
-
-[memory]
-command=./memory
-label=SWAP 
-instance=swap
-#separator=false
 interval=2
 
 [battery]
 command=./battery
 label=BAT 
-#separator=false
 interval=10
 
 [time]
