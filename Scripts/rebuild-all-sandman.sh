@@ -32,7 +32,7 @@ conts=$(find -L ~/.config/sandman -maxdepth 1 -name *.toml | xargs basename -a |
 [ -n "$conts" ] && for i in $conts; do 
 	echo -n "Building $i..."
 	if sandman build $i &> /tmp/sandman_build/$i.log; then
-		sandman run $i true
+		#sandman run $i true
 		echo " Successful"
 	else
 		echo " Failed"

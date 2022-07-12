@@ -32,16 +32,15 @@ xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 0
 xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0
 
 ### Background processes
-#xiccd &
+nice -n -5 xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
 nice clipmenud &
 nice sandman run kdeconnect &
-dunst &
+nice dunst &
+nice update-wallpaper &
 nm-applet &
 blueman-applet &
-update-wallpaper &
 flameshot &
 lxqt-policykit-agent &
-xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
 
 ### Start
 exec i3

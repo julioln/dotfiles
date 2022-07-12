@@ -15,7 +15,7 @@ CMD ["/usr/bin/signal-desktop", "--start-in-tray"]
 [run]
 x11 = true
 wayland = false
-dri = true
+dri = false
 ipc = true
 pulseaudio = true
 dbus = true

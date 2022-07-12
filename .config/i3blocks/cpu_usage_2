@@ -1,0 +1,44 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+
+my @cur;
+my @last;
+my $label = $ENV{LABEL} // "";
+
+# Read current proc stats
+open(STAT, 'head -1 /proc/stat |') or die;
+@cur = split(/ +/, <STAT>);
+close(STAT);
+shift @cur;
+
+# Read previous proc stats
+if(open(LAST, '/tmp/i3blocks_cpu_last')) {
+	@last = split(/ +/, <LAST>);
+	close(LAST);
+
+	my $cur_total;
+	my $last_total;
+
+	for my $each (@cur) {
+	    $cur_total += $each;
+	}
+	for my $each (@last) {
+	    $last_total += $each;
+	}
+	my $cur_idle = $cur[3];
+	my $last_idle = $last[3];
+	my $interval_total = $cur_total - $last_total;
+	my $interval_idle = $cur_idle - $last_idle;
+	my $usage = (($interval_total - $interval_idle) / $interval_total) * 100;
+
+	print "${label}";
+	printf "%.0f%%\n", $usage;
+}
+
+# Store current for next execution
+if(open(STORE_LAST, '>', '/tmp/i3blocks_cpu_last')) {
+	print STORE_LAST join(" ", @cur);
+	close(STORE_LAST);
+}

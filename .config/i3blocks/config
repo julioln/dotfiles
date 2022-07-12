@@ -1,32 +1,32 @@
 [net]
 command=./bandwidth
 label=NET 
-interval=2
+interval=1
 
 [temperature]
 command=./temperature
 label=TEMP 
-interval=2
+interval=1
 
 [gpu_usage]
 command=./gpu_usage
 label=GPU 
-interval=2
+interval=1
 
 [gpu_vram]
 command=./gpu_vram
 label=VRAM 
-interval=2
+interval=1
 
 [cpu_usage]
-command=./cpu_usage
+command=./cpu_usage_2
 label=CPU 
-interval=2
+interval=1
 
 [memory]
 command=./memory
 label=MEM 
-interval=2
+interval=1
 
 [battery]
 command=./battery
@@ -35,4 +35,4 @@ interval=10
 
 [time]
 command=date '+%a %Y-%m-%d %H:%M ' | tr [:lower:] [:upper:]
-interval=5
+interval=10

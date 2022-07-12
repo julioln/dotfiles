@@ -54,8 +54,8 @@ volumes = [
 ]
 devices = [
 	'/dev/kfd', 
-	#'/dev/hidraw6', 
-	#'/dev/hidraw7',
+	#'/dev/hidraw1', 
+	#'/dev/hidraw2',
 ]
 args = ['--group-add', 'video']
 env = [

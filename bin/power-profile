@@ -1,38 +1,43 @@
 #!/bin/sh
 
 if [ "$1" = "ultra-lowpower" ]; then
-  echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x12d001' | tee /proc/acpi/call
-  cat /proc/acpi/call
-  echo
+  #echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x12d001' | tee /proc/acpi/call
+  #cat /proc/acpi/call
+  #echo
 
+  echo 'low-power' | tee /sys/firmware/acpi/platform_profile
   echo 'low' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
   echo '0' | tee /sys/devices/system/cpu/cpufreq/boost
 elif [ "$1" = "lowpower" ]; then
-  echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x12d001' | tee /proc/acpi/call
-  cat /proc/acpi/call
-  echo
+  #echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x12d001' | tee /proc/acpi/call
+  #cat /proc/acpi/call
+  #echo
 
+  echo 'low-power' | tee /sys/firmware/acpi/platform_profile
   echo 'auto' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 elif [ "$1" = "balanced" ]; then
-  echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x15d001' | tee /proc/acpi/call
-  cat /proc/acpi/call
-  echo
+  #echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x15d001' | tee /proc/acpi/call
+  #cat /proc/acpi/call
+  #echo
 
+  echo 'balanced' | tee /sys/firmware/acpi/platform_profile
   echo 'auto' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 elif [ "$1" = "performance" ]; then
-  echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x17d001' | tee /proc/acpi/call
-  cat /proc/acpi/call
-  echo
+  #echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x17d001' | tee /proc/acpi/call
+  #cat /proc/acpi/call
+  #echo
 
+  echo 'performance' | tee /sys/firmware/acpi/platform_profile
   echo 'auto' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 elif [ "$1" = "ultra-performance" ]; then
-  echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x17d001' | tee /proc/acpi/call
-  cat /proc/acpi/call
-  echo
+  #echo '\_SB.PCI0.LPC0.EC0.HKEY.DYTC 0x17d001' | tee /proc/acpi/call
+  #cat /proc/acpi/call
+  #echo
 
+  echo 'performance' | tee /sys/firmware/acpi/platform_profile
   echo 'high' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 fi
