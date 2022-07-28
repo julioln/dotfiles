@@ -1,10 +1,11 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
-RUN pacman -Syu base-devel git --asdeps --noconfirm
+RUN pacman -Syu base-devel git distcc --asdeps --noconfirm
 RUN pacman -S alsa-lib pulseaudio --noconfirm
 
 RUN useradd -m --uid 1000 user
@@ -12,7 +13,7 @@ RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
 
 # Speedup compilation
-RUN echo "MAKEFLAGS=-j$(nproc)" >> /etc/makepkg.conf
+ADD makepkg.conf /etc/makepkg.conf
 
 # Nodejs-nativefier
 
@@ -25,7 +26,7 @@ RUN pacman -S $(/bin/sh -c 'source /tmp/build/nodejs-nativefier/PKGBUILD ; echo 
 RUN pacman -S $(/bin/sh -c 'source /tmp/build/nodejs-nativefier/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
 
 RUN chown -R user:user /tmp/build
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U *.tar.zst --noconfirm
 
 # Whatsapp
@@ -41,7 +42,7 @@ RUN pacman -S $(/bin/sh -c 'source /tmp/build/whatsapp-nativefier/PKGBUILD ; ech
 RUN chown -R user:user /tmp/build
 RUN sed -i 's#.*user-agent.*#--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15" \\#' PKGBUILD
 RUN sed -i 's#.*tray.*#--tray="start-in-tray" \\#' PKGBUILD
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U *.tar.zst --noconfirm
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm

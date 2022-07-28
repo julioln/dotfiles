@@ -15,7 +15,7 @@ WORKDIR teams
 RUN pacman -S $(/bin/sh -c 'source /home/user/teams/PKGBUILD ; echo ${depends[@]}') --noconfirm
 
 RUN chown -R user:user /home/user
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/teams/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 RUN pacman -S libdbusmenu-gtk3 ttf-liberation ttf-dejavu noto-fonts --noconfirm
 

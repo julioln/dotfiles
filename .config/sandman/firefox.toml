@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
@@ -22,8 +23,8 @@ uidmap = true
 home = true
 volumes = [
   '/home/julio/Downloads:/home/user/Downloads', 
-  '/usr/share/fonts:/usr/share/fonts:ro'
 ]
+fonts = true
 #devices = ['/dev/hidraw6', '/dev/hidraw7']
 devices = []
 env = ["MOZ_GTK_TITLEBAR_DECORATION=client", "MOZ_USE_XINPUT2=1"]

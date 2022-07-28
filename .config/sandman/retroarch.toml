@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
@@ -42,8 +43,8 @@ home = true
 volumes = [
   '/home/julio/Downloads:/home/user/Downloads', 
   '/home/julio/Games:/home/user/Games',
-  #'/usr/share/fonts:/usr/share/fonts:ro',
 ]
+fonts = true
 devices = []
 env = []
 ports = []

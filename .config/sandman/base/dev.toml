@@ -1,8 +1,10 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu git unzip ripgrep rust ruby ruby-bundler python python-pip nodejs npm go go-tools base-devel cmake xdg-utils --noconfirm
+ADD makepkg.conf /etc/makepkg.conf
+RUN pacman -Syu git distcc unzip ripgrep rust ruby ruby-bundler python python-pip nodejs npm go go-tools base-devel cmake xdg-utils btrfs-progs --noconfirm
 
 RUN rm -rf /tmp/*
 RUN rm -rf /var/cache/*

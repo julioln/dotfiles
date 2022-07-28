@@ -15,7 +15,7 @@ WORKDIR slack-desktop
 RUN pacman -S $(/bin/sh -c 'source /home/user/slack-desktop/PKGBUILD ; echo ${depends[@]}') --noconfirm
 
 RUN chown -R user:user /home/user
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/slack-desktop/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 RUN pacman -S pulseaudio libdbusmenu-gtk3 ttf-liberation --noconfirm
 

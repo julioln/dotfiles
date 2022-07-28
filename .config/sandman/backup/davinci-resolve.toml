@@ -39,7 +39,7 @@ RUN mkdir -p '/var/BlackmagicDesign/DaVinci Resolve'
 
 # Make the package and install it
 RUN chown -R user:user /tmp/build
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /tmp/build/davinci-resolve/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
 # Cleanup

@@ -16,7 +16,7 @@ WORKDIR datagrip
 RUN pacman -S $(/bin/bash -c 'source /home/user/datagrip/PKGBUILD ; echo ${depends[@]}') --noconfirm
 
 RUN chown -R user:user /home/user
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/bash -c 'source /home/user/datagrip/PKGBUILD ; echo ${pkgbase}-jre-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 RUN pacman -U $(/bin/bash -c 'source /home/user/datagrip/PKGBUILD ; echo ${pkgbase}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 

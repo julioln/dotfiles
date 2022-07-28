@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
@@ -34,9 +35,9 @@ home = true
 volumes = [
 	"/home/julio/Downloads:/home/user/Downloads",
 	"/home/julio/Pictures:/home/user/Pictures:ro",
-	"/usr/share/fonts:/usr/share/fonts:ro",
 ]
+fonts = true
 devices = []
 env = ["XDG_RUNTIME_DIR=/run/user/1000"]
-ports = ["1716:1716"]
+ports = []
 

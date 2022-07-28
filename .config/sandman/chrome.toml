@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
@@ -16,7 +17,7 @@ WORKDIR google-chrome
 RUN pacman -S $(/bin/sh -c 'source /home/user/google-chrome/PKGBUILD ; echo ${depends[@]}') --noconfirm
 
 RUN chown -R user:user /home/user
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/google-chrome/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
 RUN pacman -S pulseaudio alsa-lib --noconfirm

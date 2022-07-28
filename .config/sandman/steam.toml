@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/ubuntu
 ENV DEBIAN_FRONTEND=noninteractive

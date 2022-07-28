@@ -1,0 +1,10 @@
+#!/bin/sh
+
+temp=$(awk '{print $2}' /proc/acpi/ibm/thermal)
+fan=$(grep speed /proc/acpi/ibm/fan | awk '{print $2/1000}')
+
+if [ "$fan" = "0" ]; then
+	echo "${LABEL}${temp}°C"
+else
+	echo "${LABEL}${temp}°C (${fan}K)"
+fi

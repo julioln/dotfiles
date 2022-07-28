@@ -16,7 +16,7 @@ WORKDIR android-studio
 RUN pacman -S android-tools $(/bin/bash -c 'source /tmp/build/android-studio/PKGBUILD ; echo ${depends[@]}') --noconfirm
 
 RUN chown -R user:user /tmp/build
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U /tmp/build/android-studio/*.pkg.tar.zst --noconfirm
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm

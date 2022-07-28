@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
@@ -29,7 +30,7 @@ volumes = [
 	'/home/julio/Videos:/home/julio/Videos:ro',
 ]
 #devices = ['/dev/video0']
-devices = []
+#devices = []
 env = []
 ports = []
 

@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 RUN pacman -Syu element-desktop ttf-dejavu --noconfirm

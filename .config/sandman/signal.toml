@@ -1,15 +1,16 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu signal-desktop pulseaudio alsa-lib --noconfirm
+RUN pacman -Syu signal-desktop pulseaudio alsa-lib nss --noconfirm
 RUN rm -rf /var/cache/*
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-#CMD ["/usr/bin/signal-desktop", "--start-in-tray", "--disable-gpu"]
-CMD ["/usr/bin/signal-desktop", "--start-in-tray"]
+CMD ["/usr/bin/signal-desktop", "--start-in-tray", "--disable-gpu"]
+#CMD ["/usr/bin/signal-desktop", "--start-in-tray"]
 '''
 
 [run]

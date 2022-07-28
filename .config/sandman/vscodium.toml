@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM localhost/sandman/base/dev
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
@@ -15,7 +16,7 @@ RUN pacman -S $(/bin/sh -c 'source /tmp/build/vscodium-bin/PKGBUILD ; echo ${dep
 #RUN pacman -S $(/bin/sh -c 'source /tmp/build/vscodium-bin/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
 
 RUN chown -R user:user /tmp/build
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /tmp/build/vscodium-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
 WORKDIR /home/user
@@ -34,7 +35,7 @@ dri = true
 ipc = true
 pulseaudio = false
 dbus = true
-network = "host"
+network = "slirp4netns"
 uidmap = true
 home = true
 volumes = [
@@ -46,5 +47,5 @@ volumes = [
 ]
 devices = []
 env = []
-ports = []
+ports = ["3000:3000"]
 

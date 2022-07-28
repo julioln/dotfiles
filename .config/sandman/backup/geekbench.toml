@@ -15,7 +15,7 @@ WORKDIR geekbench
 RUN pacman -S $(/bin/sh -c 'source /home/user/geekbench/PKGBUILD ; echo ${depends[@]}') --noconfirm
 
 RUN chown -R user:user /home/user
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/geekbench/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
@@ -25,9 +25,9 @@ CMD "/usr/bin/geekbench"
 '''
 
 [run]
-x11 = false
+x11 = true
 wayland = false
-dri = false
+dri = true
 ipc = false
 pulseaudio = false
 dbus = false

@@ -31,14 +31,18 @@ xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 0
 # Touchscreen
 xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0
 
+# Disable system beep
+xset -b
+
 ### Background processes
 nice -n -5 xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
-nice clipmenud &
-nice sandman run kdeconnect &
-nice dunst &
-nice update-wallpaper &
+clipmenud &
+sandman run kdeconnect &
+dunst &
+update-wallpaper &
 nm-applet &
-blueman-applet &
+#blueman-applet &
+#pasystray &
 flameshot &
 lxqt-policykit-agent &
 

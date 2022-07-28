@@ -18,7 +18,7 @@ RUN pacman -S $(/bin/sh -c 'source /home/user/minecraft-technic-launcher/PKGBUIL
 RUN pacman -S $(/bin/sh -c 'source /home/user/minecraft-technic-launcher/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
 
 RUN chown -R user:user /home/user
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/minecraft-technic-launcher/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
 WORKDIR /home/user

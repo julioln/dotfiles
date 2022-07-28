@@ -1,4 +1,5 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
@@ -24,7 +25,7 @@ RUN pacman -S ffmpeg4.4 --noconfirm
 
 RUN chown -R user:user /home/user
 RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
-RUN sudo -u user makepkg 
+RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
 RUN pacman -S libva-mesa-driver mesa-vdpau libfido2 --noconfirm
@@ -44,14 +45,15 @@ wayland = false
 dri = true
 ipc = true
 pulseaudio = true
+pipewire = false
 dbus = true
 net = true
 uidmap = true
 home = true
 volumes = [
   '/home/julio/Downloads:/home/user/Downloads',
-  '/usr/share/fonts:/usr/share/fonts:ro'
 ]
+fonts = true
 devices = [
 	'/dev/kfd', 
 	#'/dev/hidraw1', 
@@ -59,7 +61,7 @@ devices = [
 ]
 args = ['--group-add', 'video']
 env = [
-	"MOZ_WEBRENDER=1", 
+	#"MOZ_WEBRENDER=1", 
 	"MOZ_USE_XINPUT2=1",
 	"MOZ_DISABLE_RDD_SANDBOX=1"
 	#'MOZ_LOG="PlatformDecoderModule:5"'
