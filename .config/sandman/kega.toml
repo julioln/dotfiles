@@ -1,0 +1,52 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+ADD makepkg.conf /etc/makepkg.conf
+
+RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+RUN pacman -Syu --noconfirm
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+RUN locale-gen
+
+RUN pacman -S base-devel git distcc --asdeps --noconfirm
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+RUN mkdir -p /tmp/build
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/kega-fusion.git 
+WORKDIR kega-fusion
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/kega-fusion/PKGBUILD ; echo ${depends[@]} ${depends_x86_64[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/kega-fusion/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+RUN pacman -S pulseaudio pulseaudio-alsa lib32-mesa lib32-libpulse lib32-alsa-lib lib32-alsa-plugins --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/build
+CMD ["/usr/bin/kega-fusion"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = false
+net = false
+uidmap = true
+fonts = true
+volumes = ['/home/julio/Games/genesis:/home/user']
+devices = []
+env = []
+ports = []
+

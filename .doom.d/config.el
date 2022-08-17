@@ -56,3 +56,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+; Add go bins to path
+(add-to-list 'exec-path (expand-file-name "~/go/bin"))

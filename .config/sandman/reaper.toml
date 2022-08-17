@@ -1,4 +1,5 @@
 [build]
+ContextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
@@ -22,7 +23,8 @@ RUN nice -n 19 sudo -u user makepkg
 RUN pacman -U $(/bin/sh -c 'source /home/user/reaper-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
 
 #RUN pacman -Rns $(/bin/sh -c 'source /home/user/reaper-bin/PKGBUILD ; echo ${makedepends[@]}') --noconfirm
-RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+#RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+#RUN pacman -R base-devel git --noconfirm
 RUN rm -rf /var/cache/*
 RUN rm -rf /home/user/reaper-bin
 CMD ["/usr/bin/reaper"]

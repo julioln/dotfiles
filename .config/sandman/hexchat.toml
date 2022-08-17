@@ -3,13 +3,13 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu hexchat --noconfirm
+RUN pacman -Syu hexchat gnome-themes-extra adwaita-icon-theme --noconfirm
 RUN rm -rf /var/cache/*
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000
 RUN chown -R user:user /run/user/1000
-CMD ["/usr/bin/hexchat"]
+CMD ["/usr/bin/hexchat", "--minimize=2"]
 '''
 
 [run]
@@ -25,6 +25,8 @@ home = true
 fonts = true
 volumes = []
 devices = []
-env = []
+env = [
+	"GTK_THEME=Adwaita:dark"
+]
 ports = []
 

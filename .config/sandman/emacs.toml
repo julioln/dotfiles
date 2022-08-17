@@ -38,6 +38,9 @@ volumes = [
 	#"/home/julio/Kali:/home/user/Kali",
 ]
 devices = []
-env = []
+env = [
+	"GOPATH=/home/user/go",
+	"PATH=/home/user/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+]
 ports = []
 args = []

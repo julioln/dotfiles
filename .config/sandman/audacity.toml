@@ -3,7 +3,7 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu audacity ffmpeg --noconfirm
+RUN pacman -Syu audacity ffmpeg pulseaudio pulseaudio-alsa libpulse alsa-lib --noconfirm
 RUN rm -rf /var/cache/*
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
@@ -20,6 +20,7 @@ pulseaudio = true
 dbus = true
 net = false
 uidmap = true
+fonts = true
 volumes = ['/home/julio/Downloads:/home/user/Downloads', '/home/julio/Music:/home/user/Music']
 devices = []
 env = []

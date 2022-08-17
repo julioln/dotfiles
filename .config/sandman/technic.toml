@@ -1,9 +1,11 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+ADD makepkg.conf /etc/makepkg.conf
 
-RUN pacman -Syu base-devel git --asdeps --noconfirm
+RUN pacman -Syu base-devel git distcc --asdeps --noconfirm
 
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
@@ -35,8 +37,7 @@ RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*
 RUN rm -rf /home/user/minecraft-technic-launcher
 RUN rm -rf /home/user/minecraft-launcher
-#CMD ["bash", "-c", "nohup", "/usr/bin/technic-launcher"]
-CMD ["/usr/bin/technic-launcher"]
+CMD ["bash", "-c", "/usr/bin/technic-launcher && while pgrep -f [j]ava > /dev/null; do sleep 10; done"]
 '''
 
 [run]
@@ -48,8 +49,11 @@ pulseaudio = true
 dbus = false
 net = true
 uidmap = true
-home = true
-volumes = []
+home = false
+fonts = true
+volumes = [
+	"/home/julio/Games/technic:/home/user"
+]
 devices = []
 env = ["mesa_glthread=true"]
 ports = []

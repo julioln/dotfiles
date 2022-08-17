@@ -21,7 +21,9 @@ dbus = false
 net = true
 uidmap = true
 home = true
-volumes = []
+volumes = [
+	"/home/julio/Games/wine:/home/user/Games"
+]
 devices = []
 env = []
 ports = []

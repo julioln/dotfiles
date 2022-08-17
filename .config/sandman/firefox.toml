@@ -25,8 +25,11 @@ volumes = [
   '/home/julio/Downloads:/home/user/Downloads', 
 ]
 fonts = true
-#devices = ['/dev/hidraw6', '/dev/hidraw7']
 devices = []
-env = ["MOZ_GTK_TITLEBAR_DECORATION=client", "MOZ_USE_XINPUT2=1"]
+UsbDevices = ["1050:0116"]
+env = [
+	"MOZ_GTK_TITLEBAR_DECORATION=client", 
+	"MOZ_USE_XINPUT2=1"
+]
 ports = []
 args = []

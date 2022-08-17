@@ -23,3 +23,4 @@ Ports = []
 Memory_limit = "2g"
 Name = "xclock"
 Home = false
+UsbDevices = []

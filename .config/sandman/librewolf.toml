@@ -56,10 +56,8 @@ volumes = [
 fonts = true
 devices = [
 	'/dev/kfd', 
-	#'/dev/hidraw1', 
-	#'/dev/hidraw2',
 ]
-args = ['--group-add', 'video']
+UsbDevices = ["1050:0116"]
 env = [
 	#"MOZ_WEBRENDER=1", 
 	"MOZ_USE_XINPUT2=1",

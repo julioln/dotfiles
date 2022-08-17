@@ -1,0 +1,25 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+RUN pacman -Syu stress --noconfirm
+RUN rm -rf /var/cache/*
+CMD "/usr/bin/bash"
+'''
+
+[run]
+
+[limits.CgroupConf]
+"cpuset.cpus"="0,1,2,3"
+"CpusetCpus"="0,1,2,3"
+cpus="0,1,2,3"
+CpuCount="4"
+"cpu.weight"="10"
+
+[limits.CPU]
+#Cpus="0,1,2,3"
+
+[limits.Memory]
+Limit=1000000000
+Swap=3000000000

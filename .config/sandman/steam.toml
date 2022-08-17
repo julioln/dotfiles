@@ -9,12 +9,13 @@ RUN dpkg --add-architecture i386
 
 RUN apt update
 RUN apt dist-upgrade -y
-RUN apt install steam xserver-xorg-video-amdgpu -y
+RUN apt install steam lib32gcc-s1 steamcmd xserver-xorg-video-amdgpu schedtool -y
 
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-CMD "/usr/games/steam"
+CMD ["/usr/bin/schedtool", "-a", "0,1,2,3,4,5,6,7", "-e", "/usr/games/steam"]
+#CMD ["/usr/games/steam"]
 '''
 
 [run]
@@ -31,3 +32,6 @@ volumes = []
 devices = []
 env = ["mesa_glthread=true"]
 ports = []
+
+[Limits.CPU]
+#Cpus = "0,1,2,3,4,5,6,7"

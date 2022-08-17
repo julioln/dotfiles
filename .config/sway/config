@@ -231,7 +231,7 @@ bindsym $mod+Control+$down move workspace to output down
 bindsym $mod+Control+$up move workspace to output up
 
 output eDP-1 scale 1.12
-#output HDMI-A-1 resolution 1920x1080 position 1920,0
+output * adaptive_sync on
 
 input * {
     xkb_layout "us"

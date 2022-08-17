@@ -3,7 +3,9 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export XCURSOR_THEME=Adwaita
 export XCURSOR_SIZE=16
 export CM_LAUNCHER=rofi
-export CM_HISTLENGTH=15
+export CM_HISTLENGTH=20
+export CM_DIR=/var/local/julio
+export CM_MAX_CLIPS=10000
 
 ### X11 setup
 
@@ -14,7 +16,8 @@ xhost +local:julio
 xrandr --output eDP --gamma 0.9:0.87:0.95
 
 # Screen timeout
-xset s 900 0
+xset s 900
+xset dpms 0 0 915
 
 # Keyboard settings
 xset r rate 300 60
@@ -35,16 +38,16 @@ xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0
 xset -b
 
 ### Background processes
-nice -n -5 xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
-clipmenud &
+nice -n -10 xss-lock --transfer-sleep-lock -- /opt/local/bin/lock-screen &
+nice -n -5 lxqt-policykit-agent &
 sandman run kdeconnect &
-dunst &
-update-wallpaper &
 nm-applet &
+flameshot &
 #blueman-applet &
 #pasystray &
-flameshot &
-lxqt-policykit-agent &
+nice -n 5 clipmenud &
+nice -n 5 dunst &
+nice -n 5 update-wallpaper &
 
 ### Start
 exec i3
