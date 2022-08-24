@@ -1,0 +1,64 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+ADD makepkg.conf /etc/makepkg.conf
+
+RUN pacman -Syu base-devel git distcc --asdeps --noconfirm
+RUN pacman -S alsa-lib libpulse libappindicator-gtk3 --noconfirm
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+RUN locale-gen
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+RUN mkdir -p /tmp/build
+
+# NVM
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/nvm.git 
+WORKDIR nvm
+
+#RUN pacman -S $(/bin/sh -c 'source /tmp/build/nvm/PKGBUILD ; echo ${depends[@]}') --noconfirm
+#RUN pacman -S $(/bin/sh -c 'source /tmp/build/nvm/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+# Session
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/session-desktop.git 
+WORKDIR session-desktop
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/session-desktop/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/session-desktop/PKGBUILD ; echo ${makedepends[@]/nvm/}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN sed -i 's/14\.16\.0/16.13.0/g' /tmp/build/session-desktop/PKGBUILD
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/pacman/pkg
+RUN rm -rf /tmp/build
+CMD "/usr/bin/session-desktop"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = false
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+home = true
+volumes = []
+devices = []
+env = []
+ports = []

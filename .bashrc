@@ -7,13 +7,16 @@
 
 set -o noclobber
 
+HISTCONTROL=ignoreboth
+HISTSIZE=10000
+shopt -s histappend
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
 alias watch='watch '
 alias freqs='grep MHz /proc/cpuinfo | tr -d "\t"'
 alias youtube-mp3='youtube-dl -x --audio-format mp3 --audio-quality 0'
-#alias yay-update-all='low-prio yay -Syu --batchinstall'
 alias paru-update-all='low-prio paru -Syu --batchinstall'
 alias extip="curl -s http://checkip.amazonaws.com/"
 alias watch-network="sudo watch -t -n 1 'netstat -taupen'"

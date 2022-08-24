@@ -38,8 +38,8 @@ dbus = true
 network = "slirp4netns"
 uidmap = true
 home = true
+fonts = true
 volumes = [
-	"/usr/share/fonts:/usr/share/fonts:ro",
 	"/home/julio/Repos:/home/user/Repos",
 	"/home/julio/Projects:/home/user/Projects",
 	"/home/julio/Downloads:/home/user/Downloads",

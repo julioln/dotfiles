@@ -43,11 +43,11 @@ nice -n -5 lxqt-policykit-agent &
 sandman run kdeconnect &
 nm-applet &
 flameshot &
-#blueman-applet &
+blueman-applet &
 #pasystray &
 nice -n 5 clipmenud &
 nice -n 5 dunst &
-nice -n 5 update-wallpaper &
+nice -n 10 update-wallpaper &
 
 ### Start
 exec i3

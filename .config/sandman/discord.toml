@@ -3,7 +3,7 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Syu discord ttf-dejavu ttf-joypixels libpulse alsa-lib --noconfirm
+RUN pacman -Syu discord ttf-dejavu ttf-joypixels libpulse alsa-lib flatpak-xdg-utils --noconfirm
 RUN rm -rf /var/cache/*
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN useradd -m --uid 1000 user

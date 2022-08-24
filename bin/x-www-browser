@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sandman run librewolf librewolf $@
