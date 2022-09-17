@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Tidal (Sandman)
+Exec=sandman run tidal-git
+Terminal=false
+Type=Application

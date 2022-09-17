@@ -1,0 +1,38 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+ADD makepkg.conf /etc/makepkg.conf
+
+RUN pacman -Syyyu flatpak-xdg-utils alsa-lib libpulse --noconfirm
+RUN ln -s /usr/lib/flatpak-xdg-utils/xdg-open /usr/local/bin/xdg-open
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+RUN locale-gen
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+RUN pacman -S base-devel sudo git distcc --asdeps --noconfirm
+RUN mkdir -p /tmp/build
+RUN chown -R user:user /tmp/build
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/yay.git 
+WORKDIR /tmp/build/yay
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/yay/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/yay/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+WORKDIR /home/user
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /tmp/*
+RUN rm -rf /var/cache/*
+CMD ["/usr/bin/bash"]
+'''
+
+[run]

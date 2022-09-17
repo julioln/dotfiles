@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Signal (Sandman)
+Exec=sandman run signal
+Terminal=false
+Type=Application

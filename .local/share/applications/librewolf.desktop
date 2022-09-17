@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Librewolf (Sandman)
+Exec=sandman run librewolf librewolf %u
+Terminal=false
+Type=Application
+StartupWMClass=LibreWolf
+Categories=Network;WebBrowser;
+MimeType=x-scheme-handler/unknown;x-scheme-handler/about;text/html;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https

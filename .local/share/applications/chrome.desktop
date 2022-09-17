@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Chrome Browser (Sandman)
+Exec=sandman run chrome
+Terminal=false
+Type=Application

@@ -1,19 +1,9 @@
 [build]
 contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM docker.io/archlinux
-ADD arch_mirrorlist /etc/pacman.d/mirrorlist
-RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+FROM localhost/sandman/base/arch_build
 
-RUN pacman -Syu base-devel git distcc --asdeps --noconfirm
-RUN pacman -S alsa-lib pulseaudio --noconfirm
-
-RUN useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000/pulse
-RUN chown -R user:user /run/user/1000
-
-# Speedup compilation
-ADD makepkg.conf /etc/makepkg.conf
+RUN pacman -S libnotify --noconfirm
 
 # Nodejs-nativefier
 
@@ -57,12 +47,12 @@ wayland = false
 dri = true
 ipc = true
 pulseaudio = true
-dbus = false
+dbus = true
 net = true
 uidmap = true
 home = true
 volumes = []
-devices = []
+devices = ["/dev/video0"]
 env = []
 ports = []
 

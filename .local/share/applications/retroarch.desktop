@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Retroarch (Sandman)
+Exec=sandman run retroarch
+Terminal=false
+Type=Application

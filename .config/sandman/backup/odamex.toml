@@ -1,0 +1,57 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM localhost/sandman/base/arch_build
+
+RUN pacman -S libpulse alsa-lib --noconfirm
+
+# deutex
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/deutex.git
+WORKDIR deutex
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/deutex/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/deutex/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+# blastem
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/odamex.git 
+WORKDIR odamex
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/odamex/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/odamex/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+# Cleanup
+
+WORKDIR /home/user
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/build
+CMD ["/usr/bin/odamex"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = false
+pulseaudio = true
+dbus = false
+net = true
+uidmap = true
+home = true
+volumes = []
+devices = []
+env = []
+ports = []
+

@@ -1,17 +1,12 @@
 [build]
 contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM localhost/sandman/base/dev
-ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+FROM localhost/sandman/base/arch_dev
 
 RUN pacman -Syu emacs --noconfirm
 
-RUN id 1000 || useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000
-
 WORKDIR /home/user
 
-RUN chown -R user:user /run/user/1000
 RUN rm -rf /tmp/*
 RUN rm -rf /var/cache/*
 CMD "/usr/bin/emacs"

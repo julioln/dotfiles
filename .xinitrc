@@ -6,6 +6,10 @@ export CM_LAUNCHER=rofi
 export CM_HISTLENGTH=20
 export CM_DIR=/var/local/julio
 export CM_MAX_CLIPS=10000
+export XDG_CURRENT_DESKTOP=i3
+export XDG_SESSION_TYPE=x11
+
+systemctl --user import-environment DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
 
 ### X11 setup
 
@@ -47,6 +51,7 @@ blueman-applet &
 #pasystray &
 nice -n 5 clipmenud &
 nice -n 5 dunst &
+nice -n 5 /usr/lib/xdg-desktop-portal &
 nice -n 10 update-wallpaper &
 
 ### Start

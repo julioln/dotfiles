@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Brave Browser (Sandman)
+Exec=sandman run brave
+Terminal=false
+Type=Application

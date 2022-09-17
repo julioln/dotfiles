@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Libreoffice (Sandman)
+Exec=sandman run libreoffice
+Terminal=false
+Type=Application

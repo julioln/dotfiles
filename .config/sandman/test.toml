@@ -1,0 +1,31 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+RUN pacman -Syu vim git stress gnu-netcat --noconfirm
+RUN rm -rf /var/cache/*
+
+CMD "/usr/bin/bash"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = true
+pulseaudio = true
+dbus = true
+network = "host"
+uidmap = true
+home = false
+volumes = [
+  #'/home/julio/Downloads:/home/user/Downloads', 
+]
+fonts = true
+devices = []
+UsbDevices = ["1050:0116"]
+env = []
+ports = []
+args = []

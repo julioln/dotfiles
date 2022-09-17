@@ -1,0 +1,26 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -Syu glava --noconfirm
+RUN rm -rf /var/cache/*
+
+CMD "/usr/bin/glava"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = false
+pulseaudio = true
+dbus = false
+net = false
+uidmap = true
+home = true
+volumes = []
+devices = []
+env = []
+ports = []
+

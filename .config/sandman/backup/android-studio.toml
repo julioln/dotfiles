@@ -1,30 +1,30 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM docker.io/archlinux
+FROM localhost/sandman/base/arch_build
 
-RUN pacman -Syu base-devel git --asdeps --noconfirm
+RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+RUN pacman -Syu --noconfirm
 
-RUN useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000
-RUN chown -R user:user /run/user/1000
+RUN pacman -S gtk2 android-tools java-runtime-common java-environment-common --noconfirm
 
-RUN mkdir -p /tmp/build
 WORKDIR /tmp/build
 RUN git clone https://aur.archlinux.org/android-studio.git
 WORKDIR android-studio
 
-RUN pacman -S android-tools $(/bin/bash -c 'source /tmp/build/android-studio/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/bash -c 'source /tmp/build/android-studio/PKGBUILD ; echo ${depends[@]}') --noconfirm
 
 RUN chown -R user:user /tmp/build
 RUN nice -n 19 sudo -u user makepkg 
-RUN pacman -U /tmp/build/android-studio/*.pkg.tar.zst --noconfirm
+RUN pacman -U *.tar.zst --noconfirm
+
+RUN archlinux-java fix
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
-RUN rm -rf /var/cache/*
-RUN rm -rf /tmp/build/*
+RUN rm -rf /var/cache/pacman/pkg
+RUN rm -rf /tmp/build
 
-WORKDIR /home/user
-CMD "/usr/bin/android-studio"
+CMD "android-studio"
 '''
 
 [run]
@@ -33,17 +33,19 @@ wayland = false
 dri = true
 ipc = true
 pulseaudio = false
-dbus = false
-network = "slirp4netns"
+dbus = true
+net = true
 uidmap = true
 home = true
+fonts = true
 volumes = [
-	'/home/julio/Projects:/home/user/Projects',
-	'/home/julio/Repos:/home/user/Repos',
-	'/usr/share/fonts:/usr/share/fonts:ro'
+	"/home/julio/Repos:/home/user/Repos",
+	"/home/julio/Projects:/home/user/Projects",
+	"/home/julio/Downloads:/home/user/Downloads",
 ]
 devices = []
 env = [
-	'_JAVA_AWT_WM_NONREPARENTING=1'
+	"_JAVA_AWT_WM_NONREPARENTING=1",
+	#"_JAVA_OPTIONS=-Dawt.useSystemAAFontSettings=on",
 ]
 ports = []

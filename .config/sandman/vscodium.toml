@@ -1,13 +1,9 @@
 [build]
 contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM localhost/sandman/base/dev
-ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+FROM localhost/sandman/base/arch_dev
 
-RUN id 1000 || useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000
-RUN chown -R user:user /run/user/1000
-
+RUN mkdir -p /tmp/build
 WORKDIR /tmp/build
 RUN git clone https://aur.archlinux.org/vscodium-bin.git 
 WORKDIR vscodium-bin
@@ -17,7 +13,7 @@ RUN pacman -S $(/bin/sh -c 'source /tmp/build/vscodium-bin/PKGBUILD ; echo ${dep
 
 RUN chown -R user:user /tmp/build
 RUN nice -n 19 sudo -u user makepkg 
-RUN pacman -U $(/bin/sh -c 'source /tmp/build/vscodium-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+RUN pacman -U *.tar.zst --noconfirm
 
 WORKDIR /home/user
 
@@ -35,17 +31,21 @@ dri = true
 ipc = true
 pulseaudio = false
 dbus = true
-network = "slirp4netns"
+network = "host"
 uidmap = true
 home = true
 fonts = true
 volumes = [
 	"/home/julio/Repos:/home/user/Repos",
+	#'/home/julio/.local/share/fonts:/home/user/.local/share/fonts:ro',
 	"/home/julio/Projects:/home/user/Projects",
 	"/home/julio/Downloads:/home/user/Downloads",
 	#"/home/julio/Kali:/home/user/Kali",
 ]
 devices = []
-env = []
-ports = ["3000:3000"]
+env = [
+	"GOPATH=/home/user/go",
+	"PATH=/home/user/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+]
+ports = []
 

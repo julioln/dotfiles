@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Ardour (Sandman)
+Exec=sandman run ardour
+Terminal=false
+Type=Application

@@ -1,0 +1,39 @@
+[build]
+ContextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM localhost/sandman/base/arch_build
+
+RUN pacman -S jack2-dbus pulseaudio --noconfirm
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/reaper-bin.git 
+WORKDIR reaper-bin
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/reaper-bin/PKGBUILD ; echo ${depends[@]}') --noconfirm
+#RUN pacman -S $(/bin/sh -c 'source /tmp/build/reaper-bin/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+CMD ["/usr/bin/reaper"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = false
+dbus = true
+net = true
+uidmap = true
+home = true
+volumes = []
+devices = []
+env = []
+ports = []
+

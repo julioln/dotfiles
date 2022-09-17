@@ -1,27 +1,25 @@
 [build]
 contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM docker.io/ubuntu:20.04
+FROM docker.io/ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-
-RUN apt update
-RUN apt dist-upgrade -y
-
-RUN apt install gnupg software-properties-common -y
-
-ADD https://dl.winehq.org/wine-builds/winehq.key /tmp/winehq.key
-RUN apt-key add /tmp/winehq.key
-RUN add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
 
 RUN dpkg --add-architecture i386
 RUN apt update
 RUN apt dist-upgrade -y
-RUN apt install --install-recommends winehq-stable winetricks zenity -y
+RUN apt install wget -y
 
-RUN apt remove gnupg software-properties-common -y
+RUN wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+
+RUN apt update
+RUN apt dist-upgrade -y
+RUN apt install --install-recommends winehq-staging winetricks zenity adwaita-icon-theme-full -y
+
 RUN apt autoremove -y
 RUN apt clean -y
+RUN rm -rf /tmp/*
 
 WORKDIR /
 '''

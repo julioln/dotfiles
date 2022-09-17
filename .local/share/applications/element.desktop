@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Element (Sandman)
+Exec=sandman run element
+Terminal=false
+Type=Application

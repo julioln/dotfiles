@@ -213,6 +213,7 @@ bar {
 }
 
 focus_follows_mouse no
+mouse_warping none
 
 default_border pixel 1
 default_floating_border normal

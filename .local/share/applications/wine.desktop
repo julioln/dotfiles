@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Wine (Sandman)
+Exec=sandman run wine
+Terminal=false
+Type=Application

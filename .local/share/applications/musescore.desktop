@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Musescore (Sandman)
+Exec=sandman run musescore
+Terminal=false
+Type=Application

@@ -1,41 +1,29 @@
 [build]
-contextDirectory = "/home/julio/.config/sandman/files"
-instructions = '''
-FROM docker.io/archlinux
-ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+ContextDirectory = "/home/julio/.config/sandman/files"
+Instructions = '''
+FROM docker.io/ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
-RUN pacman -Syu base-devel git --asdeps --noconfirm
+RUN apt update
+RUN apt dist-upgrade -y
+RUN apt install wget gpg libfido2-1 pulseaudio mesa-va-drivers mesa-vdpau-drivers ffmpeg vainfo adwaita-icon-theme-full xserver-xorg-video-amdgpu libglfw3 libgles2 libgles2-mesa -y
+
+RUN wget -O- https://deb.librewolf.net/keyring.gpg | gpg --dearmor -o /usr/share/keyrings/librewolf.gpg
+
+ADD librewolf.sources /etc/apt/sources.list.d/librewolf.sources
+RUN apt update
+RUN apt install librewolf -y
 
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
-
-RUN echo '1' | gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
-
 WORKDIR /home/user
-RUN git clone https://aur.archlinux.org/librewolf-bin.git 
-WORKDIR librewolf-bin
 
-RUN pacman -S $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${depends[@]}') --noconfirm
-
-# Workaround
-RUN pacman -S ffmpeg4.4 --noconfirm
-
-#RUN pacman -S $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
-
-RUN chown -R user:user /home/user
-RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
-RUN nice -n 19 sudo -u user makepkg 
-RUN pacman -U $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
-
-RUN pacman -S libva-mesa-driver mesa-vdpau libfido2 --noconfirm
-
-#RUN pacman -Rns $(/bin/sh -c 'source /home/user/librewolf-bin/PKGBUILD ; echo ${makedepends[@]}') --noconfirm-bin
-WORKDIR /home/user
-RUN pacman -Rns $(pacman -Qtdq) --noconfirm
-RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+RUN apt autoremove -y
+RUN apt clean -y
 RUN rm -rf /var/cache/*
-RUN rm -rf /home/user/librewolf-bin
+RUN rm -rf /tmp/*
 CMD "/usr/bin/librewolf"
 '''
 
@@ -47,22 +35,22 @@ ipc = true
 pulseaudio = true
 pipewire = false
 dbus = true
-net = true
+network = "slirp4netns"
 uidmap = true
 home = true
+fonts = true
 volumes = [
   '/home/julio/Downloads:/home/user/Downloads',
 ]
-fonts = true
 devices = [
 	'/dev/kfd', 
 ]
 UsbDevices = ["1050:0116"]
 env = [
-	#"MOZ_WEBRENDER=1", 
+	"MOZ_WEBRENDER=1", 
 	"MOZ_USE_XINPUT2=1",
-	"MOZ_DISABLE_RDD_SANDBOX=1"
-	#'MOZ_LOG="PlatformDecoderModule:5"'
+	"MOZ_DISABLE_RDD_SANDBOX=1",
+	'MOZ_LOG="PlatformDecoderModule:5"'
 ]
 ports = []
 

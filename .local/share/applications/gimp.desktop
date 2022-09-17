@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=GIMP (Sandman)
+Exec=sandman run gimp
+Terminal=false
+Type=Application
