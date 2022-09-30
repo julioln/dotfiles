@@ -4,8 +4,8 @@ Ulimit = ["nofile=4096"]
 instructions = '''
 FROM localhost/sandman/base/arch_build
 
-RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys EBE41E90F6F12F6D
-RUN echo '1' | gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys EBE41E90F6F12F6D
+RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkps://keys.openpgp.org --search-keys EBE41E90F6F12F6D
+RUN echo '1' | gpg --command-fd 0 --keyserver hkps://keys.openpgp.org --search-keys EBE41E90F6F12F6D
 
 WORKDIR /tmp/build
 RUN git clone https://aur.archlinux.org/librewolf.git 

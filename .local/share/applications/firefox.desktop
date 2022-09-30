@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Name=Firefox (Sandman)
-Exec=sandman run firefox
+Exec=sandman start firefox
 Terminal=false
 Type=Application

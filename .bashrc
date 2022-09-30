@@ -41,6 +41,8 @@ alias mauro="tr a-z A-Z | sed 's/\([^ ]\)/\1 /g' | sed 's/  /.  /g'"
 
 alias based="sandman run based based"
 
+alias notify-command='notify-send -u critical -t 10000 "Command finished" "Return code: $?"'
+
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
 # END_KITTY_SHELL_INTEGRATION

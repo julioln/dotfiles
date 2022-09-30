@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Name=Blender (Sandman)
-Exec=sandman run blender
+Exec=sandman start blender
 Terminal=false
 Type=Application

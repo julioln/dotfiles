@@ -3,14 +3,10 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM localhost/sandman/base/arch_build
 
-RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
-RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 2954CC8585E27A3F
-RUN echo '1' | gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
-RUN echo '1' | gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys 2954CC8585E27A3F
-RUN pacman-key --init
-RUN pacman-key --recv-keys 2954CC8585E27A3F
-RUN pacman-key --lsign-key 2954CC8585E27A3F
-#RUN pacman-key --refresh-keys
+RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkps://keys.openpgp.org --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
+RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkps://keys.openpgp.org --search-keys 2954CC8585E27A3F
+RUN echo '1' | gpg --command-fd 0 --keyserver hkps://keys.openpgp.org --search-keys 031F7104E932F7BD7416E7F6D2845E1305D6E801
+RUN echo '1' | gpg --command-fd 0 --keyserver hkps://keys.openpgp.org --search-keys 2954CC8585E27A3F
 
 WORKDIR /tmp/build
 RUN git clone https://aur.archlinux.org/librewolf-bin.git 

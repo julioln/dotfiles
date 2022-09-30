@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Name=VSCodium (Sandman)
-Exec=sandman run vscodium
+Exec=sandman start vscodium
 Terminal=false
 Type=Application

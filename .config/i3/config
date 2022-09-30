@@ -88,8 +88,10 @@ bindsym $mod+Control+Down move workspace to output down
 bindsym $mod+Control+Up move workspace to output up
 
 # Mouse side buttons
-bindsym --whole-window button8 floating toggle
-bindsym --whole-window button9 fullscreen toggle
+#bindsym --whole-window button8 floating toggle
+#bindsym --whole-window button9 fullscreen toggle
+bindsym --whole-window button8 workspace next_on_output
+bindsym --whole-window button9 workspace prev_on_output
 
 # split in horizontal orientation
 bindsym $mod+b split h
@@ -217,7 +219,8 @@ mouse_warping none
 
 default_border pixel 1
 default_floating_border normal
-smart_borders on
+hide_edge_borders smart
+for_window [all] border pixel 1 # workaround for https://github.com/i3/i3/issues/5149
 gaps outer 0
 gaps inner 0
 

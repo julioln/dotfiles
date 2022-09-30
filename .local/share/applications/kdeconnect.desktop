@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Name=KDE Connect (Sandman)
-Exec=sandman run kdeconnect
+Exec=sandman start kdeconnect
 Terminal=false
 Type=Application

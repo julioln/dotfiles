@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Name=Whatsapp (Sandman)
-Exec=sandman run whatsapp
+Exec=sandman start whatsapp
 Terminal=false
 Type=Application

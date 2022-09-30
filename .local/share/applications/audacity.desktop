@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Name=Audacity (Sandman)
-Exec=sandman run audacity
+Exec=sandman start audacity
 Terminal=false
 Type=Application

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Name=Chromium Browser (Sandman)
-Exec=sandman run chromium
+Exec=sandman start chromium
 Terminal=false
 Type=Application

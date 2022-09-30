@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=Librewolf (Sandman)
-Exec=sandman run librewolf librewolf %u
+Exec=sandman start librewolf librewolf %u
 Terminal=false
 Type=Application
 StartupWMClass=LibreWolf

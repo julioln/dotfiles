@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Name=Discord (Sandman)
-Exec=sandman run discord
+Exec=sandman start discord
 Terminal=false
 Type=Application
