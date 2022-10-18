@@ -1,51 +1,29 @@
 [build]
 contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM localhost/sandman/base/arch_build
+FROM localhost/sandman/base/arch_user
 
-RUN pacman -S alsa-lib libpulse libappindicator-gtk3 --noconfirm
+ADD https://getsession.org/linux /opt/session.AppImage
+RUN chmod +x /opt/session.AppImage
+RUN chown user:user /opt/session.AppImage
 
-# NVM
+RUN pacman -S alsa-lib libnotify libxss libxtst nss libpulse libappindicator-gtk3 --noconfirm
 
-WORKDIR /tmp/build
-RUN git clone https://aur.archlinux.org/nvm.git 
-WORKDIR nvm
+#RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
 
-#RUN pacman -S $(/bin/sh -c 'source /tmp/build/nvm/PKGBUILD ; echo ${depends[@]}') --noconfirm
-#RUN pacman -S $(/bin/sh -c 'source /tmp/build/nvm/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
-
-RUN chown -R user:user /tmp/build
-RUN nice -n 19 sudo -u user makepkg 
-RUN pacman -U *.tar.zst --noconfirm
-
-# Session
-
-WORKDIR /tmp/build
-RUN git clone https://aur.archlinux.org/session-desktop.git 
-WORKDIR session-desktop
-
-RUN pacman -S $(/bin/sh -c 'source /tmp/build/session-desktop/PKGBUILD ; echo ${depends[@]}') --noconfirm
-RUN pacman -S $(/bin/sh -c 'source /tmp/build/session-desktop/PKGBUILD ; echo ${makedepends[@]/nvm/}') --asdeps --noconfirm
-
-RUN chown -R user:user /tmp/build
-RUN sed -i 's/14\.16\.0/16.13.0/g' /tmp/build/session-desktop/PKGBUILD
-RUN nice -n 19 sudo -u user makepkg 
-RUN pacman -U *.tar.zst --noconfirm
-
-RUN pacman -Rns $(pacman -Qtdq) --noconfirm
-RUN rm -rf /var/cache/pacman/pkg
-RUN rm -rf /tmp/build
-CMD "/usr/bin/session-desktop"
+CMD ["/opt/session.AppImage", "--appimage-extract-and-run"]
 '''
 
 [run]
 x11 = true
 wayland = false
-dri = false
+dri = true
 ipc = false
 pulseaudio = true
 dbus = true
-net = true
+network = "slirp4netns"
 uidmap = true
 home = true
 volumes = []

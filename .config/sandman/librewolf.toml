@@ -40,7 +40,8 @@ uidmap = true
 home = true
 fonts = true
 volumes = [
-  '/home/julio/Downloads:/home/user/Downloads',
+	"/home/julio/Downloads:/home/user/Downloads",
+	#"/home/julio/Backups/pixel:/home/user/pixel"
 ]
 devices = [
 	'/dev/kfd', 
@@ -50,7 +51,8 @@ env = [
 	"MOZ_WEBRENDER=1", 
 	"MOZ_USE_XINPUT2=1",
 	"MOZ_DISABLE_RDD_SANDBOX=1",
-	'MOZ_LOG="PlatformDecoderModule:5"'
+	'MOZ_LOG="PlatformDecoderModule:5"',
+	"mesa_glthread=true"
 ]
 ports = []
 

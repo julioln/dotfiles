@@ -6,7 +6,8 @@ FROM localhost/sandman/base/arch_user
 RUN pacman -Syu hexchat gnome-themes-extra adwaita-icon-theme --noconfirm
 RUN rm -rf /var/cache/*
 
-CMD ["/usr/bin/hexchat", "--minimize=2"]
+#CMD ["/usr/bin/hexchat", "--minimize=2"]
+CMD ["/usr/bin/hexchat"]
 '''
 
 [run]

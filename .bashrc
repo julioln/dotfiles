@@ -16,7 +16,7 @@ alias grep='grep --color=auto'
 
 alias watch='watch '
 alias freqs='grep MHz /proc/cpuinfo | tr -d "\t"'
-alias youtube-mp3='youtube-dl -x --audio-format mp3 --audio-quality 0'
+alias youtube-audio='yt-dlp -x --audio-quality 0'
 alias paru-update-all='paru --show -w; nice -n 19 paru -Syyyu --batchinstall'
 alias extip="curl -s http://checkip.amazonaws.com/"
 alias watch-network="sudo watch -t -n 1 'netstat -taupen'"
@@ -32,16 +32,16 @@ alias mount-kali-vm="sshfs -o idmap=user kali@kalivm:/home/kali /home/julio/Kali
 alias connect-to-androivm="adb connect androidvm && scrcpy --tcpip=androidvm"
 alias connect-to-winvm="xfreerdp /dynamic-resolution /v:winvm /u:fulano"
 
-alias pipe-notify-critical='while read line; do notify-send -u critical -t 5000 "$line"; done'
-alias pipe-notify='while read line; do notify-send -u normal -t 3000 "$line"; done'
-alias pipe-notify-low='while read line; do notify-send -u low -t 2000 "$line"; done'
+alias pipe-notify-critical='while read line; do notify-send -u critical "$line"; done'
+alias pipe-notify='while read line; do notify-send -u normal "$line"; done'
+alias pipe-notify-low='while read line; do notify-send -u low "$line"; done'
 
 alias bellifetch='neofetch --config ~/Desktop/belli_config.conf --source ~/Desktop/belli.txt'
 alias mauro="tr a-z A-Z | sed 's/\([^ ]\)/\1 /g' | sed 's/  /.  /g'"
 
 alias based="sandman run based based"
 
-alias notify-command='notify-send -u critical -t 10000 "Command finished" "Return code: $?"'
+alias notify-command='notify-send -i utilities-terminal "Command finished" "Return code: $?"'
 
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi

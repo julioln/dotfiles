@@ -6,7 +6,7 @@ ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 ADD makepkg.conf /etc/makepkg.conf
 ADD pacman.conf /etc/pacman.conf
 
-RUN pacman -Syyyu vim git distcc unzip ripgrep fd rust ruby ruby-bundler python python-pip nodejs npm go go-tools base-devel cmake xdg-utils btrfs-progs flatpak-xdg-utils --noconfirm
+RUN pacman -Syyyu jq vim git distcc unzip ripgrep fd rust ruby ruby-bundler python python-pip nodejs npm go go-tools base-devel cmake xdg-utils btrfs-progs flatpak-xdg-utils --noconfirm
 RUN ln -s /usr/lib/flatpak-xdg-utils/xdg-open /usr/local/bin/xdg-open
 RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN locale-gen

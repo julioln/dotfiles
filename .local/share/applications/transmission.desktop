@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Transmission (Sandman)
+Exec=sandman start transmission
+Terminal=false
+Type=Application

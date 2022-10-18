@@ -12,7 +12,8 @@ RUN pacman -Syu libpulse flatpak-xdg-utils --noconfirm
 RUN rm -rf /var/cache/*
 RUN rm -rf /tmp/*
 
-CMD ["/opt/discord/Discord", "--start-minimized"]
+#CMD ["/opt/discord/Discord", "--start-minimized"]
+CMD ["/opt/discord/Discord"]
 '''
 
 [run]

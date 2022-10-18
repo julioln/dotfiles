@@ -6,7 +6,8 @@ FROM localhost/sandman/base/arch_user
 RUN pacman -Syu telegram-desktop --noconfirm
 RUN rm -rf /var/cache/*
 
-CMD ["/usr/bin/telegram-desktop", "-startintray"]
+#CMD ["/usr/bin/telegram-desktop", "-startintray"]
+CMD ["/usr/bin/telegram-desktop"]
 '''
 
 [run]

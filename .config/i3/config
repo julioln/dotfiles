@@ -210,9 +210,13 @@ bar {
         statusline #cccccc
         background #252525
         inactive_workspace #32323200 #32323200 #5c5c5c
-        focused_workspace   #333333 #5f676a #ffffff
+        focused_workspace #333333 #444444 #cccccc
     }
 }
+
+client.focused #333333 #444444 #cccccc
+client.focused_inactive #333333 #252525 #cccccc
+client.unfocused #333333 #252525 #888888
 
 focus_follows_mouse no
 mouse_warping none

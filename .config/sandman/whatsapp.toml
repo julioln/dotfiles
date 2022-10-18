@@ -31,7 +31,7 @@ RUN pacman -S $(/bin/sh -c 'source /tmp/build/whatsapp-nativefier/PKGBUILD ; ech
 
 RUN chown -R user:user /tmp/build
 RUN sed -i 's#.*user-agent.*#--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15" \\#' PKGBUILD
-RUN sed -i 's#.*tray.*#--tray="start-in-tray" \\#' PKGBUILD
+#RUN sed -i 's#.*tray.*#--tray="start-in-tray" \\#' PKGBUILD
 RUN nice -n 19 sudo -u user makepkg 
 RUN pacman -U *.tar.zst --noconfirm
 

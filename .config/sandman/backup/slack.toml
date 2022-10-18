@@ -1,43 +1,38 @@
 [build]
+contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM docker.io/archlinux
+FROM localhost/sandman/base/arch_build
 
-RUN pacman -Syu base-devel git --asdeps --noconfirm
+RUN pacman -S alsa-lib libpulse libappindicator-gtk3 --noconfirm
 
-RUN useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000/pulse
-RUN chown -R user:user /run/user/1000
-
-WORKDIR /home/user
+WORKDIR /tmp/build
 RUN git clone https://aur.archlinux.org/slack-desktop.git 
 WORKDIR slack-desktop
 
-RUN pacman -S $(/bin/sh -c 'source /home/user/slack-desktop/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/slack-desktop/PKGBUILD ; echo ${depends[@]}') --noconfirm
 
-RUN chown -R user:user /home/user
+RUN chown -R user:user /tmp/build
 RUN nice -n 19 sudo -u user makepkg 
-RUN pacman -U $(/bin/sh -c 'source /home/user/slack-desktop/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
-RUN pacman -S pulseaudio libdbusmenu-gtk3 ttf-liberation --noconfirm
-
-RUN pacman -S firefox --noconfirm
+RUN pacman -U *.tar.zst --noconfirm
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/pacman/pkg
-RUN rm -rf /home/user/slack-desktop
-CMD ["/usr/bin/slack"]
+RUN rm -rf /tmp/build
+CMD "/usr/bin/slack"
 '''
 
 [run]
 x11 = true
 wayland = false
-dri = false
+dri = true
 ipc = true
 pulseaudio = true
 dbus = true
 net = true
 uidmap = true
+home = true
+fonts = true
 volumes = []
 devices = []
 env = []
-
 ports = []
