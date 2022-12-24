@@ -3,11 +3,12 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM localhost/sandman/base/wine
 ENV DEBIAN_FRONTEND=noninteractive
-RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+ADD localtime /etc/localtime
 
 RUN id 1000 || useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
+WORKDIR /home/user
 
 RUN apt autoremove -y
 RUN apt clean -y
@@ -20,14 +21,18 @@ wayland = false
 dri = true
 ipc = true
 pulseaudio = true
-dbus = false
+dbus = true
 net = true
 uidmap = true
 home = true
+fonts = true
 volumes = [
 	"/home/julio/Games/wine:/home/user/Games"
 ]
 devices = []
-env = []
+env = [
+	"WINEPREFIX=.wine",
+	#"WINEARCH=win32",
+]
 ports = []
 

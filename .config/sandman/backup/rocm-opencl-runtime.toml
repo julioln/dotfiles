@@ -1,0 +1,78 @@
+[Build]
+ContextDirectory = "/home/julio/.config/sandman/files"
+Instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+ADD makepkg.conf /etc/makepkg.conf
+ADD pacman.conf /etc/pacman.conf
+ADD localtime /etc/localtime
+ADD bin/* /usr/local/bin
+
+RUN pacman -Syyyu schedtool flatpak-xdg-utils alsa-lib libpulse --noconfirm
+RUN ln -s /usr/lib/flatpak-xdg-utils/xdg-open /usr/local/bin/xdg-open
+RUN locale-gen
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+RUN mkdir -p /tmp/build
+
+# Base setup
+RUN pacman -S base-devel git distcc --asdeps --noconfirm
+RUN sed -i 's/.*exit \$E_ROOT.*//g' /usr/bin/makepkg
+
+# rocm-llvm
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/rocm-llvm.git 
+WORKDIR rocm-llvm
+RUN yes | low-prio makepkg -si --noconfirm
+
+# rocm-cmake
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/rocm-cmake.git 
+WORKDIR rocm-cmake
+RUN yes | low-prio makepkg -si --noconfirm
+
+# hsakmt-roct
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/hsakmt-roct.git 
+WORKDIR hsakmt-roct
+RUN yes | low-prio makepkg -si --noconfirm
+
+# rocm-device-libs
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/rocm-device-libs.git 
+WORKDIR rocm-device-libs
+RUN yes | low-prio makepkg -si --noconfirm
+
+# hsa-rocr
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/hsa-rocr.git 
+WORKDIR hsa-rocr
+RUN yes | low-prio makepkg -si --noconfirm
+
+# comgr
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/comgr.git 
+WORKDIR comgr
+RUN yes | low-prio makepkg -si --noconfirm
+
+# Opencl-amd
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/rocm-opencl-runtime.git 
+WORKDIR rocm-opencl-runtime
+RUN yes | low-prio makepkg -si --noconfirm
+
+# Cleanup
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /tmp/*
+RUN rm -rf /var/cache/*
+
+RUN chown -R user:user /home/user
+WORKDIR /
+'''
+
+[run]
+dri = true
+devices = ['/dev/kfd']
+args = ['--group-add', 'video']

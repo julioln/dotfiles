@@ -34,5 +34,5 @@ label=BAT
 interval=10
 
 [time]
-command=date '+%a %Y-%m-%d %H:%M ' | tr [:lower:] [:upper:]
+command=date '+%a %b %d %Y %I:%M %p ' | tr [:lower:] [:upper:]
 interval=10

@@ -3,11 +3,11 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM localhost/sandman/base/arch_user
 
+RUN pacman -S alsa-lib libnotify libxss libxtst nss libpulse libappindicator-gtk3 --noconfirm
+
 ADD https://getsession.org/linux /opt/session.AppImage
 RUN chmod +x /opt/session.AppImage
 RUN chown user:user /opt/session.AppImage
-
-RUN pacman -S alsa-lib libnotify libxss libxtst nss libpulse libappindicator-gtk3 --noconfirm
 
 #RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*
@@ -26,6 +26,7 @@ dbus = true
 network = "slirp4netns"
 uidmap = true
 home = true
+fonts = true
 volumes = []
 devices = []
 env = []

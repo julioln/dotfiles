@@ -1,0 +1,39 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -S xdg-utils xorg-server libxrender libxtst fontconfig libpulse --noconfirm
+
+ADD https://www.roomeqwizard.com/installers/REW_linux_AMD64_5_20_13.sh /opt/rew_installer.sh
+RUN chmod +x /opt/rew_installer.sh
+RUN echo -n -e "\n\n\n\n1\n\n\n4\n\n\n\n\n" | /opt/rew_installer.sh
+
+WORKDIR /home/user
+
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+
+CMD ["roomeqwizard"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+fonts = true
+home = true
+volumes = []
+devices = []
+env = [
+	"_JAVA_AWT_WM_NONREPARENTING=1",
+	"_JAVA_OPTIONS=-Dawt.useSystemAAFontSettings=on",
+	#"INSTALL4J_JAVA_HOME=/opt/REW/"
+]
+ports = []
+

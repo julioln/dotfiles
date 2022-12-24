@@ -1,20 +1,21 @@
 [build]
 contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM localhost/sandman/base/opencl-amd
-RUN pacman -Syu blender --noconfirm
+FROM localhost/sandman/base/rocm-opencl-runtime
+
+RUN pacman -Syu libdecor libepoxy libxkbcommon blender --noconfirm
+
+RUN rm -rf /tmp/*
 RUN rm -rf /var/cache/*
-RUN id 1000 || useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000/pulse
-RUN chown -R user:user /run/user/1000
+
 CMD "/usr/bin/blender"
 '''
 
 [run]
-x11 = true
-wayland = false
+x11 = false
+wayland = true
 dri = true
-ipc = false
+ipc = true
 pulseaudio = true
 dbus = false
 net = false

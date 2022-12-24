@@ -3,11 +3,12 @@ ContextDirectory = "/home/julio/.config/sandman/files"
 Instructions = '''
 FROM docker.io/ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
-RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+ADD localtime /etc/localtime
 
 RUN apt update
 RUN apt dist-upgrade -y
-RUN apt install wget gpg libfido2-1 pulseaudio mesa-va-drivers mesa-vdpau-drivers ffmpeg vainfo adwaita-icon-theme-full xserver-xorg-video-amdgpu libglfw3 libgles2 libgles2-mesa -y
+#RUN apt install wget gpg libnotify-bin libnotify4 libfido2-1 pipewire pulseaudio mesa-va-drivers mesa-vdpau-drivers ffmpeg vainfo adwaita-icon-theme-full xserver-xorg-video-amdgpu libglfw3 libgles2 libgles2-mesa libpci3 -y
+RUN apt install wget gpg libnotify-bin libnotify4 libfido2-1 pipewire pulseaudio ffmpeg adwaita-icon-theme-full libglfw3 libgles2 libgles2-mesa libpci3 -y
 
 RUN wget -O- https://deb.librewolf.net/keyring.gpg | gpg --dearmor -o /usr/share/keyrings/librewolf.gpg
 
@@ -28,12 +29,12 @@ CMD "/usr/bin/librewolf"
 '''
 
 [run]
-x11 = true
-wayland = false
+x11 = false
+wayland = true
 dri = true
 ipc = true
 pulseaudio = true
-pipewire = false
+pipewire = true
 dbus = true
 network = "slirp4netns"
 uidmap = true
@@ -41,18 +42,19 @@ home = true
 fonts = true
 volumes = [
 	"/home/julio/Downloads:/home/user/Downloads",
-	#"/home/julio/Backups/pixel:/home/user/pixel"
 ]
 devices = [
-	'/dev/kfd', 
+	#'/dev/kfd', 
 ]
 UsbDevices = ["1050:0116"]
 env = [
 	"MOZ_WEBRENDER=1", 
-	"MOZ_USE_XINPUT2=1",
-	"MOZ_DISABLE_RDD_SANDBOX=1",
-	'MOZ_LOG="PlatformDecoderModule:5"',
-	"mesa_glthread=true"
+	#"MOZ_USE_XINPUT2=1",
+	#"MOZ_DISABLE_RDD_SANDBOX=1",
+	#'MOZ_LOG="PlatformDecoderModule:5"',
+	#"mesa_glthread=true"
 ]
 ports = []
 
+[Run.Limits.Pids]
+Limit = 8192

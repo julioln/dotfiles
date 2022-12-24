@@ -13,15 +13,17 @@ CMD ["/usr/bin/telegram-desktop"]
 [run]
 x11 = true
 wayland = false
-dri = false
-ipc = false
+dri = true
+ipc = true
 pulseaudio = true
 dbus = true
 net = true
 uidmap = true
 home = true
 volumes = [
-	'/home/julio/Downloads:/home/user/Downloads'
+	'/home/julio/Downloads:/home/user/Downloads',
+	'/home/julio/Pictures:/home/user/Pictures:ro',
+	'/home/julio/Videos:/home/user/Videos:ro',
 ]
 devices = []
 env = []

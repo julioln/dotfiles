@@ -4,24 +4,17 @@ instructions = '''
 FROM localhost/sandman/base/arch_build
 
 RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-RUN pacman -Syu --noconfirm
+RUN pacman -Syu schedtool pulseaudio pulseaudio-alsa lib32-mesa lib32-libpulse lib32-alsa-lib lib32-alsa-plugins --noconfirm
 
 WORKDIR /tmp/build
 RUN git clone https://aur.archlinux.org/kega-fusion.git 
 WORKDIR kega-fusion
-
-RUN pacman -S $(/bin/sh -c 'source /tmp/build/kega-fusion/PKGBUILD ; echo ${depends[@]} ${depends_x86_64[@]}') --noconfirm
-RUN pacman -S $(/bin/sh -c 'source /tmp/build/kega-fusion/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
-RUN pacman -S pulseaudio pulseaudio-alsa lib32-mesa lib32-libpulse lib32-alsa-lib lib32-alsa-plugins --noconfirm
-
-RUN chown -R user:user /tmp/build
-RUN nice -n 19 sudo -u user makepkg 
-RUN pacman -U *.tar.zst --noconfirm
+RUN low-prio makepkg -si --noconfirm
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*
-RUN rm -rf /tmp/build
-CMD ["/usr/bin/kega-fusion"]
+RUN rm -rf /tmp/*
+CMD ["nice", "-n", "-10", "/usr/bin/kega-fusion"]
 '''
 
 [run]

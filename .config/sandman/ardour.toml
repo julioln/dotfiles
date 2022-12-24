@@ -3,7 +3,7 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM localhost/sandman/base/arch_user
 
-RUN pacman -Syu ardour calf guitarix --noconfirm
+RUN pacman -Syu ardour calf guitarix fluidsynth hydrogen ladspa-plugins lv2-plugins --noconfirm
 RUN rm -rf /var/cache/*
 
 CMD "/usr/bin/ardour6"

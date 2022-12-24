@@ -36,7 +36,6 @@ conts=$(find -L ~/.config/sandman -maxdepth 1 -name *.toml | xargs basename -a |
 [ -n "$conts" ] && for i in $conts; do 
 	echo "Building $i..."
 	if sandman build $i &> /tmp/sandman_build/$i.log; then
-		#sandman run $i true
 		echo "$i Successful"
 	else
 		echo "$i Failed"
@@ -47,5 +46,24 @@ wait
 
 echo "-> Pruning dangling images"
 podman image prune -f &> /tmp/sandman_build/prune.log
+
+echo "Preloading images"
+
+sandman start code true &
+sandman start discord true & 
+sandman start whatsapp true & 
+sandman start signal true & 
+sandman start telegram true & 
+sandman start hexchat true & 
+sandman start element true & 
+sandman start firefox true & 
+sandman start firefox_dev true & 
+sandman start chromium true & 
+sandman start chrome true & 
+sandman start brave true &  
+sandman start tidal-git true &  
+sandman start gimp true &  
+
+wait
 
 echo "All done."

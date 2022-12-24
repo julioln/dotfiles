@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Firefox Dev (Sandman)
+Exec=sandman start firefox_dev
+Terminal=false
+Type=Application

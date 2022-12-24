@@ -16,24 +16,31 @@ RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
 RUN apt autoremove -y
 RUN apt clean -y
-CMD ["/usr/bin/schedtool", "-a", "0,1,2,3,4,5,6,7", "-e", "/usr/games/steam"]
-#CMD ["/usr/games/steam"]
+CMD ["nice", "-n", "-10", "/usr/games/steam"]
 '''
 
 [run]
 x11 = true
-wayland = false
+wayland = true
 dri = true
 ipc = true
 pulseaudio = true
+pipewire = true
 dbus = true
 net = true
 uidmap = true
-home = true
-volumes = []
-devices = []
-env = ["mesa_glthread=true"]
+home = false
+volumes = [
+	"/home/julio/Games/steam:/home/user"
+]
+devices = [
+	"/dev/kfd"
+]
+env = [
+	"mesa_glthread=true"
+]
 ports = []
 
-[Limits.CPU]
-#Cpus = "0,1,2,3,4,5,6,7"
+[Run.Limits.Pids]
+Limit = 16384
+

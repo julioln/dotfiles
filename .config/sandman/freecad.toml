@@ -1,0 +1,35 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM localhost/sandman/base/arch_dev
+
+RUN pacman -Syu freecad qt5-wayland --noconfirm
+
+RUN rm -rf /var/cache/*
+CMD ["/usr/bin/freecad"]
+'''
+
+[run]
+x11 = false
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+pipewire = false
+dbus = true
+network = "slirp4netns"
+uidmap = true
+home = true
+fonts = true
+volumes = [
+	"/home/julio/Downloads:/home/user/Downloads",
+]
+devices = []
+UsbDevices = []
+env = [
+	"QT_QPA_PLATFORM=wayland-egl",
+	"SDL_VIDEODRIVER=wayland",
+	"XDG_SESSION_TYPE=wayland"
+]
+ports = []
+args = []

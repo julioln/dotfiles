@@ -6,16 +6,17 @@ FROM localhost/sandman/base/arch_user
 RUN pacman -Syu element-desktop ttf-dejavu --noconfirm
 RUN rm -rf /var/cache/*
 
-CMD ["/usr/bin/element-desktop", "--hidden"]
+#CMD ["/usr/bin/element-desktop", "--ozone-platform=wayland"]
+CMD ["/usr/bin/element-desktop"]
 '''
 
 [run]
 x11 = true
-wayland = false
+wayland = true
 dri = true
 ipc = true
 pulseaudio = true
-dbus = false
+dbus = true
 net = true
 uidmap = true
 home = true

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ionice -t -c 1 schedtool -R -p 10 -e $@

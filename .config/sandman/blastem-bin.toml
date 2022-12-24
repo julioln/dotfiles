@@ -21,7 +21,7 @@ WORKDIR /home/user
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*
 RUN rm -rf /tmp/*
-CMD ["/usr/bin/blastem"]
+CMD ["nice", "-n", "-10", "/usr/bin/blastem"]
 '''
 
 [run]

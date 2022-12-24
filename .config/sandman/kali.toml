@@ -2,9 +2,10 @@
 instructions = '''
 FROM localhost/sandman/base/kalitools
 ENV DEBIAN_FRONTEND=noninteractive
-RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+#RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
-RUN apt install vim tmux kali-tools-fuzzing kali-tools-vulnerability kali-tools-web kali-tools-database kali-tools-exploitation kali-tools-forensics -y
+#RUN apt install vim tmux kali-tools-fuzzing kali-tools-vulnerability kali-tools-web kali-tools-database kali-tools-exploitation kali-tools-forensics -y
+RUN apt install vim tmux kali-linux-core -y
 
 RUN apt autoremove -y
 RUN apt clean -y
@@ -25,7 +26,7 @@ dbus = false
 network = "host"
 uidmap = false
 volumes = [
-	"/home/julio/Kali:/kalivm",
+	#"/home/julio/Kali:/kalivm",
 	"/home/julio/Loot:/loot",
 	"/home/julio/.local/share/sandman/kali:/root"
 ]

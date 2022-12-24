@@ -1,5 +1,6 @@
 [build]
-instructions = '''
+ContextDirectory = "/home/julio/.config/sandman/files"
+Instructions = '''
 FROM docker.io/ubuntu
 ENV DEBIAN_FRONTEND=noninteractive
 RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
@@ -14,6 +15,9 @@ RUN apt install /tmp/gens.deb -y
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
+
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
 CMD ["/usr/bin/gens"]
 '''
 

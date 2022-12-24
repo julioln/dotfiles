@@ -3,23 +3,39 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM localhost/sandman/base/arch_user
 
-RUN pacman -Syu chromium libva-mesa-driver mesa-vdpau pulseaudio alsa-lib --noconfirm
+RUN pacman -Syu chromium libva-mesa-driver mesa-vdpau libva-utils pulseaudio alsa-lib --noconfirm
 
 RUN rm -rf /var/cache/*
-CMD ["/usr/bin/chromium", "--enable-features=VaapiVideoDecoder", "--use-gl=egl"]
+#CMD ["/usr/bin/chromium", "--enable-features=VaapiVideoDecoder", "--use-gl=egl"]
+CMD ["/usr/bin/chromium", "--enable-features=VaapiVideoDecoder", "--enable-features=VaapiVideoEncoder", "--use-vulkan", "--ozone-platform=wayland"]
 '''
 
 [run]
-x11 = true
-wayland = false
+x11 = false
+wayland = true
 dri = true
 ipc = true
 pulseaudio = true
-dbus = false
+pipewire = false
+dbus = true
 network = "slirp4netns"
 uidmap = true
-volumes = []
-devices = []
+home = true
+fonts = true
+volumes = [
+	"/home/julio/Downloads:/home/user/Downloads",
+]
+devices = [
+	'/dev/kfd', 
+]
+UsbDevices = ["1050:0116"]
 env = []
-ports = []
+ports = [
+	#"8008:8008",
+	#"8009:8009",
+	#"8443:8443",
+]
 args = []
+
+[Run.Limits.Pids]
+Limit = 8192

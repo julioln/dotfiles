@@ -35,12 +35,12 @@ RUN pacman -Rns $(/bin/sh -c 'source /tmp/build/tidal-hifi-git/PKGBUILD ; echo $
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*
 RUN rm -rf /tmp/*
-CMD "/usr/bin/tidal-hifi"
+CMD ["/usr/bin/tidal-hifi", "--ozone-platform=wayland"]
 '''
 
 [run]
-x11 = true
-wayland = false
+x11 = false
+wayland = true
 dri = true
 ipc = true
 pulseaudio = true
@@ -51,5 +51,4 @@ home = true
 volumes = []
 devices = []
 env = []
-
 ports = []

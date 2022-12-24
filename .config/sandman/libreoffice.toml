@@ -12,7 +12,7 @@ CMD "/usr/bin/libreoffice"
 [run]
 x11 = true
 wayland = false
-dri = false
+dri = true
 ipc = true
 pulseaudio = false
 dbus = false
@@ -21,9 +21,12 @@ uidmap = true
 home = true
 volumes = [
   '/home/julio/.local/share/fonts:/home/user/.local/share/fonts:ro',
-  '/usr/share/fonts:/usr/share/fonts:ro'
+  '/usr/share/fonts:/usr/share/fonts:ro',
+  '/home/julio/Documents:/home/user/Documents',
+  '/home/julio/Downloads:/home/user/Downloads',
+  '/home/julio/Desktop:/home/user/Desktop',
+  '/home/julio/Pictures:/home/user/Pictures',
 ]
-#volumes = []
 devices = []
 env = []
 ports = []

@@ -3,9 +3,9 @@
 mute=$(pactl get-sink-mute @DEFAULT_SINK@)
 
 if [ "$mute" = "Mute: yes" ]; then
-  dunstify -u low -t 2000 -i audio-volume-muted -h string:x-dunst-stack-tag:myvolume "Muted"
+  dunstify -t 2500 -i audio-volume-muted -h string:x-dunst-stack-tag:myvolume "Muted"
 else
   current_vol=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oe '[0-9]\+%' | head -n 1 | tr -d '%')
   if [ -z "$current_vol" ]; then exit 1; fi
-  dunstify -u low -t 2000 -i audio-volume-high -h string:x-dunst-stack-tag:myvolume -h int:value:"$current_vol" "Volume: ${current_vol}%"
+  dunstify -t 2500 -i audio-volume-high -h string:x-dunst-stack-tag:myvolume -h int:value:"$current_vol" "Volume: ${current_vol}%"
 fi

@@ -1,6 +1,9 @@
 [Desktop Entry]
 Version=1.0
 Name=Firefox (Sandman)
-Exec=sandman start firefox
+Exec=sandman start firefox firefox %u
 Terminal=false
 Type=Application
+StartupWMClass=Firefox
+Categories=Network;WebBrowser;
+MimeType=x-scheme-handler/unknown;x-scheme-handler/about;text/html;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https

@@ -214,6 +214,8 @@ bar {
     }
 }
 
+workspace_layout tabbed
+
 client.focused #333333 #444444 #cccccc
 client.focused_inactive #333333 #252525 #cccccc
 client.unfocused #333333 #252525 #888888

@@ -1,0 +1,23 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch
+
+RUN pacman -Syu speedtest-cli --noconfirm
+
+CMD "/usr/bin/speedtest-cli"
+'''
+
+[run]
+x11 = false
+wayland = false
+dri = false
+ipc = false
+pulseaudio = false
+dbus = false
+network = "host"
+uidmap = false
+home = false
+volumes = []
+devices = []
+env = []
+ports = []

@@ -20,13 +20,14 @@ WORKDIR /home/user
 #RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*
 RUN rm -rf /tmp/*
-CMD ["/opt/vscodium-bin/codium"]
+CMD ["/opt/vscodium-bin/codium", "--ozone-platform=wayland"]
+#CMD ["/opt/vscodium-bin/codium"]
 '''
 
 [run]
 name = "vscodium"
-x11 = true
-wayland = false
+x11 = false
+wayland = true
 dri = true
 ipc = true
 pulseaudio = false
@@ -45,7 +46,8 @@ volumes = [
 devices = []
 env = [
 	"GOPATH=/home/user/go",
-	"PATH=/home/user/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+	"PATH=/home/user/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+	"XDG_RUNTIME_DIR=/run/user/1000",
 ]
 ports = []
 

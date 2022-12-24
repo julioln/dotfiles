@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Intellij Idea (Sandman)
+Exec=sandman start intellij
+Terminal=false
+Type=Application

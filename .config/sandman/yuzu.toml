@@ -1,0 +1,38 @@
+[build]
+contextDirectory = "/home/julio/.config/sandman/files"
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -Syu qt5-wayland breeze yuzu --noconfirm
+
+WORKDIR /home/user
+
+RUN rm -rf /tmp/*
+RUN rm -rf /var/cache/*
+CMD ["nice", "-n", "-10", "/usr/bin/yuzu"]
+'''
+
+[run]
+x11 = false
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+pipewire = false
+dbus = true
+net = false
+uidmap = true
+home = true
+fonts = true
+volumes = [
+  '/home/julio/Downloads:/home/user/Downloads', 
+  '/home/julio/Games:/home/user/Games',
+]
+devices = []
+env = [
+	"QT_QPA_PLATFORM=wayland-egl",
+	"SDL_VIDEODRIVER=wayland",
+	"XDG_SESSION_TYPE=wayland"
+]
+ports = []
+args = []

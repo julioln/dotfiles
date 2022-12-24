@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Kega Fusion (Sandman)
+Exec=sandman start kega
+Terminal=false
+Type=Application

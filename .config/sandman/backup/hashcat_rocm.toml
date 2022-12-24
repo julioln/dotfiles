@@ -1,11 +1,11 @@
 [build]
 contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
-FROM localhost/sandman/base/opencl-amd
+FROM localhost/sandman/base/rocm-opencl-runtime
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 
 # Hashcat
-RUN pacman -S hashcat clinfo --noconfirm
+RUN pacman -S hashcat clinfo hcxtools --noconfirm
 
 # Cleanup
 RUN rm -rf /tmp/*

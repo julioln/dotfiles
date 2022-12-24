@@ -10,5 +10,5 @@ percent=$(awk "BEGIN { pc=100*${current_br}/${max_br}; i=int(pc); print (pc-i<0.
 
 if [ -z "$percent" ]; then exit 1; fi
 
-dunstify -u low -t 2000 -i display-brightness -h string:x-dunst-stack-tag:mybrightness -h int:value:"$percent" "Brightness: ${percent}%"
+dunstify -t 2500 -i display-brightness -h string:x-dunst-stack-tag:mybrightness -h int:value:"$percent" "Brightness: ${percent}%"
 

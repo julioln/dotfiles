@@ -1,0 +1,170 @@
+// =============================================================================
+//
+// Waybar configuration
+//
+// Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+//
+// =============================================================================
+
+{
+    // -------------------------------------------------------------------------
+    // Global configuration
+    // -------------------------------------------------------------------------
+
+    "layer": "top",
+
+    "position": "top",
+
+    // If height property would be not present, it'd be calculated dynamically
+    "height": 24,
+
+    "modules-left": [
+        "sway/workspaces",
+        "sway/window",
+    ],
+    "modules-center": [
+    ],
+    "modules-right": [
+	"network",
+        "custom/temperature",
+        "custom/gpu",
+        "custom/gpu_vram",
+        "cpu",
+        //"custom/cpu",
+        "custom/memory",
+        "pulseaudio",
+        "battery",
+        "tray",
+        "clock#date",
+    ],
+
+
+    // -------------------------------------------------------------------------
+    // Modules
+    // -------------------------------------------------------------------------
+
+    "cpu": {
+        "interval": 1,
+	"format": "{icon} {}",
+	"format-icons": "\uf2db",
+    },
+
+    "custom/cpu": {
+        "exec": "nice ~/.config/i3blocks/cpu_usage_2",
+        "restart-interval": 1,
+	"format": "{icon} {}",
+	"format-icons": "\uf2db",
+    },
+
+    "custom/gpu": {
+        "exec": "nice ~/.config/i3blocks/gpu_usage",
+        "restart-interval": 1,
+	"format": "{icon} {}",
+	"format-icons": "\uf1b2",
+    },
+
+    "custom/gpu_vram": {
+        "exec": "nice ~/.config/i3blocks/gpu_vram",
+        "restart-interval": 2,
+	"format": "{icon} {}",
+	"format-icons": "\uf538",
+    },
+
+    "custom/memory": {
+        "exec": "nice ~/.config/i3blocks/memory",
+        "restart-interval": 2,
+	"format": "{icon} {}",
+	"format-icons": "\uf538",
+    },
+
+    "custom/temperature": {
+        "exec": "nice ~/.config/i3blocks/temperature_2",
+        "restart-interval": 2,
+	"format": "{icon} {}",
+        "format-icons": [
+            "\uf2cb",
+            "\uf2ca",
+            "\uf2c9",
+            "\uf2c8",
+            "\uf2c7" 
+        ],
+    },
+
+    "battery": {
+        "interval": 10,
+        "states": {
+            "warning": 20,
+            "critical": 10
+        },
+        // Connected to AC
+        "format": "  {icon}  {capacity}%", // Icon: bolt
+        // Not connected to AC
+        //"format-discharging": "{icon}  {capacity}% ({time}) -{power}W",
+        "format-discharging": "{icon}  {capacity}%",
+	//"format-time": "{H}:{M}",
+        "format-icons": [
+            "", // Icon: battery-full
+            "", // Icon: battery-three-quarters
+            "", // Icon: battery-half
+            "", // Icon: battery-quarter
+            ""  // Icon: battery-empty
+        ],
+        "tooltip": true
+    },
+
+    "cpu": {
+        "interval": 1,
+        "format": "{icon} {usage}%",
+	"format-icons": "\uf2db",
+    },
+
+    "clock#date": {
+      "interval": 10,
+      "format": "{:%a %b %d %Y %I:%M %p}", // Icon: calendar-alt
+      "tooltip-format": "{:%e %B %Y}"
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
+        "tooltip": false
+    },
+
+    "sway/window": {
+        "format": "{title}",
+        "max-length": 200
+    },
+
+    "sway/workspaces": {
+        "all-outputs": false,
+        "disable-scroll": false,
+        "format": "{name}",
+    },
+
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{icon}  {volume}%",
+        "format-bluetooth": "{icon}  {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "network": {
+        "interval": 1,
+        "format": "\uf106 {bandwidthUpBits}   \uf107 {bandwidthDownBits}",
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    }
+
+}

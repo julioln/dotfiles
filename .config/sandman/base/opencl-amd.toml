@@ -5,34 +5,35 @@ FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 ADD makepkg.conf /etc/makepkg.conf
 ADD pacman.conf /etc/pacman.conf
+ADD localtime /etc/localtime
+ADD bin/* /usr/local/bin
 
-# Base setup
-RUN pacman -Syyyu base-devel git distcc --asdeps --noconfirm
+RUN pacman -Syyyu schedtool flatpak-xdg-utils alsa-lib libpulse --noconfirm
+RUN ln -s /usr/lib/flatpak-xdg-utils/xdg-open /usr/local/bin/xdg-open
+RUN locale-gen
+
 RUN useradd -m --uid 1000 user
-RUN mkdir -p /run/user/1000
+RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
 RUN mkdir -p /tmp/build
 
+# Base setup
+RUN pacman -S base-devel git distcc --asdeps --noconfirm
+RUN sed -i 's/.*exit \$E_ROOT.*//g' /usr/bin/makepkg
+
 # ncurses5-compat-libs
 WORKDIR /tmp/build
-RUN git clone https://aur.archlinux.org/ncurses5-compat-libs.git 
-WORKDIR ncurses5-compat-libs
-RUN pacman -S $(/bin/sh -c 'source /tmp/build/ncurses5-compat-libs/PKGBUILD ; echo ${depends[@]}') --noconfirm
-RUN chown -R user:user /tmp/build
 RUN echo '1' | gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys CC2AF4472167BE03
 RUN echo '1' | sudo -u user gpg --command-fd 0 --keyserver hkp://keyserver.ubuntu.com --search-keys CC2AF4472167BE03
-RUN nice -n 19 sudo -u user makepkg
-RUN pacman -U *.tar.zst --noconfirm
+RUN git clone https://aur.archlinux.org/ncurses5-compat-libs.git 
+WORKDIR ncurses5-compat-libs
+RUN yes | low-prio makepkg -si --noconfirm
 
 # Opencl-amd
 WORKDIR /tmp/build
 RUN git clone https://aur.archlinux.org/opencl-amd.git 
 WORKDIR opencl-amd
-RUN pacman -S $(/bin/sh -c 'source /tmp/build/opencl-amd/PKGBUILD ; echo ${depends[@]} | sed "s/ncurses5-compat-libs//"') --noconfirm
-RUN pacman -S $(/bin/sh -c 'source /tmp/build/opencl-amd/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
-RUN chown -R user:user /tmp/build
-RUN nice -n 19 sudo -u user makepkg 
-RUN pacman -U *.tar.zst --noconfirm
+RUN yes | low-prio makepkg -si --noconfirm
 
 # Cleanup
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm

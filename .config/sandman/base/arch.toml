@@ -5,9 +5,10 @@ FROM docker.io/archlinux
 ADD arch_mirrorlist /etc/pacman.d/mirrorlist
 ADD makepkg.conf /etc/makepkg.conf
 ADD pacman.conf /etc/pacman.conf
+ADD localtime /etc/localtime
+ADD bin/* /usr/local/bin
 
-RUN pacman -Syyyu --noconfirm
-RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+RUN pacman -Syyyu schedtool --noconfirm
 RUN locale-gen
 
 RUN rm -rf /var/cache/*

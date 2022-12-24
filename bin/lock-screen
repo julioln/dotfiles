@@ -1,5 +1,5 @@
 #!/bin/sh
 
 notify-send -i channel-secure -t 1000 -u critical "Locking screen..."
-sleep 0.5 && xset dpms force off &
-exec i3lock -f -c 222222 --nofork
+sleep 1 && xset dpms force off &
+exec i3lock -e -f -c 222222 --nofork --pointer default

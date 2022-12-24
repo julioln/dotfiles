@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=Tiled (Sandman)
+Exec=sandman start tiled
+Terminal=false
+Type=Application
