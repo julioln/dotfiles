@@ -84,14 +84,12 @@ exec systemd-run --user --slice=session.slice --nice=-10 --unit=swayidle swayidl
         timeout 10 'if pgrep -x swaylock; then swaymsg "output * power off"; fi' resume 'swaymsg "output * power on"'
 
 # Autostart
-exec systemd-run --user --slice=session.slice --nice=-10 --unit=lxqt-policykit-agent --setenv=QT_QPA_PLATFORMTHEME /usr/bin/lxqt-policykit-agent 
-exec systemd-run --user --slice=session.slice --nice=10 --unit=nm-applet-icon /usr/bin/nm-applet --indicator
-exec systemd-run --user --slice=session.slice --nice=10 --unit=blueman-applet-icon /usr/bin/blueman-applet
+exec systemd-run --user --slice=session.slice --nice=-5 --unit=lxqt-policykit-agent --setenv=QT_QPA_PLATFORMTHEME /usr/bin/lxqt-policykit-agent 
+exec systemd-run --user --slice=session.slice --nice=5 --unit=nm-applet-icon /usr/bin/nm-applet --indicator
+exec systemd-run --user --slice=session.slice --nice=5 --unit=blueman-applet-icon /usr/bin/blueman-applet
 exec systemd-run --user --slice=session.slice --nice=10 --unit=wl-paste wl-paste -t text --watch clipman store --no-persist --max-items=1000
 exec systemd-run --user --slice=session.slice --nice=10 --unit=power-profile-notifier /home/julio/Scripts/watch-notify-power-profile-change.sh
 exec systemd-run --user --slice=session.slice --nice=10 --unit=kernel-notifier /home/julio/Scripts/notify-kernel-messages.sh
-#exec nice gammastep -P -o -O 6500K -g 0.95:0.95:0.95
-#exec nice gammastep -P -o -O 6500K -g 0.9:0.87:0.95
 
 workspace_layout tabbed
 for_window [app_id="lxqt-policykit-agent"] floating enable

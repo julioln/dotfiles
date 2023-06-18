@@ -50,35 +50,35 @@
     },
 
     "custom/cpu": {
-        "exec": "nice ~/.config/i3blocks/cpu_usage_2",
+        "exec": "~/.config/i3blocks/cpu_usage_2",
         "restart-interval": 1,
 	"format": "{icon} {}",
 	"format-icons": "\uf2db",
     },
 
     "custom/gpu": {
-        "exec": "nice ~/.config/i3blocks/gpu_usage",
+        "exec": "~/.config/i3blocks/gpu_usage",
         "restart-interval": 1,
 	"format": "{icon} {}",
 	"format-icons": "\uf1b2",
     },
 
     "custom/gpu_vram": {
-        "exec": "nice ~/.config/i3blocks/gpu_vram",
+        "exec": "~/.config/i3blocks/gpu_vram",
         "restart-interval": 2,
 	"format": "{icon} {}",
 	"format-icons": "\uf538",
     },
 
     "custom/memory": {
-        "exec": "nice ~/.config/i3blocks/memory",
+        "exec": "~/.config/i3blocks/memory",
         "restart-interval": 2,
 	"format": "{icon} {}",
 	"format-icons": "\uf538",
     },
 
     "custom/temperature": {
-        "exec": "nice ~/.config/i3blocks/temperature_2",
+        "exec": "~/.config/i3blocks/temperature_2",
         "restart-interval": 2,
 	"format": "{icon} {}",
         "format-icons": [

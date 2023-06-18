@@ -32,6 +32,7 @@ volumes = [
 	#'/home/julio/.local/share/fonts:/home/user/.local/share/fonts:ro',
 	"/home/julio/Projects:/home/user/Projects",
 	"/home/julio/Downloads:/home/user/Downloads",
+	"/home/julio/Sandman/kali:/home/user/Kali",
 	#"/tmp/makepkg:/tmp/makepkg",
 	#"/home/julio/Kali:/home/user/Kali",
 ]

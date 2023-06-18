@@ -48,6 +48,8 @@ alias notify-command='notify-send -i utilities-terminal "Command finished" "Retu
 
 alias weather='curl wttr.in'
 
+alias kali='podman exec -it kali bash'
+
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
 # END_KITTY_SHELL_INTEGRATION

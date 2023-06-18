@@ -12,7 +12,7 @@ RUN rm -rf /tmp/*
 #CMD ["/usr/bin/signal-desktop", "--use-tray-icon"]
 #CMD ["signal-desktop", "--start-in-tray", "--ozone-platform=wayland"]
 #CMD ["signal-desktop", "--disable-gpu", "--ozone-platform=wayland"]
-CMD ["signal-desktop", "--ozone-platform=wayland"]
+CMD ["signal-desktop", "--use-tray-icon", "--ozone-platform=wayland"]
 #CMD ["signal-desktop"]
 '''
 

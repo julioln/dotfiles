@@ -27,6 +27,8 @@ net = true
 uidmap = false
 volumes = []
 devices = []
-env = []
+env = [
+	"_JAVA_AWT_WM_NONREPARENTING=1"
+]
 ports = ['8080:8080']
 

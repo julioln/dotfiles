@@ -28,7 +28,7 @@ devices = []
 UsbDevices = ["1050:0116"]
 env = [
 	"MOZ_GTK_TITLEBAR_DECORATION=client", 
-	"MOZ_USE_XINPUT2=1",
+	#"MOZ_USE_XINPUT2=1",
 	"MOZ_WEBRENDER=1"
 ]
 ports = []

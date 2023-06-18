@@ -3,6 +3,7 @@ contextDirectory = "/home/julio/.config/sandman/files"
 instructions = '''
 FROM localhost/sandman/base/arch_build
 
+#RUN pacman -S libnotify libappindicator-gtk3 --noconfirm
 RUN pacman -S libnotify --noconfirm
 
 # Nodejs-nativefier
@@ -16,7 +17,7 @@ RUN pacman -S $(/bin/sh -c 'source /tmp/build/nodejs-nativefier/PKGBUILD ; echo 
 RUN pacman -S $(/bin/sh -c 'source /tmp/build/nodejs-nativefier/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
 
 RUN chown -R user:user /tmp/build
-RUN nice -n 19 sudo -u user makepkg 
+RUN low-prio sudo -u user makepkg 
 RUN pacman -U *.tar.zst --noconfirm
 
 # Whatsapp
@@ -31,9 +32,9 @@ RUN pacman -S $(/bin/sh -c 'source /tmp/build/whatsapp-nativefier/PKGBUILD ; ech
 
 RUN chown -R user:user /tmp/build
 RUN sed -i 's#.*user-agent.*#--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15" \\#' PKGBUILD
-#RUN sed -i 's#.*tray.*#--tray="use-tray" \\#' PKGBUILD
-RUN sed -i 's#.*tray.*#\\#' PKGBUILD
-RUN nice -n 19 sudo -u user makepkg 
+RUN sed -i 's#.*tray.*#--tray="true" \\#' PKGBUILD
+#RUN sed -i 's#.*tray.*#\\#' PKGBUILD
+RUN low-prio sudo -u user makepkg 
 RUN pacman -U *.tar.zst --noconfirm
 
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
