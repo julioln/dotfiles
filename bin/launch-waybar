@@ -1,5 +1,11 @@
 #!/bin/sh
 
 killall waybar
-sleep 1
-systemd-run --user --slice=session.slice --nice=5 --unit=sway-session-waybar waybar $@
+sleep 0.5
+
+if systemctl --user list-unit-files | grep sway-session-waybar.service; then
+  systemctl --user restart sway-session-waybar.service
+else
+  systemd-run --user --slice=session.slice --nice=5 --unit=sway-session-waybar waybar $@
+fi
+

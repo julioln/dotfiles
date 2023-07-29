@@ -1,0 +1,32 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/opencl-amd
+#FROM localhost/sandman/base/rocm-opencl-runtime
+
+RUN pacman -Syu kdenlive qt5-wayland breeze libva-mesa-driver mesa-vdpau --noconfirm
+
+RUN rm -rf /tmp/*
+RUN rm -rf /var/cache/*
+
+CMD ["/usr/bin/kdenlive"]
+'''
+
+[run]
+x11 = false
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = false
+uidmap = true
+home = true
+volumes = ['/home/julio/Videos:/home/user/Videos']
+devices = ['/dev/kfd']
+env = [
+	"QT_QPA_PLATFORM=wayland-egl",
+	"SDL_VIDEODRIVER=wayland",
+	"XDG_SESSION_TYPE=wayland"
+]
+ports = []
+

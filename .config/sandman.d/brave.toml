@@ -1,0 +1,57 @@
+[build]
+Instructions = '''
+FROM docker.io/ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+ADD localtime /etc/localtime
+
+RUN apt update
+RUN apt dist-upgrade -y
+RUN apt install apt-transport-https curl wget gpg libnotify-bin libnotify4 libfido2-1 pulseaudio mesa-va-drivers mesa-vdpau-drivers ffmpeg vainfo adwaita-icon-theme-full xserver-xorg-video-amdgpu libglfw3 libgles2 libgles2-mesa -y
+
+RUN curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+RUN echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" > /etc/apt/sources.list.d/brave-browser-release.list
+
+RUN apt update
+RUN apt install brave-browser -y
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+WORKDIR /home/user
+
+RUN apt autoremove -y
+RUN apt clean -y
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+
+#CMD ["/usr/bin/brave-browser", "--ozone-platform=wayland"]
+CMD ["/usr/bin/brave-browser", "--enable-features=VaapiVideoDecoder", "--enable-features=VaapiVideoEncoder", "--use-vulkan", "--ozone-platform=wayland"]
+'''
+
+[run]
+x11 = false
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+pipewire = false
+dbus = true
+network = "slirp4netns"
+uidmap = true
+home = true
+fonts = true
+volumes = [
+	#"/home/julio/Downloads:/home/user/Downloads",
+]
+devices = [
+	'/dev/kfd', 
+]
+UsbDevices = ["1050:0116"]
+env = [
+	"mesa_glthread=true"
+]
+ports = []
+
+[Run.Limits.Pids]
+Limit = 8192

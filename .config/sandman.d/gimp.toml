@@ -1,0 +1,29 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -Syu gimp --noconfirm
+RUN rm -rf /var/cache/*
+
+CMD "/usr/bin/gimp"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = false
+pulseaudio = false
+dbus = false
+net = false
+uidmap = true
+home = true
+volumes = [
+  '/home/julio/Downloads:/home/user/Downloads', 
+  '/home/julio/Pictures:/home/user/Pictures', 
+  '/usr/share/fonts:/usr/share/fonts:ro'
+]
+devices = []
+env = []
+ports = []
+args = []

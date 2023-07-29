@@ -1,0 +1,36 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_dev
+
+RUN pacman -Syu ant lldb maven intellij-idea-community-edition xorg-server libxrender libxtst --noconfirm
+RUN archlinux-java fix
+
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+
+WORKDIR /home/user
+CMD "idea"
+'''
+
+[run]
+name = "intellij"
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+network = "host"
+uidmap = true
+home = true
+fonts = true
+volumes = [
+	"/home/julio/Repos:/home/user/Repos",
+	"/home/julio/Projects:/home/user/Projects",
+	"/home/julio/Downloads:/home/user/Downloads",
+]
+devices = []
+env = [
+	"_JAVA_AWT_WM_NONREPARENTING=1"
+]
+ports = []

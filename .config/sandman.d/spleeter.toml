@@ -1,0 +1,29 @@
+[build]
+instructions = '''
+FROM docker.io/researchdeezer/spleeter
+ADD bin/* /usr/local/bin
+RUN apt install schedtool -y
+CMD ["low-prio", "/usr/bin/bash"]
+'''
+
+[run]
+x11 = false
+wayland = false
+dri = true
+ipc = true
+pulseaudio = false
+pipewire = false
+dbus = false
+network = "slirp4netns"
+uidmap = false
+home = false
+volumes = [
+  '/home/julio/Downloads:/downloads', 
+  '/home/julio/Music:/music', 
+]
+fonts = false
+devices = []
+env = []
+ports = []
+args = []
+

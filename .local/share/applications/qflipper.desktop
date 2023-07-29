@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=qFlipper (Sandman)
+Exec=sandman start qflipper
+Terminal=false
+Type=Application

@@ -1,0 +1,32 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -Syu retroarch libxinerama libxrandr vulkan-radeon --noconfirm
+RUN rm -rf /var/cache/*
+
+CMD ["/usr/local/bin/high-prio", "/usr/bin/retroarch"]
+'''
+
+[run]
+x11 = false
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+pipewire = true
+dbus = true
+net = true
+uidmap = true
+home = true
+volumes = [
+  '/home/julio/Downloads:/home/user/Downloads', 
+  '/home/julio/Games:/home/user/Games',
+]
+fonts = true
+devices = []
+env = []
+ports = []
+
+[Run.Limits.Pids]
+Limit = 1024

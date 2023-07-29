@@ -1,0 +1,47 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_build
+
+RUN pacman -Syu picocom qt6-wayland --noconfirm
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/qflipper-git.git 
+WORKDIR qflipper-git
+RUN low-prio makepkg -si --noconfirm
+
+RUN rm -rf /tmp/*
+RUN rm -rf /var/cache/*
+
+WORKDIR /root
+CMD ["/usr/bin/qFlipper"]
+'''
+
+[run]
+x11 = false
+wayland = true
+dri = false
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = false
+home = false
+Priviledged = true
+volumes = [
+	"/home/julio/Downloads:/root/Downloads",
+	"/home/julio/Loot:/root/Loot",
+]
+devices = [
+	#"/dev/ttyACM0",
+]
+UsbDevices = [
+	#"0483",
+]
+env = [
+	"QT_QPA_PLATFORM=wayland-egl",
+	"SDL_VIDEODRIVER=wayland",
+	"XDG_SESSION_TYPE=wayland",
+	"XDG_RUNTIME_DIR=/run/user/1000"
+]
+ports = []
+

@@ -1,0 +1,29 @@
+[build]
+instructions = '''
+FROM docker.io/archlinux
+ADD arch_mirrorlist /etc/pacman.d/mirrorlist
+ADD makepkg.conf /etc/makepkg.conf
+ADD pacman.conf /etc/pacman.conf
+ADD localtime /etc/localtime
+ADD bin/* /usr/local/bin
+
+RUN pacman -Syyyu schedtool flatpak-xdg-utils alsa-lib libpulse --noconfirm
+RUN ln -s /usr/lib/flatpak-xdg-utils/xdg-open /usr/local/bin/xdg-open
+RUN locale-gen
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+
+RUN pacman -S base-devel sudo git distcc clang --asdeps --noconfirm
+RUN mkdir -p /tmp/build
+RUN chown -R user:user /tmp/build
+
+# Setup makepkg to run as root
+RUN sed -i 's/.*exit \$E_ROOT.*//g' /usr/bin/makepkg
+
+WORKDIR /tmp/build
+
+RUN rm -rf /var/cache/*
+CMD ["/usr/bin/bash"]
+'''

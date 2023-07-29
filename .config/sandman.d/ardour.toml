@@ -1,0 +1,29 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -Syu ardour pipewire-jack wireplumber calf guitarix fluidsynth hydrogen ladspa-plugins lv2-plugins --noconfirm
+RUN rm -rf /var/cache/*
+
+CMD ["/usr/local/bin/high-prio", "/usr/bin/ardour7"]
+'''
+
+[run]
+x11 = true
+wayland = true
+dri = true
+ipc = true
+pulseaudio = false
+pipewire = true
+dbus = true
+net = false
+uidmap = true
+home = true
+fonts = true
+volumes = [
+	'/home/julio/Downloads:/home/user/Downloads', 
+	'/home/julio/Music:/home/user/Music',
+]
+devices = []
+env = []
+ports = []

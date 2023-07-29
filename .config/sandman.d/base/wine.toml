@@ -1,0 +1,27 @@
+[build]
+instructions = '''
+FROM docker.io/ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+ADD localtime /etc/localtime
+
+RUN dpkg --add-architecture i386
+RUN apt update
+RUN apt dist-upgrade -y
+RUN apt install wget -y
+
+RUN mkdir -pm755 /etc/apt/keyrings
+RUN wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+
+RUN apt update
+RUN apt dist-upgrade -y
+#RUN apt install --install-recommends winehq-stable winetricks zenity adwaita-icon-theme-full -y
+RUN apt install --install-recommends winehq-staging winetricks zenity adwaita-icon-theme-full -y
+
+RUN apt autoremove -y
+RUN apt clean -y
+RUN rm -rf /tmp/*
+
+WORKDIR /
+'''
+

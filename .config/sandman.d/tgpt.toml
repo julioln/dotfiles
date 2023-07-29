@@ -1,0 +1,12 @@
+[Build]
+Instructions = '''
+FROM docker.io/archlinux
+RUN pacman -Syyyu curl --noconfirm
+RUN curl -sSL https://raw.githubusercontent.com/aandrew-me/tgpt/main/install | bash -s /usr/local/bin
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+CMD "/usr/bin/tgpt"
+'''
+
+[Run]
+Net = true

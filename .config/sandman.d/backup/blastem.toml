@@ -1,0 +1,68 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_build
+
+RUN pacman -S pulseaudio pipewire fontconfig ttf-dejavu xcftools --noconfirm
+
+# vasm
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/vasm.git 
+WORKDIR vasm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+# python2-pillow
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/python2-pillow.git 
+WORKDIR python2-pillow
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/python2-pillow/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/python2-pillow/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+#RUN pacman -U $(/bin/sh -c 'source /tmp/build/python2-pillow/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+RUN pacman -U *.tar.zst --noconfirm
+
+# blastem
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/blastem.git 
+WORKDIR blastem
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/blastem/PKGBUILD ; echo ${depends[@]}') --noconfirm
+#RUN pacman -S $(/bin/sh -c 'source /tmp/build/blastem/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+RUN pacman -S mercurial --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+#RUN pacman -U $(/bin/sh -c 'source /tmp/build/blastem/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+RUN pacman -U *.tar.zst --noconfirm
+
+# Cleanup
+
+WORKDIR /home/user
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/build
+CMD ["/usr/bin/blastem"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = false
+pulseaudio = true
+dbus = false
+net = false
+uidmap = true
+volumes = ['/home/julio/Games/genesis:/home/user']
+devices = []
+env = []
+ports = []
+

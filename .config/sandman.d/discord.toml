@@ -1,0 +1,45 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+ADD https://discord.com/api/download?platform=linux&format=tar.gz /tmp/discord.tar.gz
+RUN tar -xzvf /tmp/discord.tar.gz -C /opt
+RUN ln -sf /opt/Discord /opt/discord
+RUN pacman -S $(pacman -Si discord | grep Depends | cut -d ':' -f 2) --noconfirm
+RUN pacman -Syu pipewire libpulse flatpak-xdg-utils --noconfirm
+
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+
+#CMD ["/opt/discord/Discord", "--start-minimized"]
+CMD ["/opt/discord/Discord", "--enable-features=UseOzonePlatform", "--ozone-platform=wayland"]
+#CMD ["/opt/discord/Discord", "--ozone-platform=wayland"]
+#CMD ["/opt/discord/Discord", "--ignore-gpu-blocklist", "--disable-features=UseOzonePlatform", "--enable-features=VaapiVideoDecoder", "--use-gl=desktop", "--enable-gpu-rasterization", "--enable-zero-copy"] 
+#CMD ["/opt/discord/Discord"]
+'''
+[run]
+x11 = true
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+pipewire = true
+dbus = true
+net = true
+uidmap = true
+home = true
+fonts = true
+volumes = [
+	'/home/julio/Downloads:/home/user/Downloads', 
+	'/home/julio/Pictures:/home/user/Pictures:ro', 
+	'/home/julio/Pictures:/home/julio/Pictures:ro', 
+	'/home/julio/Videos:/home/user/Videos:ro',
+	'/home/julio/Videos:/home/julio/Videos:ro',
+]
+devices = [
+	#'/dev/video0', 
+	#'/dev/kfd'
+]
+env = []
+ports = []
+

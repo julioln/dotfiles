@@ -1,0 +1,16 @@
+[Defaults.Build]
+ContextDirectory = "/home/julio/.config/sandman.d/files"
+Compression = 4
+
+[Defaults.Build.Limits]
+Ulimit = [
+	"nproc=8192", 
+	"nofile=8192", 
+]
+
+[Defaults.Run]
+HomePath = "/home/user"
+CgroupParent = "app.slice"
+
+[Defaults.Run.Limits.Pids]
+Limit = 1024

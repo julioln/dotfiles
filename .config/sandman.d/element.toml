@@ -1,0 +1,25 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -Syu element-desktop ttf-dejavu --noconfirm
+RUN rm -rf /var/cache/*
+
+#CMD ["/usr/bin/element-desktop", "--ozone-platform=wayland"]
+CMD ["/usr/bin/element-desktop"]
+'''
+
+[run]
+x11 = true
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+home = true
+volumes = []
+devices = []
+env = []
+ports = []

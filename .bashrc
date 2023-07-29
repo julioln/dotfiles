@@ -26,7 +26,7 @@ alias all-running-containers="podman ps | tail -n +2 | awk '{print \$NF}'"
 alias all-containers="podman ps -a | tail -n +2 | awk '{print \$NF}'"
 alias all-containers-really="podman ps --all --storage | tail -n +2 | awk '{print \$NF}'"
 alias stale-containers="podman ps --filter status=created --format '{{.ID}}'"
-alias sandman-build-all-base-arch="podman pull docker.io/library/archlinux ; sandman build base/arch & sandman build base/arch_build & sandman build base/arch_dev & sandman build base/arch_user ; wait"
+alias sandman-build-all-base-arch="podman pull docker.io/library/archlinux ; sandman build base/arch & sandman build base/arch_build & sandman build base/arch_dev & sandman build base/arch_user & sandman build base/opencl-amd ; wait"
 
 alias battery-info="find -L /sys/class/power_supply/BAT0 -maxdepth 1 -type f -exec grep '' '{}' \+ | sort"
 alias battery-power="cat /sys/class/power_supply/BAT0/power_now"
@@ -49,6 +49,8 @@ alias notify-command='notify-send -i utilities-terminal "Command finished" "Retu
 alias weather='curl wttr.in'
 
 alias kali='podman exec -it kali bash'
+
+alias mount-sdcard='sudo mount -o uid=1000,gid=1000 /dev/mmcblk0p1 /media/sdcard/'
 
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi

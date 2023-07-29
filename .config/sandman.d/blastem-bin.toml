@@ -1,0 +1,40 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_build
+
+RUN pacman -S pulseaudio pipewire fontconfig ttf-dejavu xcftools --noconfirm
+
+RUN mkdir -p /tmp/build
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/blastem-bin.git 
+WORKDIR blastem-bin
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/blastem-bin/PKGBUILD ; echo ${depends[@]}') --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U *.tar.zst --noconfirm
+
+WORKDIR /home/user
+
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+CMD ["/usr/local/bin/high-prio", "/usr/bin/blastem"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = false
+pulseaudio = true
+dbus = false
+net = false
+uidmap = true
+fonts = false
+volumes = ['/home/julio/Games/genesis:/home/user']
+devices = []
+env = []
+ports = []
+

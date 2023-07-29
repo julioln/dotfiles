@@ -1,0 +1,26 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/opencl-amd
+
+RUN pacman -Syu libdecor libepoxy libxkbcommon blender --noconfirm
+
+RUN rm -rf /tmp/*
+RUN rm -rf /var/cache/*
+
+CMD "/usr/bin/blender"
+'''
+
+[run]
+x11 = false
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+dbus = false
+net = false
+uidmap = true
+home = true
+volumes = ['/home/julio/Videos:/home/user/Videos', '/home/julio/Downloads:/home/user/Downloads']
+devices = ['/dev/kfd']
+env = []
+ports = []

@@ -1,0 +1,42 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -Syu libappindicator-gtk3 breeze kdeconnect --noconfirm
+
+RUN chown -R user:user /run/user/1000
+RUN chmod 0700 /run/user/1000
+
+RUN echo -e '#!/bin/sh\n\
+export $(nice -n 5 dbus-launch)\n\
+nice -n 5 /usr/lib/kdeconnectd &\n\
+/usr/sbin/kdeconnect-app' >> /usr/local/bin/launch-kdeconnect
+RUN chmod +x /usr/local/bin/launch-kdeconnect
+
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+CMD ["/usr/local/bin/launch-kdeconnect"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = true
+pulseaudio = false
+dbus = false
+network = "host"
+uidmap = true
+home = true
+volumes = [
+	"/home/julio/Downloads:/home/user/Downloads",
+	"/home/julio/Pictures:/home/user/Pictures:ro",
+]
+fonts = true
+devices = []
+env = [
+	"XDG_RUNTIME_DIR=/run/user/1000",
+	"XDG_CURRENT_DESKTOP=Unity",
+]
+ports = []
+

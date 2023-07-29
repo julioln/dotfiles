@@ -1,0 +1,30 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_build
+
+RUN pacman -S --noconfirm xorg-server vulkan-radeon qt6-base gtk3 gtk2 clang
+
+ADD https://tellusim.com/download/GravityMark_1.79.run /opt/gravity_mark.run
+RUN chmod +x /opt/gravity_mark.run
+RUN chown user:user /opt/gravity_mark.run
+WORKDIR /home/user
+
+RUN rm -rf /var/cache/pacman/pkg
+RUN rm -rf /tmp/build
+CMD "echo y | /opt/gravity_mark.run"
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+home = false
+volumes = []
+devices = []
+env = []
+ports = ["62828:62828"]

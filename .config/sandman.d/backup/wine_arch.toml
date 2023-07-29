@@ -1,0 +1,41 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN echo -e '[multilib]\n\
+Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+
+RUN pacman -Syu wine wine-mono wine-gecko libunwind lib32-libunwind --noconfirm
+
+WORKDIR /home/user
+
+RUN rm -rf /tmp/*
+RUN rm -rf /var/cache/*
+
+CMD ["/usr/bin/wine", "explorer"]
+'''
+
+[run]
+x11 = true
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+home = true
+HomePath = "/home/user"
+fonts = true
+volumes = [
+	"/home/julio/Games/wine:/home/user/Games"
+]
+devices = []
+env = [
+	"WINEPREFIX=/home/user/.wine",
+]
+ports = []
+
+ 
+[Run.Limits.Pids]
+Limit = 4096

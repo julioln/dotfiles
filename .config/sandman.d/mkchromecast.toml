@@ -1,0 +1,47 @@
+[build]
+Instructions = '''
+FROM docker.io/ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+ADD localtime /etc/localtime
+
+RUN apt update
+RUN apt dist-upgrade -y
+RUN apt install ffmpeg mkchromecast mkchromecast-pulseaudio -y
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+WORKDIR /home/user
+
+RUN apt autoremove -y
+RUN apt clean -y
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+CMD ["/usr/bin/mkchromecast", "--tray"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = false
+ipc = true
+pulseaudio = true
+pipewire = false
+dbus = true
+network = "host"
+uidmap = true
+home = true
+fonts = true
+volumes = [
+	"/home/julio/Downloads:/home/user/Downloads",
+]
+devices = []
+UsbDevices = []
+env = [] 
+ports = [
+	#"8008:8008",
+	#"8009:8009",
+	#"8443:8443",
+	"5000:5000",
+]
+

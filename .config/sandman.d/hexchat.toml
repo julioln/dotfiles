@@ -1,0 +1,29 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_user
+
+RUN pacman -Syu hexchat gnome-themes-extra adwaita-icon-theme --noconfirm
+RUN rm -rf /var/cache/*
+
+#CMD ["/usr/bin/hexchat", "--minimize=2"]
+CMD ["/usr/bin/hexchat"]
+'''
+
+[run]
+x11 = true
+wayland = false
+dri = true
+ipc = false
+pulseaudio = false
+dbus = true
+net = true
+uidmap = true
+home = true
+fonts = true
+volumes = []
+devices = []
+env = [
+	"GTK_THEME=Adwaita:dark"
+]
+ports = []
+

@@ -1,0 +1,45 @@
+[build]
+instructions = '''
+FROM docker.io/ubuntu
+ENV DEBIAN_FRONTEND=noninteractive
+ADD localtime /etc/localtime
+ADD bin/* /usr/local/bin
+
+RUN dpkg --add-architecture i386
+
+RUN apt update
+RUN apt dist-upgrade -y
+RUN apt install steam lib32gcc-s1 xserver-xorg-video-amdgpu adwaita-icon-theme-full schedtool -y
+
+RUN useradd -m --uid 1000 user
+RUN mkdir -p /run/user/1000/pulse
+RUN chown -R user:user /run/user/1000
+RUN apt autoremove -y
+RUN apt clean -y
+#CMD ["nice", "-n", "-10", "/usr/games/steam"]
+CMD ["/usr/local/bin/high-prio", "/usr/games/steam"]
+'''
+
+[run]
+x11 = true
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+pipewire = true
+dbus = true
+net = true
+uidmap = true
+Home = true
+volumes = []
+devices = [
+	"/dev/kfd"
+]
+env = [
+	"mesa_glthread=true"
+]
+ports = []
+
+[Run.Limits.Pids]
+Limit = 16384
+

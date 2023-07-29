@@ -1,0 +1,24 @@
+[Build]
+Instructions = '''
+FROM docker.io/alpine
+RUN apk add --update xclock
+RUN rm -rf /var/cache/*
+CMD "/usr/bin/xclock"
+'''
+
+[Run]
+X11 = true
+Wayland = false
+Dri = false
+Ipc = false
+Pulseaudio = false
+Dbus = false
+Net = false
+Uidmap = false
+Volumes = []
+Devices = []
+Env = []
+Ports = []
+Name = "xclock"
+Home = false
+UsbDevices = []

@@ -9,7 +9,7 @@ if [[ -z "$WAYLAND_DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
   export GRIM_DEFAULT_DIR=/home/julio/Pictures/Screenshots
   export SDL_VIDEODRIVER=wayland
   export XDG_CURRENT_DESKTOP=sway
-  #export WLR_RENDERER=vulkan
+  export WLR_RENDERER=vulkan
   exec sway --debug &> .log/sway.$(date +%Y%m%d-%H%M%S).log
 fi
 

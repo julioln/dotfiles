@@ -1,0 +1,53 @@
+[build]
+instructions = '''
+FROM localhost/sandman/base/arch_build
+
+# NVM
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/nvm.git 
+WORKDIR nvm
+
+#RUN pacman -S $(/bin/sh -c 'source /tmp/build/nvm/PKGBUILD ; echo ${depends[@]}') --noconfirm
+#RUN pacman -S $(/bin/sh -c 'source /tmp/build/nvm/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U $(/bin/sh -c 'source /tmp/build/nvm/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --asdeps --noconfirm
+
+# Tidal
+
+WORKDIR /tmp/build
+RUN git clone https://aur.archlinux.org/tidal-hifi-git.git 
+WORKDIR tidal-hifi-git
+
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/tidal-hifi-git/PKGBUILD ; echo ${depends[@]}') --noconfirm
+RUN pacman -S $(/bin/sh -c 'source /tmp/build/tidal-hifi-git/PKGBUILD ; echo ${makedepends[@]}') --asdeps --noconfirm
+
+RUN chown -R user:user /tmp/build
+RUN nice -n 19 sudo -u user makepkg 
+RUN pacman -U $(/bin/sh -c 'source /tmp/build/tidal-hifi-git/PKGBUILD ; echo ${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst') --noconfirm
+
+RUN pacman -S alsa-lib pulseaudio --noconfirm
+
+RUN pacman -Rns $(/bin/sh -c 'source /tmp/build/tidal-hifi-git/PKGBUILD ; echo ${makedepends[@]}') --noconfirm
+RUN pacman -Rns $(pacman -Qtdq) --noconfirm
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+CMD ["/usr/bin/tidal-hifi", "--ozone-platform=wayland"]
+'''
+
+[run]
+x11 = false
+wayland = true
+dri = true
+ipc = true
+pulseaudio = true
+dbus = true
+net = true
+uidmap = true
+home = true
+volumes = []
+devices = []
+env = []
+ports = []

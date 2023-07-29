@@ -18,7 +18,7 @@ wait
 
 # Update base builds
 echo "-> Building base sandman images"
-base=$(find -L ~/.config/sandman/base -maxdepth 1 -name *.toml | xargs basename -a | cut -d. -f 1)
+base=$(find -L ~/.config/sandman.d/base -maxdepth 1 -name *.toml | xargs basename -a | cut -d. -f 1)
 [ -n "$base" ] && for i in $base; do 
 	echo "Building base/$i..."
 	if sandman build base/$i &> /tmp/sandman_build/base_$i.log; then
@@ -32,7 +32,7 @@ wait
 
 # Update builds
 echo "-> Building sandman images"
-conts=$(find -L ~/.config/sandman -maxdepth 1 -name *.toml | xargs basename -a | cut -d. -f 1)
+conts=$(find -L ~/.config/sandman.d -maxdepth 1 -name *.toml | xargs basename -a | cut -d. -f 1)
 [ -n "$conts" ] && for i in $conts; do 
 	echo "Building $i..."
 	if sandman build $i &> /tmp/sandman_build/$i.log; then
@@ -54,15 +54,15 @@ sandman start discord true &
 sandman start whatsapp true & 
 sandman start signal true & 
 sandman start telegram true & 
-sandman start hexchat true & 
-sandman start element true & 
+#sandman start hexchat true & 
+#sandman start element true & 
 sandman start firefox true & 
-sandman start firefox_dev true & 
+#sandman start firefox_dev true & 
 sandman start chromium true & 
 sandman start chrome true & 
 sandman start brave true &  
 sandman start tidal-git true &  
-sandman start gimp true &  
+#sandman start gimp true &  
 
 wait
 
