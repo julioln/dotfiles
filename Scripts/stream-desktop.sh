@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo ~/Scripts/kmsgrab.sh $1 -f hevc -
+sudo /home/julio/Scripts/kmsgrab.sh $1 -f hevc -

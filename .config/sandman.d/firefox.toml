@@ -2,7 +2,7 @@
 instructions = '''
 FROM localhost/sandman/base/arch_user
 
-RUN pacman -Syu firefox ffmpeg libfido2 libnotify libva-mesa-driver libva-utils --noconfirm
+RUN pacman -Syu firefox ffmpeg libfido2 libnotify libva-mesa-driver libva-utils speech-dispatcher --noconfirm
 #RUN pacman -Syu firefox libfido2 libnotify --noconfirm
 RUN rm -rf /var/cache/*
 
@@ -15,7 +15,7 @@ wayland = true
 dri = true
 ipc = true
 pulseaudio = true
-pipewire = false
+pipewire = true
 dbus = true
 network = "host"
 uidmap = true

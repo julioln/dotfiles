@@ -11,6 +11,9 @@ HISTCONTROL=ignoreboth
 HISTSIZE=100000
 shopt -s histappend
 
+complete -cf doas
+complete -cf sudo
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 

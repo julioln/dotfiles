@@ -17,7 +17,7 @@ CMD ["/opt/session.AppImage", "--appimage-extract-and-run"]
 
 [run]
 x11 = true
-wayland = false
+wayland = true
 dri = true
 ipc = false
 pulseaudio = true

@@ -43,6 +43,7 @@ wayland = true
 dri = true
 ipc = true
 pulseaudio = true
+pipewire = true
 dbus = true
 net = true
 uidmap = true

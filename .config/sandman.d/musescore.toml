@@ -2,10 +2,19 @@
 instructions = '''
 FROM localhost/sandman/base/arch_user
 
-RUN pacman -Syu musescore qt5-graphicaleffects qt5-quickcontrols qt5-wayland --noconfirm
+RUN pacman -Syu musescore pulseaudio-alsa qt5-graphicaleffects qt5-quickcontrols qt5-wayland --noconfirm
+#RUN pacman -Syu musescore qt5-graphicaleffects qt5-quickcontrols qt5-wayland --noconfirm
 RUN rm -rf /var/cache/*
 
-CMD "/usr/bin/mscore"
+ADD https://cdn.jsdelivr.net/musescore/v4.1.1/MuseScore-4.1.1.232071203-x86_64.AppImage /opt/musescore.AppImage
+RUN chmod +x /opt/musescore.AppImage
+RUN chown user:user /opt/musescore.AppImage
+
+RUN rm -rf /var/cache/*
+RUN rm -rf /tmp/*
+
+#CMD "/usr/bin/mscore"
+CMD ["/opt/musescore.AppImage", "--appimage-extract-and-run"]
 '''
 
 [run]
@@ -14,18 +23,20 @@ wayland = true
 dri = true
 ipc = true
 pulseaudio = true
+pipewire = false
 dbus = true
 network = "slirp4netns"
 uidmap = true
 home = true
+fonts = true
 volumes = []
 devices = [
 	"/dev/snd"
 ]
 env = [
-	"QT_QPA_PLATFORM=wayland-egl",
-	"SDL_VIDEODRIVER=wayland",
-	"XDG_SESSION_TYPE=wayland"
+	#"QT_QPA_PLATFORM=wayland-egl",
+	#"SDL_VIDEODRIVER=wayland",
+	#"XDG_SESSION_TYPE=wayland"
 ]
 ports = []
 

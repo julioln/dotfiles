@@ -36,10 +36,13 @@ RUN sed -i 's#.*tray.*#--tray="true" \\#' PKGBUILD
 RUN low-prio sudo -u user makepkg 
 RUN pacman -U *.tar.zst --noconfirm
 
+WORKDIR /home/user
+RUN chmod 755 /opt/whatsapp-nativefier
+
 RUN pacman -Rns $(pacman -Qtdq) --noconfirm
 RUN rm -rf /var/cache/*
 RUN rm -rf /tmp/*
-CMD ["/usr/sbin/whatsapp-nativefier", "--ozone-platform=wayland"]
+CMD ["whatsapp-nativefier", "--ozone-platform=wayland"]
 '''
 
 [run]

@@ -36,7 +36,7 @@ devices = [
 	"/dev/kfd"
 ]
 env = [
-	"mesa_glthread=true"
+	"mesa_glthread=true",
 ]
 ports = []
 

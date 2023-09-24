@@ -1,6 +1,6 @@
 #!/bin/sh
 
-card=/sys/class/drm/card0/device
+card=/sys/class/drm/card1/device
 
 usage=$(cat $card/gpu_busy_percent)
 #memory_total=$(cat $card/mem_info_vram_total)

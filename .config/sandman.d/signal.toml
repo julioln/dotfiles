@@ -8,15 +8,15 @@ RUN rm -rf /var/cache/*
 RUN rm -rf /tmp/*
 #CMD ["/usr/bin/signal-desktop", "--disable-gpu", "--ozone-platform=wayland"]
 #CMD ["/usr/bin/signal-desktop", "--start-in-tray", "--disable-gpu"]
-#CMD ["/usr/bin/signal-desktop", "--use-tray-icon"]
+CMD ["/usr/bin/signal-desktop", "--use-tray-icon"]
 #CMD ["signal-desktop", "--start-in-tray", "--ozone-platform=wayland"]
 #CMD ["signal-desktop", "--disable-gpu", "--ozone-platform=wayland"]
-CMD ["signal-desktop", "--use-tray-icon", "--ozone-platform=wayland"]
+#CMD ["signal-desktop", "--use-tray-icon", "--ozone-platform=wayland"]
 #CMD ["signal-desktop"]
 '''
 
 [run]
-x11 = false
+x11 = true
 wayland = true
 dri = false
 ipc = true

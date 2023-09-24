@@ -77,34 +77,39 @@ input 1267:10372:ELAN_Touchscreen {
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway XDG_SESSION_TYPE=wayland
 
 # Autolock
-exec systemd-run --user --slice=session.slice --nice=-10 --unit=swayidle swayidle -w \
+exec systemd-run --user --slice=sway.slice --unit=swayidle swayidle -w \
         before-sleep 'swaylock -f -c 222222' \
         timeout 900 'swaylock -f -c 222222' \
         timeout 910 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
         timeout 10 'if pgrep -x swaylock; then swaymsg "output * power off"; fi' resume 'swaymsg "output * power on"'
 
 # Autostart
-exec systemd-run --user --slice=session.slice --nice=-5 --unit=lxqt-policykit-agent --setenv=QT_QPA_PLATFORMTHEME /usr/bin/lxqt-policykit-agent 
-exec systemd-run --user --slice=session.slice --nice=5 --unit=nm-applet-icon /usr/bin/nm-applet --indicator
-exec systemd-run --user --slice=session.slice --nice=5 --unit=blueman-applet-icon /usr/bin/blueman-applet
-exec systemd-run --user --slice=session.slice --nice=10 --unit=wl-paste wl-paste -t text --watch clipman store --no-persist --max-items=1000
-exec systemd-run --user --slice=session.slice --nice=10 --unit=power-profile-notifier /home/julio/Scripts/watch-notify-power-profile-change.sh
-exec systemd-run --user --slice=session.slice --nice=10 --unit=kernel-notifier /home/julio/Scripts/notify-kernel-messages.sh
+exec systemd-run --user --slice=sway.slice --unit=sway-cgroup-scheduler /home/julio/Scripts/sway-cgroup-scheduler.sh
+exec systemd-run --user --slice=session.slice --unit=lxqt-policykit-agent --setenv=QT_QPA_PLATFORMTHEME /usr/bin/lxqt-policykit-agent 
+exec systemd-run --user --slice=session.slice --unit=blueman-applet-icon /usr/bin/blueman-applet
+exec systemd-run --user --slice=session.slice --unit=nm-applet-icon /usr/bin/nm-applet --indicator
+exec systemd-run --user --slice=session.slice --unit=mullvad-vpn-icon /usr/bin/mullvad-vpn
+exec systemd-run --user --slice=session.slice --unit=wl-paste wl-paste -t text --watch clipman store --no-persist --max-items=1000
+exec systemd-run --user --slice=session.slice --unit=power-profile-notifier /home/julio/Scripts/watch-notify-power-profile-change.sh
+exec systemd-run --user --slice=session.slice --unit=kernel-notifier /home/julio/Scripts/notify-kernel-messages.sh
 
 workspace_layout tabbed
 for_window [app_id="lxqt-policykit-agent"] floating enable
 for_window [app_id="wdisplays"] floating enable
 for_window [app_id="wdisplays"] resize set 1200 800
+for_window [title="Extension: (NoScript).*"] floating enable
 for_window [window_type="dialog"] floating enable
 for_window [window_role="dialog"] floating enable
-for_window [title="(?:Open|Save) (?:File|Folder|As)"] floating enable;
+for_window [title="(?:Open|Save) (?:File|Folder|As)"] floating enable
 for_window [title="(?:Open|Save) (?:File|Folder|As)"] resize set 800 600
+for_window [title="Bonesaw - The Game"] floating enable
+for_window [title="Bonesaw - The Game"] resize set 1282 962
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [window_type="menu"] floating enable 
-for_window [app_id = "xdg-desktop-portal-gtk"] floating enable; 
+for_window [app_id = "xdg-desktop-portal-gtk"] floating enable
 
 client.focused #333333 #444444 #cccccc
 client.focused_inactive #333333 #252525 #cccccc
@@ -265,7 +270,7 @@ bindsym Control+Shift+XF86AudioRaiseVolume exec --no-startup-id pactl list sink-
 bindsym --locked XF86MonBrightnessDown exec --no-startup-id brightnessctl set 3%- && notify-brightness
 bindsym --locked XF86MonBrightnessUp exec --no-startup-id brightnessctl set +3% && notify-brightness
 
-bindsym XF86Favorites exec --no-startup-id nice -n -10 swaylock -f -c 222222
+bindsym XF86Favorites exec --no-startup-id swaylock -f -c 222222
 bindsym XF86Display exec systemd-run --user --scope --slice=app.slice wdisplays
 
 #bindsym XF86AudioPlay exec playerctl play-pause

@@ -12,7 +12,7 @@ RUN low-prio makepkg -si --noconfirm
 RUN rm -rf /tmp/*
 RUN rm -rf /var/cache/*
 
-WORKDIR /root
+WORKDIR /home/user
 CMD ["/usr/bin/qFlipper"]
 '''
 
@@ -21,21 +21,22 @@ x11 = false
 wayland = true
 dri = false
 ipc = true
-pulseaudio = true
-dbus = true
-net = true
-uidmap = false
-home = false
-Priviledged = true
+pulseaudio = false
+dbus = false
+network = "slirp4netns"
+uidmap = true
+home = true
 volumes = [
-	"/home/julio/Downloads:/root/Downloads",
-	"/home/julio/Loot:/root/Loot",
+	"/home/julio/Downloads:/home/user/Downloads",
+	"/home/julio/Loot:/home/user/Loot",
+	"/dev/bus/usb:/dev/bus/usb",
 ]
 devices = [
 	#"/dev/ttyACM0",
 ]
 UsbDevices = [
-	#"0483",
+	"0483",
+	"303a"
 ]
 env = [
 	"QT_QPA_PLATFORM=wayland-egl",
@@ -45,3 +46,5 @@ env = [
 ]
 ports = []
 
+[Run.Permissions]
+Priviledged = true

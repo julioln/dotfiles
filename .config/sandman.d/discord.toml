@@ -38,6 +38,7 @@ volumes = [
 ]
 devices = [
 	#'/dev/video0', 
+	#'/dev/video4', 
 	#'/dev/kfd'
 ]
 env = []

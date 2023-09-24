@@ -25,7 +25,7 @@ if [ "$profile" = "ultra-low-power" ]; then
   #echo
 
   echo 'low-power' | tee /sys/firmware/acpi/platform_profile
-  echo 'low' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
+  echo 'low' | tee /sys/class/drm/card1/device/power_dpm_force_performance_level
   echo '0' | tee /sys/devices/system/cpu/cpufreq/boost
 
 elif [ "$profile" = "low-power" ]; then
@@ -34,7 +34,7 @@ elif [ "$profile" = "low-power" ]; then
   #echo
 
   echo 'low-power' | tee /sys/firmware/acpi/platform_profile
-  echo 'auto' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
+  echo 'auto' | tee /sys/class/drm/card1/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 
 elif [ "$profile" = "balanced" ]; then
@@ -43,7 +43,7 @@ elif [ "$profile" = "balanced" ]; then
   #echo
 
   echo 'balanced' | tee /sys/firmware/acpi/platform_profile
-  echo 'auto' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
+  echo 'auto' | tee /sys/class/drm/card1/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 
 elif [ "$profile" = "performance" ]; then
@@ -52,7 +52,7 @@ elif [ "$profile" = "performance" ]; then
   #echo
 
   echo 'performance' | tee /sys/firmware/acpi/platform_profile
-  echo 'auto' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
+  echo 'auto' | tee /sys/class/drm/card1/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 
 elif [ "$profile" = "ultra-performance" ]; then
@@ -61,7 +61,7 @@ elif [ "$profile" = "ultra-performance" ]; then
   #echo
 
   echo 'performance' | tee /sys/firmware/acpi/platform_profile
-  echo 'high' | tee /sys/class/drm/card0/device/power_dpm_force_performance_level
+  echo 'high' | tee /sys/class/drm/card1/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 
 fi

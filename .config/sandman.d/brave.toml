@@ -36,7 +36,7 @@ dri = true
 ipc = true
 pulseaudio = true
 pipewire = false
-dbus = true
+dbus = false
 network = "slirp4netns"
 uidmap = true
 home = true
@@ -45,11 +45,11 @@ volumes = [
 	#"/home/julio/Downloads:/home/user/Downloads",
 ]
 devices = [
-	'/dev/kfd', 
+	#'/dev/kfd', 
 ]
 UsbDevices = ["1050:0116"]
 env = [
-	"mesa_glthread=true"
+	#"mesa_glthread=true"
 ]
 ports = []
 
