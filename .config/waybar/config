@@ -43,43 +43,37 @@
     // Modules
     // -------------------------------------------------------------------------
 
-    "cpu": {
-        "interval": 1,
-	"format": "{icon} {}",
-	"format-icons": "\uf2db",
-    },
-
-    "custom/cpu": {
-        "exec": "~/.config/i3blocks/cpu_usage_2",
-        "restart-interval": 1,
-	"format": "{icon} {}",
-	"format-icons": "\uf2db",
-    },
+    //"custom/cpu": {
+    //    "exec": "~/.config/i3blocks/cpu_usage_2",
+    //    "restart-interval": 1,
+    //    "format": "{icon} {}",
+    //    "format-icons": "\uf2db",
+    //},
 
     "custom/gpu": {
-        "exec": "~/.config/i3blocks/gpu_usage",
+        "exec": "~/.config/waybar/gpu_usage",
         "restart-interval": 1,
 	"format": "{icon} {}",
 	"format-icons": "\uf1b2",
     },
 
     "custom/gpu_vram": {
-        "exec": "~/.config/i3blocks/gpu_vram",
-        "restart-interval": 2,
+        "exec": "~/.config/waybar/gpu_vram",
+        "restart-interval": 1,
 	"format": "{icon} {}",
 	"format-icons": "\uf538",
     },
 
     "custom/memory": {
-        "exec": "~/.config/i3blocks/memory",
-        "restart-interval": 2,
+        "exec": "~/.config/waybar/memory",
+        "restart-interval": 1,
 	"format": "{icon} {}",
 	"format-icons": "\uf538",
     },
 
     "custom/temperature": {
-        "exec": "~/.config/i3blocks/temperature_2",
-        "restart-interval": 2,
+        "exec": "~/.config/waybar/temperature_2",
+        "restart-interval": 1,
 	"format": "{icon} {}",
         "format-icons": [
             "\uf2cb",
@@ -121,7 +115,7 @@
     "clock#date": {
       "interval": 10,
       "format": "{:%a %b %d %Y %I:%M %p}", // Icon: calendar-alt
-      "tooltip-format": "{:%e %B %Y}"
+      "tooltip-format": "<tt>{calendar}</tt>",
     },
 
     "sway/mode": {
@@ -160,6 +154,8 @@
     "network": {
         "interval": 1,
         "format": "\uf106 {bandwidthUpBits}   \uf107 {bandwidthDownBits}",
+	"format-disconnected": "",
+	"tooltip-format": "Interface: {ifname}\nIP: {ipaddr}\nMask: {netmask}\nGateway: {gwaddr}"
     },
 
     "tray": {

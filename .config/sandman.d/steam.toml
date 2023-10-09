@@ -9,7 +9,7 @@ RUN dpkg --add-architecture i386
 
 RUN apt update
 RUN apt dist-upgrade -y
-RUN apt install steam lib32gcc-s1 xserver-xorg-video-amdgpu adwaita-icon-theme-full schedtool -y
+RUN apt install --install-recommends steam lib32gcc-s1 dxvk xserver-xorg-video-amdgpu libvulkan1 mesa-vulkan-drivers adwaita-icon-theme-full schedtool -y
 
 RUN useradd -m --uid 1000 user
 RUN mkdir -p /run/user/1000/pulse
@@ -36,7 +36,7 @@ devices = [
 	"/dev/kfd"
 ]
 env = [
-	"mesa_glthread=true",
+	#"mesa_glthread=true",
 ]
 ports = []
 

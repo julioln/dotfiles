@@ -12,7 +12,7 @@ CMD "/usr/bin/gimp"
 x11 = true
 wayland = false
 dri = true
-ipc = false
+ipc = true
 pulseaudio = false
 dbus = false
 net = false

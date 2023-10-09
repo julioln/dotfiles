@@ -28,7 +28,9 @@ fonts = true
 volumes = [
 	"/home/julio/Games/wine:/home/user/Games"
 ]
-devices = []
+devices = [
+	"/dev/snd"
+]
 env = [
 	"WINEPREFIX=/home/user/.wine",
 	#"WINEARCH=win32",

@@ -7,7 +7,7 @@
 }
 
 #waybar {
-    background: #252525;
+    background: #111111;
     color: #cccccc;
     font-family: Noto Sans, FontAwesome;
     font-size: 10pt;
@@ -52,7 +52,7 @@
     padding-left: 5px;
     padding-right: 5px;
     color: #aaaaaa;
-    background-color: #111111;
+    background-color: #252525;
 }
 
 #workspaces button.focused {

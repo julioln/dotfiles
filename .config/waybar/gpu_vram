@@ -1,0 +1,17 @@
+#!/bin/sh
+
+card=/sys/class/drm/card1/device
+
+while true; do
+	memory_total=$(cat $card/mem_info_vram_total)
+	memory_used=$(cat $card/mem_info_vram_used)
+	memory_percent=$(awk "BEGIN { pc=100*${memory_used}/${memory_total}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
+
+	gtt_total=$(cat $card/mem_info_gtt_total)
+	gtt_used=$(cat $card/mem_info_gtt_used)
+	gtt_percent=$(awk "BEGIN { pc=100*${gtt_used}/${gtt_total}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
+
+	echo "${memory_percent}% +${gtt_percent}%"
+
+	sleep 2
+done

@@ -19,12 +19,12 @@ seat seat0 xcursor_theme "Adwaita" 16
 output * {
     bg ~/.wallpaper fill #000000
     subpixel none
-    #adaptive_sync on
+    adaptive_sync on
 }
 
 output DP-1 {
     mode 3440x1440@120.000Hz
-    #render_bit_depth 10
+    render_bit_depth 10
     pos 0 0
 }
 
@@ -74,12 +74,14 @@ input 1267:10372:ELAN_Touchscreen {
 }
 
 # Setup services
-exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway XDG_SESSION_TYPE=wayland
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE=wayland
 
 # Autolock
 exec systemd-run --user --slice=sway.slice --unit=swayidle swayidle -w \
-        before-sleep 'swaylock -f -c 222222' \
-        timeout 900 'swaylock -f -c 222222' \
+        lock 'swaylock' \
+        before-sleep 'swaylock' \
+        timeout 900 'swaylock' \
         timeout 910 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
         timeout 10 'if pgrep -x swaylock; then swaymsg "output * power off"; fi' resume 'swaymsg "output * power on"'
 
@@ -94,22 +96,31 @@ exec systemd-run --user --slice=session.slice --unit=power-profile-notifier /hom
 exec systemd-run --user --slice=session.slice --unit=kernel-notifier /home/julio/Scripts/notify-kernel-messages.sh
 
 workspace_layout tabbed
-for_window [app_id="lxqt-policykit-agent"] floating enable
-for_window [app_id="wdisplays"] floating enable
-for_window [app_id="wdisplays"] resize set 1200 800
-for_window [title="Extension: (NoScript).*"] floating enable
-for_window [window_type="dialog"] floating enable
-for_window [window_role="dialog"] floating enable
-for_window [title="(?:Open|Save) (?:File|Folder|As)"] floating enable
-for_window [title="(?:Open|Save) (?:File|Folder|As)"] resize set 800 600
-for_window [title="Bonesaw - The Game"] floating enable
-for_window [title="Bonesaw - The Game"] resize set 1282 962
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="Preferences"] floating enable
-for_window [window_type="menu"] floating enable 
-for_window [app_id = "xdg-desktop-portal-gtk"] floating enable
+
+for_window {
+  [app_id="lxqt-policykit-agent"] floating enable
+  [app_id="wdisplays"] floating enable
+  [app_id="wdisplays"] resize set 1200 800
+  [title="Extension: (NoScript).*"] floating enable
+  [window_type="dialog"] floating enable
+  [window_role="dialog"] floating enable
+  [title="(?:Open|Save) (?:File|Folder|As)"] floating enable
+  [title="(?:Open|Save) (?:File|Folder|As)"] resize set 800 600
+  [title="Bonesaw - The Game"] floating enable
+  [title="Bonesaw - The Game"] resize set 1282 962
+  [window_role="pop-up"] floating enable
+  [window_role="bubble"] floating enable
+  [window_role="task_dialog"] floating enable
+  [window_role="Preferences"] floating enable
+  [window_type="menu"] floating enable 
+  [class="feh"] floating enable
+  [class="feh"] border normal
+  [app_id="xdg-desktop-portal-gtk"] floating enable
+  [app_id="firefox"] inhibit_idle fullscreen
+  [app_id="mpv"] inhibit_idle fullscreen
+  [app_id="discord"] inhibit_idle fullscreen
+}
+
 
 client.focused #333333 #444444 #cccccc
 client.focused_inactive #333333 #252525 #cccccc
@@ -119,7 +130,7 @@ focus_follows_mouse no
 mouse_warping none
 
 default_border pixel 1
-#default_floating_border normal
+default_floating_border normal
 hide_edge_borders --i3 smart
 smart_borders on
 gaps outer 0
@@ -146,8 +157,7 @@ bar {
 }
 
 bindsym $mod+Return exec systemd-run --user --scope --slice=app.slice $term
-bindsym $mod+space exec "rofi -modi drun,run -show drun -run-command 'systemd-run --user --scope --slice=app.slice {cmd}'"
-#bindsym $mod+space exec "wofi --show drun,run"
+bindsym $mod+space exec "rofi -monitor 0 -modi drun,run -show drun -run-command 'systemd-run --user --scope --slice=app.slice {cmd}'"
 bindsym $mod+q kill
 
 floating_modifier $mod normal
@@ -180,8 +190,12 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # Switch workspace with mouse buttons
-#bindsym button8 workspace next_on_output
-#bindsym button9 workspace prev_on_output
+bindsym button8 workspace next_on_output
+bindsym button9 workspace prev_on_output
+
+# Gestures
+bindgesture swipe:3:right workspace prev_on_output
+bindgesture swipe:3:left workspace next_on_output
 
 # Switch to workspace
 bindsym $mod+1 workspace number 1
@@ -270,7 +284,7 @@ bindsym Control+Shift+XF86AudioRaiseVolume exec --no-startup-id pactl list sink-
 bindsym --locked XF86MonBrightnessDown exec --no-startup-id brightnessctl set 3%- && notify-brightness
 bindsym --locked XF86MonBrightnessUp exec --no-startup-id brightnessctl set +3% && notify-brightness
 
-bindsym XF86Favorites exec --no-startup-id swaylock -f -c 222222
+bindsym XF86Favorites exec --no-startup-id swaylock
 bindsym XF86Display exec systemd-run --user --scope --slice=app.slice wdisplays
 
 #bindsym XF86AudioPlay exec playerctl play-pause
@@ -284,4 +298,4 @@ bindsym Control+Print exec --no-startup-id grim -g "$(slurp)"
 bindsym Control+Shift+Print exec --no-startup-id grim -g "$(slurp)" - | swappy -f -
 
 # Clipboard
-bindsym $mod+Control+C exec clipman pick --max-items=20 -t rofi
+bindsym $mod+Control+C exec clipman pick --max-items=20 -t rofi --tool-args='-monitor 0'

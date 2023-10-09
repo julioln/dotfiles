@@ -1,0 +1,4 @@
+image=/home/julio/.wallpaper
+scaling=fill
+daemonize
+show-failed-attempts

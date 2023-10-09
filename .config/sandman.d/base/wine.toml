@@ -16,7 +16,7 @@ RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/d
 RUN apt update
 RUN apt dist-upgrade -y
 #RUN apt install --install-recommends winehq-stable winetricks zenity adwaita-icon-theme-full -y
-RUN apt install --install-recommends winehq-staging winetricks zenity adwaita-icon-theme-full -y
+RUN apt install --install-recommends winehq-staging winetricks zenity adwaita-icon-theme-full dxvk xserver-xorg-video-amdgpu libvulkan1 mesa-vulkan-drivers -y
 
 RUN apt autoremove -y
 RUN apt clean -y

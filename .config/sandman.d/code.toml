@@ -22,7 +22,7 @@ dri = true
 ipc = true
 pulseaudio = true
 dbus = true
-network = "host"
+network = "slirp4netns"
 uidmap = true
 home = true
 fonts = false
@@ -42,10 +42,10 @@ env = [
 	"XDG_RUNTIME_DIR=/run/user/1000",
 ]
 ports = [
-	#"1313:1313",
-	#"3000:3000",
-	#"5858:5858",
-	#"8080:8080",
+	"1313:1313",
+	"3000:3000",
+	"5858:5858",
+	"8080:8080",
 ]
 args = []
  
