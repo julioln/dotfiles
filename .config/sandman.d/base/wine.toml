@@ -16,7 +16,10 @@ RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/d
 RUN apt update
 RUN apt dist-upgrade -y
 #RUN apt install --install-recommends winehq-stable winetricks zenity adwaita-icon-theme-full -y
-RUN apt install --install-recommends winehq-staging winetricks zenity adwaita-icon-theme-full dxvk xserver-xorg-video-amdgpu libvulkan1 mesa-vulkan-drivers -y
+RUN apt install --install-recommends winehq-staging winetricks zenity adwaita-icon-theme-full dxvk xserver-xorg-video-amdgpu libgl1 libgl1:i386 libvulkan1 libvulkan1:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 -y
+
+# Steam dependencies
+#RUN apt install curl file libgcc-s1 libgl1-mesa-dri libgl1 libgpg-error0 libstdc++6 libudev1 libxcb-dri3-0 libxcb1 libxi6 libxinerama1 xz-utils debconf libc6 libx11-6 ca-certificates fontconfig fonts-liberation libasound2-plugins libegl1 libgbm1 libsdl2-2.0-0 libva2 libxss1 mesa-vulkan-drivers steam-devices va-driver-all xdg-desktop-portal xdg-desktop-portal-gtk xdg-utils xterm zenity pciutils -y
 
 RUN apt autoremove -y
 RUN apt clean -y

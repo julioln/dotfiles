@@ -4,14 +4,14 @@ user_cgroup=$(systemctl --user status | grep CGroup | head -n 1 | awk '{print $2
 app_slice="$user_cgroup/app.slice"
 sway_slice="$user_cgroup/sway.slice"
 
-echo 1000 > /sys/fs/cgroup$app_slice/cpu.weight
-echo 10000 > /sys/fs/cgroup$sway_slice/cpu.weight
-
 get_scope () {
 	grep app.slice /proc/$1/cgroup | cut -d ':' -f 3 | sed 's/\.scope.*/.scope/g'
 }
 
 update_weights () {
+	echo 1000 > /sys/fs/cgroup$app_slice/cpu.weight
+	echo 10000 > /sys/fs/cgroup$sway_slice/cpu.weight
+
 	#echo 
 	#echo "Updating weights"
 	local tree=$(swaymsg -t get_tree)
@@ -49,6 +49,8 @@ update_weights () {
 		fi
 	done
 }
+
+update_weights
 
 swaymsg -t subscribe -m "['window']" | jq -r -c --unbuffered '.change' | while read -r change; do
 	case $change in

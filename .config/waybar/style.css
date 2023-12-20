@@ -23,14 +23,14 @@
 #custom-temperature,
 #window,
 #tray {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #custom-memory,
 #custom-gpu_vram {
     padding-left: 0px;
-    padding-right: 12px;
+    padding-right: 10px;
 }
 
 #battery.warning {
@@ -58,7 +58,7 @@
 #workspaces button.focused {
     border-color: #666666;
     color: #cccccc;
-    background-color: #444444;
+    background-color: #404040;
 }
 
 #workspaces button.urgent {

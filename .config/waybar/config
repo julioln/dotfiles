@@ -30,7 +30,6 @@
         "custom/gpu",
         "custom/gpu_vram",
         "cpu",
-        //"custom/cpu",
         "custom/memory",
         "pulseaudio",
         "battery",
@@ -43,36 +42,29 @@
     // Modules
     // -------------------------------------------------------------------------
 
-    //"custom/cpu": {
-    //    "exec": "~/.config/i3blocks/cpu_usage_2",
-    //    "restart-interval": 1,
-    //    "format": "{icon} {}",
-    //    "format-icons": "\uf2db",
-    //},
-
     "custom/gpu": {
-        "exec": "~/.config/waybar/gpu_usage",
+        "exec": "~/Repos/waybar-utils/gpu_usage",
         "restart-interval": 1,
 	"format": "{icon} {}",
 	"format-icons": "\uf1b2",
     },
 
     "custom/gpu_vram": {
-        "exec": "~/.config/waybar/gpu_vram",
+        "exec": "~/Repos/waybar-utils/gpu_vram",
         "restart-interval": 1,
 	"format": "{icon} {}",
 	"format-icons": "\uf538",
     },
 
     "custom/memory": {
-        "exec": "~/.config/waybar/memory",
+        "exec": "~/Repos/waybar-utils/memory",
         "restart-interval": 1,
 	"format": "{icon} {}",
 	"format-icons": "\uf538",
     },
 
     "custom/temperature": {
-        "exec": "~/.config/waybar/temperature_2",
+        "exec": "~/Repos/waybar-utils/temp",
         "restart-interval": 1,
 	"format": "{icon} {}",
         "format-icons": [
@@ -114,7 +106,8 @@
 
     "clock#date": {
       "interval": 10,
-      "format": "{:%a %b %d %Y %I:%M %p}", // Icon: calendar-alt
+      //"format": "{:%a %b %d %Y %I:%M %p}", // Icon: calendar-alt
+      "format": "{:%a %b %d %I:%M %p}", // Icon: calendar-alt
       "tooltip-format": "<tt>{calendar}</tt>",
     },
 
@@ -160,7 +153,7 @@
 
     "tray": {
         "icon-size": 16,
-        "spacing": 10
+        "spacing": 8
     }
 
 }

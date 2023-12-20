@@ -19,25 +19,20 @@ seat seat0 xcursor_theme "Adwaita" 16
 output * {
     bg ~/.wallpaper fill #000000
     subpixel none
-    adaptive_sync on
+    #adaptive_sync on
 }
 
-output DP-1 {
+output 'Dell Inc. Dell AW3420DW #ASPu8GPVtG3d' {
     mode 3440x1440@120.000Hz
+    adaptive_sync on
     render_bit_depth 10
     pos 0 0
 }
 
-output DP-4 {
-    #mode 3440x1440@120.000Hz
-    #render_bit_depth 10
-    #max_render_time 8
-    pos 0 0
-}
-
-output HDMI-A-1 {
-    #mode 3840x2160@120.000Hz
-    #render_bit_depth 10
+output 'Sony SONY TV  *30 0x00000101' {
+    mode 3840x2160@120.000Hz
+    adaptive_sync on
+    render_bit_depth 10
     pos 760 360
     scale 2
 }
@@ -98,31 +93,23 @@ exec systemd-run --user --slice=session.slice --unit=kernel-notifier /home/julio
 workspace_layout tabbed
 
 for_window {
-  [app_id="lxqt-policykit-agent"] floating enable
-  [app_id="wdisplays"] floating enable
-  [app_id="wdisplays"] resize set 1200 800
-  [title="Extension: (NoScript).*"] floating enable
+  [app_id=".*"] inhibit_idle fullscreen
+  [app_id="lxqt-policykit-agent"] floating enable 
+  [app_id="wdisplays"] floating enable resize set 1200 800
+  [title="Extension: \(NoScript\).+"] floating enable
+  [app_id="xdg-desktop-portal-gtk"] floating enable
   [window_type="dialog"] floating enable
   [window_role="dialog"] floating enable
-  [title="(?:Open|Save) (?:File|Folder|As)"] floating enable
-  [title="(?:Open|Save) (?:File|Folder|As)"] resize set 800 600
-  [title="Bonesaw - The Game"] floating enable
-  [title="Bonesaw - The Game"] resize set 1282 962
+  [title="(?:Open|Save) (?:File|Folder|As)"] floating enable resize set 800 600
+  [title="Bonesaw - The Game"] floating enable resize set 1282 962
   [window_role="pop-up"] floating enable
   [window_role="bubble"] floating enable
   [window_role="task_dialog"] floating enable
   [window_role="Preferences"] floating enable
-  [window_type="menu"] floating enable 
-  [class="feh"] floating enable
-  [class="feh"] border normal
-  [app_id="xdg-desktop-portal-gtk"] floating enable
-  [app_id="firefox"] inhibit_idle fullscreen
-  [app_id="mpv"] inhibit_idle fullscreen
-  [app_id="discord"] inhibit_idle fullscreen
+  [window_type="menu"] floating enable
 }
 
-
-client.focused #333333 #444444 #cccccc
+client.focused #333333 #404040 #cccccc
 client.focused_inactive #333333 #252525 #cccccc
 client.unfocused #333333 #252525 #888888
 
@@ -157,13 +144,14 @@ bar {
 }
 
 bindsym $mod+Return exec systemd-run --user --scope --slice=app.slice $term
-bindsym $mod+space exec "rofi -monitor 0 -modi drun,run -show drun -run-command 'systemd-run --user --scope --slice=app.slice {cmd}'"
+bindsym $mod+space exec "rofi -monitor -4 -modi drun,run -show drun -run-command 'systemd-run --user --scope --slice=app.slice {cmd}'"
 bindsym $mod+q kill
 
 floating_modifier $mod normal
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+q exec --no-startup-id swaylock
 
 # Move your focus around
 bindsym $mod+$left focus left
@@ -298,4 +286,7 @@ bindsym Control+Print exec --no-startup-id grim -g "$(slurp)"
 bindsym Control+Shift+Print exec --no-startup-id grim -g "$(slurp)" - | swappy -f -
 
 # Clipboard
-bindsym $mod+Control+C exec clipman pick --max-items=20 -t rofi --tool-args='-monitor 0'
+bindsym $mod+Control+C exec clipman pick --max-items=20 -t rofi --tool-args='-monitor -4'
+
+# Power profile
+bindsym $mod+P exec notify-send -i "battery" "Power Information" "$(power-profile)"

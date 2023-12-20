@@ -2,39 +2,52 @@
 instructions = '''
 FROM localhost/sandman/base/wine
 ENV DEBIAN_FRONTEND=noninteractive
-RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+ADD localtime /etc/localtime
 
 RUN dpkg --add-architecture i386
 
-RUN apt update
-RUN apt dist-upgrade -y
 RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:lutris-team/lutris
 
 RUN apt update
 RUN apt dist-upgrade -y
-RUN apt install lutris -y
+RUN apt install --install-recommends lutris -y
+
+# Steam dependencies
+RUN apt install curl file libgcc-s1 libgl1-mesa-dri libgl1 libgpg-error0 libstdc++6 libudev1 libxcb-dri3-0 libxcb1 libxi6 libxinerama1 xz-utils debconf libc6 libx11-6 ca-certificates fontconfig fonts-liberation libasound2-plugins libegl1 libgbm1 libsdl2-2.0-0 libva2 libxss1 mesa-vulkan-drivers steam-devices va-driver-all xdg-desktop-portal xdg-desktop-portal-gtk xdg-utils xterm zenity pciutils -y
 
 RUN id 1000 || useradd -m --uid 1000 user
-RUN apt autoremove -y
-RUN apt clean -y
-RUN rm -rf /var/cache/*
 RUN mkdir -p /run/user/1000/pulse
 RUN chown -R user:user /run/user/1000
+WORKDIR /home/user
+
+RUN apt remove software-properties-common -y
+RUN apt autoremove -y
+RUN apt clean -y
+
 CMD ["/usr/games/lutris"]
 '''
 
 [run]
 x11 = true
-wayland = false
+wayland = true
 dri = true
 ipc = true
 pulseaudio = true
-dbus = false
+dbus = true
 net = true
 uidmap = true
-volumes = ['/home/julio/Games/lutris:/home/user']
-devices = []
-env = []
+home = true
+fonts = true
+volumes = [
+	"/home/julio/Games/wine:/home/user/Games"
+]
+devices = [
+	"/dev/snd"
+]
+env = [
+	#"WINEPREFIX=/home/user/.wine",
+	#"WINEARCH=win32",
+]
 ports = []
 

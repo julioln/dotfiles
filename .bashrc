@@ -20,10 +20,10 @@ alias grep='grep --color=auto'
 alias watch='watch '
 alias freqs='grep MHz /proc/cpuinfo | tr -d "\t"'
 alias youtube-audio='yt-dlp -x --audio-quality 0'
-alias paru-update-all='paru --show -w; low-prio paru -Syyyu --batchinstall; sudo pacdiff'
+alias paru-update-all='paru --show -w; paru -Syyyu --batchinstall; doas pacdiff'
 alias extip="curl -s http://checkip.amazonaws.com/"
 alias watch-network="sudo watch -t -n 1 'netstat -taupen'"
-alias restart-pipewire="systemctl --user restart pipewire.service ; systemctl --user restart pipewire-pulse.service"
+alias restart-pipewire="systemctl --user daemon-reload ; systemctl --user restart pipewire.service ; systemctl --user restart pipewire-pulse.service"
 
 alias all-running-containers="podman ps | tail -n +2 | awk '{print \$NF}'"
 alias all-containers="podman ps -a | tail -n +2 | awk '{print \$NF}'"
@@ -54,6 +54,7 @@ alias weather='curl wttr.in'
 alias kali='podman exec -it kali bash'
 
 alias mount-sdcard='sudo mount -o uid=1000,gid=1000 /dev/mmcblk0p1 /media/sdcard/'
+
 
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi

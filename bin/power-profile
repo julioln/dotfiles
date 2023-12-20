@@ -1,13 +1,13 @@
 #!/bin/sh
 
-echo >> /tmp/power-profile.log
-echo '---' >> /tmp/power-profile.log
-echo DATE:$(date) >> /tmp/power-profile.log
-echo "INPUT:$1" >> /tmp/power-profile.log
-echo "AC:" >> /tmp/power-profile.log
-cat /sys/class/power_supply/AC/uevent >> /tmp/power-profile.log
-echo "BAT0:" >> /tmp/power-profile.log
-cat /sys/class/power_supply/BAT0/uevent >> /tmp/power-profile.log
+#echo >> /tmp/power-profile.log
+#echo '---' >> /tmp/power-profile.log
+#echo DATE:$(date) >> /tmp/power-profile.log
+#echo "INPUT:$1" >> /tmp/power-profile.log
+#echo "AC:" >> /tmp/power-profile.log
+#cat /sys/class/power_supply/AC/uevent >> /tmp/power-profile.log
+#echo "BAT0:" >> /tmp/power-profile.log
+#cat /sys/class/power_supply/BAT0/uevent >> /tmp/power-profile.log
 
 if [ "$1" = "auto" ]; then
 	if [ $(cat /sys/class/power_supply/AC/online) = "1" ]; then
@@ -64,6 +64,23 @@ elif [ "$profile" = "ultra-performance" ]; then
   echo 'high' | tee /sys/class/drm/card1/device/power_dpm_force_performance_level
   echo '1' | tee /sys/devices/system/cpu/cpufreq/boost
 
+else
+  echo -n "Platform profile: "
+  cat /sys/firmware/acpi/platform_profile
+  echo -n "On AC power: "
+  cat /sys/class/power_supply/AC/online
+  echo -n "Lapmode: "
+  cat /sys/devices/platform/thinkpad_acpi/dytc_lapmode
+  echo -n "CPU Boost: " 
+  cat /sys/devices/system/cpu/cpufreq/boost
+  echo -n "GPU profile: " 
+  cat /sys/class/drm/card1/device/power_dpm_force_performance_level
+  echo -n "Battery capacity: "
+  cat /sys/class/power_supply/BAT0/capacity
+  echo -n "Battery status: "
+  cat /sys/class/power_supply/BAT0/status
+  echo -n "Battery power: "
+  awk '{printf("%.1f", $1/1000000)}'< /sys/class/power_supply/BAT0/power_now
 fi
 
 echo
